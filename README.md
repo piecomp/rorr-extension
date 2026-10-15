@@ -28,6 +28,7 @@
 | 09 | [기존 자산 현황](docs/09-asset-inventory.md) | 스토어 게시본 v1.1.2·컴패니언 프로토타입 v0.1 (참고용) | Kazel |
 | 10 | [법률 사전 검토 — 퀴즈·상금](docs/10-legal-quiz-review.md) | 사행·경품(한국), 미국 sweepstakes, Riot 정책, 미성년자 — 조건부 진행 | Charles·Mansoo |
 | 11 | [UX·UI 리뷰](docs/11-ux-review.md) | 시청 맥락(왼쪽 중계) 기준 시선 동선·접근성, 웹 화면 이식 목록 | Jun·디자인 |
+| 12 | [앱 버전 아이디어 메모](docs/12-app-version-ideas.md) | 모바일 앱 출시 시 참조 — 세컨드 스크린 모델, PiP·화면 분할 대응 (보관용) | 전원 |
 
 ## 3. 기준 문서 (충돌 시 우선순위)
 

@@ -17,7 +17,7 @@
   --panel:#1D2333; --panel-2:#252C3F; --panel-3:#2A2F3E; --sheet:#282D3C; --field:#3D4252; --line:#313644; --line-2:#4A4F62;
   --ink:#F0F2F5; --ink-2:#C9CDDA; --mute:#9AA1B5; --faint:#8A91A6;
   --blue:#2F9CFC; --blue-ink:#7FBFFD; --red:#FE2054; --red-ink:#FF8FA8;
-  --brand:#6F4CFF; --send:#138DFF; --energy:#00B395; --energy-ink:#4CCAB5; --spark:#C9CDFA; --gold:#C98500; --gold-ink:#F5C46A; --streak:#FF9A3D; --live:#E5484D; --ok-bg:#16302B; --ok-line:#1D7A64;
+  --brand:#6F4CFF; --send:#0B6FD6; --energy:#00B395; --energy-ink:#4CCAB5; --spark:#C9CDFA; --gold:#C98500; --gold-ink:#F5C46A; --streak:#FF9A3D; --live:#E5484D; --ok-bg:#16302B; --ok-line:#1D7A64;
   --surface-sunk:#141824; --gold-bg:#2E2414; --red-bar:#FE5C7E; --link:#8FC6FD;
   --f-ui:'Pretendard','Noto Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
 }
@@ -29,7 +29,7 @@ button{cursor:pointer}
 button{transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .12s ease,box-shadow .16s ease}
 button:active:not(:disabled){transform:scale(.98)}
 .chip:hover,.react:hover,.pill.s:hover,.pill.o:hover,.metoo:hover,.fchips button:hover{background-color:#4A5064}
-.pill.p:hover,.send:hover,.send-s:hover{background-color:#2E9BFF}
+.pill.p:hover,.send:hover,.send-s:hover{background-color:#1A7FE6}
 .boostbtn:hover,.dockboost:hover{background-color:#12C4A5}
 .mo:hover,.mobar:hover{background-color:#2D3549}
 .ans.b:hover:not(:disabled){background:rgba(47,156,252,.26)}.ans.r:hover:not(:disabled){background:rgba(254,32,84,.22)}
@@ -74,6 +74,7 @@ button:active:not(:disabled){transform:scale(.98)}
 .langseg button:hover:not([aria-pressed="true"]){color:var(--frame-ink)}
 :lang(ko) .chip,:lang(ko) .react{word-break:keep-all}
 :lang(ko) body,:lang(ko) .bubble,:lang(ko) .msg,:lang(ko) .seoha-note,:lang(ko) .fine{word-break:keep-all}
+.card:focus{outline:none}
 .card{position:relative;flex:1;min-height:0;margin:4px 10px 10px;border-radius:16px;background:radial-gradient(110% 55% at 50% 22%,rgba(47,156,252,.12),rgba(47,156,252,0) 70%),var(--panel);overflow:hidden}
 .view{position:absolute;inset:0;display:flex;flex-direction:column}
 .top{height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:3}
@@ -86,8 +87,8 @@ button:active:not(:disabled){transform:scale(.98)}
 .char-full{position:absolute;left:50%;top:52px;transform:translateX(-50%);width:358px;max-width:none;height:auto;pointer-events:none}
 .nextpill{position:absolute;left:50%;top:54px;transform:translateX(-50%);z-index:3;padding:6px 12px;border-radius:9999px;background:rgba(20,24,36,.85);display:flex;gap:6px;align-items:center;font-size:12px;white-space:nowrap}
 .scrim{position:absolute;left:0;right:0;bottom:118px;height:360px;background:linear-gradient(to bottom,rgba(16,20,30,0) 0%,rgba(16,20,30,.45) 22%,rgba(16,20,30,.72) 55%,rgba(16,20,30,.86) 100%);z-index:1;pointer-events:none}
-.earlier{position:absolute;left:50%;bottom:408px;transform:translateX(-50%);z-index:2;height:28px;padding:0 12px;border-radius:9999px;border:none;background:rgba(20,24,36,.88);color:var(--ink-2);font-size:11.5px}
-.msgs{position:absolute;left:12px;right:12px;bottom:148px;max-height:250px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;z-index:2}
+.earlier{position:absolute;left:50%;bottom:428px;transform:translateX(-50%);z-index:2;height:28px;padding:0 12px;border-radius:9999px;border:none;background:rgba(20,24,36,.88);color:var(--ink-2);font-size:11.5px}
+.msgs{position:absolute;left:12px;right:12px;bottom:148px;max-height:250px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 40px);mask-image:linear-gradient(to bottom,transparent 0,#000 40px);padding-top:24px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;z-index:2}
 .msg{text-wrap:pretty;max-width:262px;padding:9px 12px;border-radius:14px 14px 14px 4px;background:var(--panel-2);font-size:14px;line-height:1.5;align-self:flex-start}
 .msg.me{align-self:flex-end;border-radius:14px 14px 4px 14px;background:var(--send);color:#fff}
 .msg.typing{color:var(--mute)}
@@ -208,6 +209,10 @@ button:active:not(:disabled){transform:scale(.98)}
 .live .top{z-index:5}
 .glass{background:rgba(20,24,36,.62);-webkit-backdrop-filter:blur(12px) saturate(140%);backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
 @media (prefers-reduced-transparency: reduce){.glass{background:#1A1F2D;-webkit-backdrop-filter:none;backdrop-filter:none}}
+.hud-row{display:flex;align-items:center;gap:6px}
+.streakchip{height:44px;padding:0 12px;border-radius:9999px;display:flex;align-items:center;gap:4px;color:var(--streak)}
+.streakchip b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.streakchip .sc-l{font-size:11px;font-weight:700;color:var(--ink-2)}
 .hud{position:absolute;left:50%;top:56px;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;width:calc(100% - 28px)}
 .scorepill{min-height:44px;padding:6px 16px 7px;border-radius:9999px;color:var(--ink);display:flex;flex-direction:column;align-items:stretch;gap:5px}
 .sp-row{display:flex;align-items:center;gap:10px;font-size:14px;font-variant-numeric:tabular-nums}
@@ -235,9 +240,11 @@ button:active:not(:disabled){transform:scale(.98)}
 .live .dock{position:absolute;left:10px;right:10px;bottom:10px;z-index:5;border-radius:9999px;padding:6px;gap:4px;border-top:none}
 .dicon{position:relative;width:44px;height:44px;flex-shrink:0;border:none;border-radius:9999px;background:transparent;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
 .dicon:hover,.dicon[aria-expanded="true"]{background:rgba(255,255,255,.08);color:var(--ink)}
-.dicon .badge{position:absolute;right:6px;top:6px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:9999px;background:var(--gold-ink);color:#1D1608;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.dicon .badge{position:absolute;right:6px;top:6px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:9999px;background:var(--gold-ink);color:#1D1608;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .live .askfield{background:rgba(255,255,255,.07);height:44px}
 .live .dockboost{padding:0 14px 0 12px;font-size:13.5px}
+.live .dock:has(.dockboost.hot) #moBar{display:none}
+.live .dockboost.hot{padding:0 20px 0 16px;font-size:14.5px}
 .live #boostCd{display:none!important}
 /* boost sheet v6: copy trimmed, details behind (i) */
 .bsheet{gap:14px;padding:10px 18px 14px}
@@ -246,12 +253,12 @@ button:active:not(:disabled){transform:scale(.98)}
 .bsheet .eyebrow .gm{color:var(--gold-ink);font-weight:800}.bsheet .eyebrow b{color:var(--ink)}
 .bsheet h2{margin-top:2px}
 .bs-x{background:var(--field)!important;border-radius:9999px;width:36px;height:36px}
-.addmsg{align-self:flex-start;height:32px;padding:0 4px;border:none;background:transparent;color:var(--link);font-size:13px;font-weight:600}
+.addmsg{align-self:flex-start;height:36px;padding:0 4px;border:none;background:transparent;color:var(--link);font-size:13px;font-weight:600}
 .bs-cta{display:flex;flex-direction:column;align-items:center;gap:6px}
 .bs-cta .boostbtn{width:100%}
 .bs-gift{font-size:12px;color:var(--gold-ink);font-weight:600}
 .bs-legal{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--mute)}
-.bs-i{width:24px;height:24px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:11px;font-weight:700}
+.bs-i{width:32px;height:32px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:11px;font-weight:700}
 .bsheet #shareTxt{margin:-6px 0 0;text-align:center}
 /* sheet */
 .sheet-bg{position:absolute;inset:0;background:rgba(10,12,18,.55);z-index:8}
@@ -268,7 +275,8 @@ button:active:not(:disabled){transform:scale(.98)}
 .field input{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:none;background:var(--field);padding:0 12px;font-size:14px}
 .note-box{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:12px;background:#1F2433;font-size:13px}
 .fine{font-size:11.5px;color:var(--mute);line-height:1.5}
-.links{display:flex;justify-content:center;gap:16px;font-size:12px}
+.links{display:flex;justify-content:center;gap:16px;font-size:12.5px}
+.links a{display:inline-flex;align-items:center;min-height:32px}
 a{color:var(--link)}
 /* reward */
 .reward{position:absolute;inset:0;z-index:12;background:rgba(10,12,18,.8);display:flex;align-items:center;justify-content:center;padding:20px}
@@ -324,6 +332,8 @@ tr.me td{background:rgba(19,141,255,.16)}
 .kpi2 .fine{font-size:11px}
 .acts{margin:14px 18px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .acts .pill{height:42px;font-size:13.5px}
+.acts.one{grid-template-columns:1fr}
+.live-on .cmpbtn{background:var(--field)}
 .pill.o{background:var(--field);color:var(--ink)}
 .ptabs{position:sticky;top:0;z-index:2;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;background:var(--panel);border-bottom:1px solid var(--line)}
 .ptabs button{height:46px;border:none;background:transparent;color:var(--mute);font-size:14px;font-weight:700;border-bottom:2px solid transparent;display:flex;align-items:center;justify-content:center;gap:6px}
@@ -336,15 +346,15 @@ tr.me td{background:rgba(19,141,255,.16)}
 .sec-h h3{margin:0;font-size:15px;font-weight:800;white-space:nowrap}
 .sec-h span{font-size:11.5px;color:var(--mute);text-align:right}
 .livelink{width:100%;padding:11px 14px;border-radius:12px;border:1px solid #3A2630;background:#1A1620;color:var(--ink);display:flex;align-items:center;gap:8px;font-size:13px;text-align:left}
-.livelink .tag{font-size:10.5px;font-weight:800;color:#fff;background:var(--live);padding:2px 7px;border-radius:9999px}
+.livelink .tag{font-size:11px;font-weight:800;color:#fff;background:#C42F35;padding:2px 7px;border-radius:9999px}
 .livelink .go{margin-left:auto;color:var(--link);font-weight:700;white-space:nowrap}
 .livelink .m{color:var(--mute)}
 .vbars{height:80px;margin-top:16px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;align-items:end;position:relative}
 .vbars i{position:relative;display:block;border-radius:4px 4px 0 0;background:#2B5E9C}
 .vbars i.hi{background:var(--blue)}
-.vbars i em{position:absolute;left:50%;top:-15px;transform:translateX(-50%);font-style:normal;font-size:10px;color:var(--mute);font-variant-numeric:tabular-nums}
+.vbars i em{position:absolute;left:50%;top:-15px;transform:translateX(-50%);font-style:normal;font-size:11px;color:var(--mute);font-variant-numeric:tabular-nums}
 .vbars .ref{position:absolute;left:0;right:0;border-top:1px dashed var(--mute);z-index:1}
-.wl{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;font-size:10.5px;font-weight:800;text-align:center}
+.wl{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;font-size:11px;font-weight:800;text-align:center}
 .wl .w{color:var(--energy-ink)}.wl .l{color:var(--red-ink)}
 .seoha-note{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:14px;background:var(--panel-2);font-size:13.5px;line-height:1.55;color:#E4E7EE}
 .av{width:30px;height:30px;border-radius:9999px;overflow:hidden;background:var(--panel);flex-shrink:0;position:relative}
@@ -372,9 +382,9 @@ tr.me td{background:rgba(19,141,255,.16)}
 .askmore button:hover{border-color:var(--link)}
 .nowcard{padding:14px;border-radius:14px;border:1.5px solid var(--energy);background:#14262A;display:flex;flex-direction:column;gap:10px}
 .nowcard .t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800}
-.nowcard .t .tag{font-size:11px;font-weight:800;color:#fff;background:var(--live);padding:2px 8px;border-radius:9999px;font-variant-numeric:tabular-nums}
+.nowcard .t .tag{font-size:11px;font-weight:800;color:#fff;background:#C42F35;padding:2px 8px;border-radius:9999px;font-variant-numeric:tabular-nums}
 .fchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -18px;padding:0 18px}
-.fchips button{flex-shrink:0;height:32px;padding:0 12px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:12.5px}
+.fchips button{flex-shrink:0;height:36px;padding:0 12px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:12.5px}
 .fchips button[aria-pressed="true"]{background:var(--ink);color:#191F28;border-color:var(--ink);font-weight:700}
 .cheers{display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .cm{padding:14px 2px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
@@ -383,7 +393,7 @@ tr.me td{background:rgba(19,141,255,.16)}
 .cm .ctx{font-size:11.5px;color:var(--mute)}
 .cm p{margin:0;font-size:14px;line-height:1.5}
 .cm .row{display:flex;align-items:center;gap:8px}
-.metoo{height:30px;padding:0 10px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:12px;display:flex;align-items:center;gap:5px}
+.metoo{height:36px;padding:0 10px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:12px;display:flex;align-items:center;gap:5px}
 .metoo[aria-pressed="true"]{border-color:var(--energy);color:var(--energy-ink);background:rgba(0,179,149,.1)}
 .cm .ago{margin-left:auto;font-size:11px;color:var(--faint)}
 .myrank{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px;border-radius:12px;background:#171C2A;font-size:13px}
@@ -394,8 +404,12 @@ tr.me td{background:rgba(19,141,255,.16)}
 @keyframes slide{from{transform:translateX(-20px);opacity:.5}}
 .menu-panel button{height:46px;border:none;border-radius:12px;background:transparent;text-align:left;padding:0 12px;font-size:14px}
 .menu-panel button:hover{background:var(--panel-2)}
+.menu-panel button[aria-current="page"]{background:var(--panel-2);box-shadow:inset 3px 0 0 var(--send)}
+.menu-panel button:disabled{color:var(--faint);cursor:default;background:transparent}
+.menu-panel .mclose{position:absolute;right:8px;top:8px;width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.menu-panel{position:absolute}
 .menu-panel .lbl{font-size:11px;color:var(--faint);padding:8px 12px 2px;letter-spacing:.3px}
-.legal{font-size:10.5px;color:var(--faint);text-align:center;padding:4px 0 0}
+.legal{font-size:11px;color:var(--faint);text-align:center;padding:4px 0 0}
 .toast{position:absolute;left:12px;right:12px;top:62px;z-index:10;padding:10px 12px;border-radius:12px;background:#0F1320;border:1px solid var(--line-2);font-size:13px;animation:pop .3s ease}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width: 980px){
@@ -487,10 +501,13 @@ tr.me td{background:rgba(19,141,255,.16)}
         <div class="fade-top" aria-hidden="true"></div><div class="fade-bot" aria-hidden="true"></div>
         <div class="top"><button class="icon-btn menu" type="button" aria-label="Menu" data-open-menu><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><span class="name">Seoha</span><span class="live"><span class="dot"></span>LIVE</span></div>
         <div class="hud">
+          <div class="hud-row">
           <button class="scorepill glass" type="button" id="scorePill" aria-expanded="false" aria-controls="scoreDetail" aria-label="Score. Show match details">
             <span class="sp-row"><span class="sp-t b">T1</span><b id="k1">6</b><span class="sp-clk" id="clock">18:20</span><b id="k2">5</b><span class="sp-t r">GEN</span></span>
             <span class="goldbar mini"><i id="goldFill"></i><b></b></span>
           </button>
+          <button class="streakchip glass" type="button" data-page="ranking" aria-label="Quiz streak, open ranking"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 2-5 5-5 8 0 4 3 7 7 7z"/></svg><b id="streakChip">4</b><span class="sc-l">streak</span></button>
+          </div>
           <div class="heads glass" id="heads" hidden><span class="t">Baron fight incoming</span><span class="cd" id="headsCd">0:40</span></div>
           <div class="scoredetail glass" id="scoreDetail" hidden>
             <div class="sd-row"><span class="k">Game 2</span><span id="goldTxt" class="k">Gold · T1 +0.9k</span></div>
@@ -498,7 +515,7 @@ tr.me td{background:rgba(19,141,255,.16)}
           </div>
         </div>
         <span class="sr" id="mood">watching</span>
-        <div class="bubble" id="bubble" aria-live="polite">Here we go. I'm right here with you.</div>
+        <div class="bubble" id="bubble" aria-live="polite">Here we go. Dragon quiz in a minute, so keep that streak alive.</div>
           <div class="quiz idle glass" id="quiz" hidden role="region" aria-label="Quiz" aria-live="polite">
             <div class="qhead"><strong id="qText">Next question soon</strong><span class="badges"><span class="streak"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 2-5 5-5 8 0 4 3 7 7 7z"/></svg><span id="streak">4</span></span><span class="timer" id="qTimer" hidden>0:12</span></span></div>
             <div class="answers" id="answers" hidden>
@@ -532,8 +549,8 @@ tr.me td{background:rgba(19,141,255,.16)}
             <div class="tile"><div class="k">Quiz rank</div><div class="v">#9</div><div style="font-size:11px;color:var(--energy-ink)">Top 10 now</div></div>
           </div>
           <div class="note-box"><div><div class="k">Next match</div><b>T1 vs HLE · Wed 19:00 your time</b></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="pill p" type="button" id="alertYes">Call me 10 min before</button><button class="pill s" type="button" data-go="chat">Not now</button></div>
-            <span class="fine">Only for teams you cheer for.</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="pill p" type="button" id="alertYes">Remind me</button><button class="pill s" type="button" data-go="chat">Not now</button></div>
+            <span class="fine">10 minutes before, only for teams you cheer for.</span></div>
           <div class="legal">An independent fan companion. Not endorsed by Riot Games.</div>
         </div>
       </div>
@@ -555,7 +572,7 @@ tr.me td{background:rgba(19,141,255,.16)}
         <div class="pv" id="teamScroll">
           <div class="ph"><div><div class="pname" style="color:var(--blue-ink)">T1</div><div class="psub">LCK 2026 regular season · Partner team</div></div><div class="pbig"><span class="k">Team LwRC+</span><b>175</b></div></div>
           <div class="kpis"><div><span class="k">Standing</span><b>#3</b></div><div><span class="k">Record</span><b>15-3</b></div><div><span class="k">Set ±</span><b style="color:var(--energy-ink)">+21</b></div><div><span class="k">Last 5</span><b>3-2</b></div></div>
-          <div class="acts"><button class="pill p" type="button" data-compare="team">Compare teams</button><button class="pill o" type="button" data-ask="What is T1's biggest strength this season?">Ask Seoha</button></div>
+          <div class="acts one"><button class="pill p cmpbtn" type="button" data-compare="team">Compare teams</button></div>
           <div class="ptabs" role="tablist"><button type="button" role="tab" data-tab="stats" aria-selected="true">Stats</button><button type="button" role="tab" data-tab="cheer" aria-selected="false">Cheer <span class="rd" data-live-only hidden></span><span class="cnt" id="teamCheerCnt">24</span></button></div>
           <div class="pane" data-pane="stats">
             <button class="livelink" type="button" data-show="live" data-live-only hidden><span class="tag">LIVE</span><span style="white-space:nowrap">G2 <span class="tl-clock">18′</span> vs GEN <span class="m" style="margin-left:6px"><span class="tl-gold">Gold +0.9k</span></span></span><span class="go">Match →</span></button>
@@ -585,8 +602,8 @@ tr.me td{background:rgba(19,141,255,.16)}
         <div class="pagehead"><button class="icon-btn" type="button" aria-label="Back" data-back><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><strong>Player</strong><button class="icon-btn star" type="button" aria-pressed="true" aria-label="Favourite"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6L3.2 9.4l6.1-.8z"/></svg></button></div>
         <div class="pv" id="playerScroll">
           <div class="ph"><div><div class="pname" id="pName">Faker</div><div class="psub"><b style="color:var(--blue-ink)">T1</b> · <span id="pRole">Mid</span> · <span id="pSets">41</span> sets</div></div></div>
-          <div class="kpi2"><div><span class="k">LwRC+ · level</span><b style="color:var(--link)" id="pIx">178</b><span class="fine" id="pIxRank">#2 Mid · league avg 100</span></div><div><span class="k">Season contribution</span><b style="color:var(--energy-ink)" id="pC">+120.5k</b><span class="fine" id="pCRank">#4 overall · vs replacement</span></div></div>
-          <div class="acts"><button class="pill p" type="button" data-compare="player">Compare</button><button class="pill o" type="button" id="pAsk" data-ask="">Ask Seoha</button></div>
+          <div class="kpi2"><div><span class="k">LwRC+ <span class="hint" title="100 = league average for the role">ⓘ</span></span><b style="color:var(--link)" id="pIx">178</b><span class="fine" id="pIxRank">#2 Mid · league avg 100</span></div><div><span class="k">Season contribution</span><b style="color:var(--energy-ink)" id="pC">+120.5k</b><span class="fine" id="pCRank">#4 overall · vs replacement</span></div></div>
+          <div class="acts one"><button class="pill p cmpbtn" type="button" data-compare="player">Compare</button><span id="pAsk" hidden></span></div>
           <div class="ptabs" role="tablist"><button type="button" role="tab" data-tab="stats" aria-selected="true">Stats</button><button type="button" role="tab" data-tab="cheer" aria-selected="false">Cheer <span class="rd" data-live-only hidden></span><span class="cnt" id="pCheerCnt">6</span></button></div>
           <div class="pane" data-pane="stats">
             <div class="sec"><div class="sec-h"><h3>Where it comes from</h3><span>Gold per set · ┃ role avg</span></div><div class="contrib" id="pContrib"></div>
@@ -616,15 +633,15 @@ tr.me td{background:rgba(19,141,255,.16)}
 
       <!-- overlays -->
       <div id="menuWrap" hidden><div class="sheet-bg" data-close-menu></div>
-        <nav class="menu-panel" aria-label="Menu">
+        <nav class="menu-panel" aria-label="Menu"><button type="button" class="mclose" aria-label="Close menu" data-close-menu><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           <span class="lbl">SEOHA</span>
-          <button type="button" data-go="chat">Chat</button>
-          <button type="button" data-go="live">Live match</button>
+          <button type="button" data-go="chat" data-v="chat">Chat</button>
+          <button type="button" data-go="live" data-v="live" id="mLive">Live match</button>
           <span class="lbl">LCK</span>
-          <button type="button" data-page="ranking">Quiz ranking</button>
-          <button type="button" data-page="team">Team · T1</button>
-          <button type="button" data-player="Faker">Player · Faker</button>
-          <button type="button" data-compare="player">Compare</button>
+          <button type="button" data-page="ranking" data-v="ranking">Quiz ranking</button>
+          <button type="button" data-page="team" data-v="team">Team · T1</button>
+          <button type="button" data-player="Faker" data-v="player">Player · Faker</button>
+          <button type="button" data-compare="player" data-v="compare">Compare</button>
           <span class="lbl">ON RORR.CLUB</span>
           <button type="button" data-toast="Opens rorr.club to top up Energy">Top up Energy</button>
           <button type="button" data-toast="Opens rorr.club ad wall for Spark">Get Spark</button>
@@ -677,7 +694,7 @@ function show(v,push){ if(push&&S.view!==v) S.prev.push(S.view); S.view=v; if(ty
   if(v==='team'){ selectTab($('#v-team'), S.live?'cheer':'stats'); $('#teamScroll').scrollTop=0 }
   if(v==='player'){ selectTab($('#v-player'),'stats'); $('#playerScroll').scrollTop=0 } }
 function selectTab(view,name){ view.querySelectorAll('[data-tab]').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.tab===name))); view.querySelectorAll('[data-pane]').forEach(p=>p.hidden=(p.dataset.pane!==name)) }
-function syncLiveOnly(){ $$('[data-live-only]').forEach(e=>e.hidden=!S.live) }
+function syncLiveOnly(){ $$('[data-live-only]').forEach(e=>e.hidden=!S.live); document.querySelector('.side').classList.toggle('live-on',S.live) }
 function back(){ show(S.prev.pop()||'chat') }
 
 /* stream side */
@@ -736,7 +753,7 @@ function resolveQuiz(){ S.quizState='done'; const ok=S.pick==='T1'; const q=$('#
   S.k1+=1; S.gold+=900; renderScore(); flash('Dragon to T1');
   if(ok){S.streak++;S.pts+=30;q.className='glass quiz ok';$('#qResult').innerHTML='<span style="color:var(--energy-ink)">✓ Correct · T1 took the dragon</span><span>+30</span>';say("Dragon's ours!! Streak "+S.streak+". You're reading this game.",'hype')}
   else{q.className='glass quiz bad';$('#qResult').innerHTML='<span style="color:var(--red-ink)">'+(S.pick?'Not this time · T1 took it':'No answer · T1 took it')+'</span><span>'+(S.pick?'streak reset':'streak kept')+'</span>'; if(S.pick)S.streak=0; say(S.pick?"Ah, so close. Next one's ours.":"Dragon's ours! Catch the next one with me.",'happy')}
-  $('#streak').textContent=S.streak; $('#streakPill').textContent=S.streak; later(6000,()=>{ if(S.quizState==='done'){ $('#quiz').hidden=true; $('#v-live').classList.remove('has-quiz') } }); $('#qText').textContent='Next dragon?'; $('#qNote').textContent='Next question after the Baron fight.'; addMoment('Third dragon to T1',fmt(S.clock)+' · Oner smite, win chance 61% → 66%',ok?'Quiz ✓':'Quiz',false,'Oner') }
+  $('#streak').textContent=S.streak; $('#streakPill').textContent=S.streak; $('#streakChip').textContent=S.streak; later(6000,()=>{ if(S.quizState==='done'){ $('#quiz').hidden=true; $('#v-live').classList.remove('has-quiz') } }); $('#qText').textContent='Next dragon?'; $('#qNote').textContent='Next question after the Baron fight.'; addMoment('Third dragon to T1',fmt(S.clock)+' · Oner smite, win chance 61% → 66%',ok?'Quiz ✓':'Quiz',false,'Oner') }
 $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 
 /* moment + boost */
@@ -759,7 +776,7 @@ function toast(t){const w=$('#toastWrap');w.innerHTML='';const d=document.create
 $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);const r=b.dataset.react; say(r==='Ugh…'?"I know. Breathe. It's not over.":r==='Cheer!'?"Louder! They can feel it.":"LET'S GO!",r==='Ugh…'?'calm':'hype')}));
 
 /* menu & pages */
-function openMenu(){ $('#menuWrap').hidden=false } function closeMenu(){ $('#menuWrap').hidden=true }
+function openMenu(){ $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); const ml=$('#mLive'); ml.disabled=!S.live; ml.title=S.live?'':'No match live right now' } function closeMenu(){ $('#menuWrap').hidden=true }
 $$('[data-open-menu]').forEach(b=>b.addEventListener('click',openMenu));
 $$('[data-close-menu]').forEach(b=>b.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{ const p=e.target.closest('[data-page]'); if(p){show(p.dataset.page,true)} const g=e.target.closest('[data-go]'); if(g){goStep(g.dataset.go)} const t=e.target.closest('[data-toast]'); if(t){closeMenu();toast(t.dataset.toast)} if(e.target.closest('[data-back]'))back() });
@@ -805,7 +822,7 @@ renderTeamCheers(); $('#teamCheerCnt').textContent=24;
 
 /* player page */
 function renderPlayer(n){ const p=P[n], avg=ROLE_AVG[p.role]; S.player=n;
-  $('#pName').textContent=n; $('#pRole').textContent=p.role; $('#pSets').textContent=p.sets; $('#pIx').textContent=p.ix; $('#pIxRank').textContent=p.rk+' · league avg 100'; $('#pC').textContent=fmtK(p.c); $('#pCRank').textContent=p.crk+' · vs replacement';
+  $('#pName').textContent=n; $('#pRole').textContent=p.role; $('#pSets').textContent=p.sets; $('#pIx').textContent=p.ix; $('#pIxRank').textContent=p.rk; $('#pC').textContent=fmtK(p.c); $('#pCRank').textContent=p.crk;
   const q1='When is '+n+' at their best?', q2=n+' or '+GEN[p.role][0]+': who has contributed more?';
   $('#pAsk').dataset.ask=q1; $('#pAskMore').innerHTML='<button type="button" data-ask="'+q1+'">'+q1+'</button><button type="button" data-ask="'+q2+'">'+q2+'</button>';
   const rows=[['Production','Resources your side created',p.v[0],avg[0],4500,'var(--blue)'],['Denial','Resources kept from the enemy',p.v[1],avg[1],2000,'var(--link)'],['Loss','Given up through deaths and more',p.v[2],avg[2],1000,'#E5484D']];
@@ -831,7 +848,7 @@ const ANS={
  "What is T1's biggest strength this season?":"Early leads. T1 are +562 gold at 15 minutes on average, first in the league, and win 87% of games after the first Baron.",
  "Where is T1 weakest right now?":"Closing from behind. When T1 trail at 15 minutes they win under a third of those games. Doran's side is where the early deficits start."};
 function askSeoha(q){ const a=ANS[q]||("Here's the short version on that: look at where the gold comes from, not just kills. Want me to keep watching it with you?");
-  if(S.live){ S.prev=[]; show('live'); say(a,'calm') } else { S.prev=[]; show('chat'); msg(q,true); const tp=msg('Seoha is typing…'); tp.classList.add('typing'); setTimeout(()=>{tp.classList.remove('typing');tp.textContent=a},900) } }
+  if(S.live){ S.prev=[]; show('live'); say(a,'calm'); msg(q,true); msg(a) } else { S.prev=[]; show('chat'); msg(q,true); const tp=msg('Seoha is typing…'); tp.classList.add('typing'); setTimeout(()=>{tp.classList.remove('typing');tp.textContent=a},900) } }
 
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-tab]'); if(t){ selectTab(t.closest('.view'),t.dataset.tab) }
@@ -853,7 +870,7 @@ function goStep(s){ clearTimers(); clearInterval(qInt); clearInterval(hInt); clo
   if(s==='chat'){stopClock();syncStream(false);show('chat');return}
   if(s==='recap'){stopClock();syncStream(false);$('#rStreak').textContent='Streak '+S.streak;show('recap');return}
   syncStream(true); show('live'); startClock();
-  if(s==='live'){resetLive();say("Here we go. I'm right here with you.",'happy');later(5000,()=>{setStepUI('quiz');openQuiz()})}
+  if(s==='live'){resetLive();say("Here we go. Dragon quiz in a minute, so keep that streak alive.",'happy');later(5000,()=>{setStepUI('quiz');openQuiz()})}
   if(s==='quiz'){ if(S.quizState==='idle')resetLive(); openQuiz() }
   if(s==='moment'){ if($('#moList').children.length===0)resetLive(); headsUp() }
   if(s==='boost'){ if(!$('#heads').hidden===false)headsUp(); openSheet() }
@@ -1000,6 +1017,8 @@ const KO={
 "Spark comes from the rorr.club ad wall, has no cash value and can only be used for Boosts. Moment cards are not sold.":"Spark는 rorr.club 광고 월에서 받으며, 현금 가치가 없고 Boost에만 쓸 수 있습니다. 모먼트 카드는 판매하지 않습니다.",
 "boosting now · moment card included":"명 Boost 중 · 모먼트 카드 발급","T1 vs GEN, Game 2":"T1 vs GEN 2세트","Boost now":"지금 Boost","fans boosted with you":"명이 함께 Boost","Win chance 58% → 83%":"승률 58% → 83%",
 "Boost sent. One card per moment.":"Boost 완료. 카드는 순간당 1장이에요.",
+"streak":"연속","Quiz streak, open ranking":"연속 정답, 순위 보기","Here we go. Dragon quiz in a minute, so keep that streak alive.":"시작이다. 1분 뒤 드래곤 퀴즈야. 연속 기록 이어 가자.",
+"Remind me":"알림 받기","10 minutes before, only for teams you cheer for.":"경기 10분 전, 응원하는 팀만 알려 드려요.","Close menu":"메뉴 닫기","No match live right now":"지금 진행 중인 경기 없음","100 = league average for the role":"100 = 포지션 리그 평균","LwRC+":"LwRC+",
 "Language":"언어"
 };
 const ROLE={Top:"탑",Jungle:"정글",Mid:"미드",Bot:"원딜",Support:"서포터",Teams:"팀"};
@@ -1009,6 +1028,7 @@ const RX=[
 [/^Streak (\d+)$/,(m,a)=>"연속 "+a],
 [/^#(\d+) (Top|Jungle|Mid|Bot|Support) · league avg 100$/,(m,a,r)=>ROLE[r]+" "+a+"위 · 리그 평균 100"],
 [/^#(\d+) overall · vs replacement$/,(m,a)=>"전체 "+a+"위 · 대체 선수 대비"],
+[/^#(\d+) (Top|Jungle|Mid|Bot|Support)$/,(m,a,r)=>ROLE[r]+" "+a+"위"],[/^#(\d+) overall$/,(m,a)=>"전체 "+a+"위"],
 [/^Last 10 sets · dashed = season (\d+)$/,(m,a)=>"최근 10세트 · 점선 = 시즌 "+a],
 [/^When is (\S+) at their best\?$/,(m,a)=>a+" 선수는 언제 제일 잘해?"],
 [/^(\S+) or (\S+): who has contributed more\?$/,(m,a,b)=>a+"랑 "+b+", 누가 더 기여했어?"],

@@ -1,7 +1,8 @@
 # rorr-extension — RORR 크롬 확장 프로그램 v2.0 기획
 
-- 작성일: 2026-10-15 · 작성: Charles(CBO) · 상태: **기획 초안 v0.1**
-- 범위: 크롬 웹스토어 게시 중인 RORR 확장(v1.1.2)을 **Muse 컴패니언 + 순간 Boost** 중심으로 재기획하는 v2.0
+- 작성일: 2026-10-15 · 작성: Charles(CBO) · 상태: **기획 초안 v0.2**
+- 범위: **rorr.club 홈페이지 기획을 근거로** RORR 크롬 확장을 Muse 컴패니언 + 순간 Boost 중심으로 재기획하는 v2.0
+- 웹스토어 리스팅·등록 정보 수정은 후속 단계로 보류 (2026-10-15)
 - 이 저장소는 **기획 문서 전용**. 구현 코드는 별도 저장소에서 관리(개발 착수 시 결정, `docs/08` OI-15)
 
 ---
@@ -15,7 +16,7 @@
 
 | 번호 | 문서 | 내용 | 주 독자 |
 |---|---|---|---|
-| 00 | [현황 진단](docs/00-baseline.md) | 스토어 v1.1.2·컴패니언 프로토타입 v0.1·웹 현행과의 갭 | 전원 |
+| 00 | [기획 근거 — 웹에서 도출](docs/00-web-basis.md) | 웹이 정한 익스텐션의 위치, 웹 미리보기 = 최소 사양, 웹 기능 인벤토리 → 이식·축약·위임 판정 | 전원 |
 | 01 | [PRD](docs/01-prd.md) | 문제·목표·타깃·원칙·범위·성공 지표 | 전원 |
 | 02 | [기능 명세](docs/02-feature-spec.md) | 기능 단위 요구사항·수용 기준·우선순위 | Jun·Kazel |
 | 03 | [화면·흐름](docs/03-ux-flow.md) | 패널 구조, 상태 전이, 핵심 플로우 | Jun·디자인 |
@@ -23,12 +24,13 @@
 | 05 | [정책·준수](docs/05-policy-compliance.md) | Boost 정책·웹스토어·Riot·중계 플랫폼 준수 매핑 | Charles·Mansoo |
 | 06 | [로드맵](docs/06-roadmap.md) | 마일스톤·게이트·담당(안) | 전원 |
 | 07 | [결정 로그](docs/07-decision-log.md) | 확정 사항과 출처 | 전원 |
-| 08 | [오픈 이슈](docs/08-open-issues.md) | 미결 쟁점·담당·기한 | 전원 |
+| 08 | [오픈 이슈](docs/08-open-issues.md) | 미결 쟁점·담당·기한, 보류 항목 | 전원 |
+| 09 | [기존 자산 현황](docs/09-asset-inventory.md) | 스토어 게시본 v1.1.2·컴패니언 프로토타입 v0.1 (참고용) | Kazel |
 
 ## 3. 기준 문서 (충돌 시 우선순위)
 
 1. **정책**: `~/Documents/Hermes_Brain_01/RORR/policy/boost-economy-policy.md` (v1.2, 2026-10-15) — 화면·문구·데이터 모델이 충돌하면 **정책 우선**
-2. **웹 현행**: `20_RORR/02_디자인브랜드/rorr-hero` (블로그 "Meet Muse" 2026-10-15 = 확장 설치 명분의 공식 문안)
+2. **홈페이지 기획**: `20_RORR/00_노트/2026-10-01-rorr.club-홈페이지-심플화-제안.md` + 웹 현행 `20_RORR/02_디자인브랜드/rorr-hero` (`index.html`, `docs/HANDOFF.md`, 블로그 "Meet Muse") — **익스텐션 기획의 1차 근거**
 3. **디자인 시스템**: RORR Design System (2026-06, Pretendard·Primary #6F4CFF, Companion 토큰군)
 4. **Muse 말투**: `20_RORR/00_노트/마케팅/2026-07-30-Muse-말투가이드-팀모드-응원.md`
 5. **컴패니언 설계**: `20_RORR/01_제품/riot-esports-ontology/ai-companion/companion-design-2026-05-06.md`

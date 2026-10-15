@@ -239,6 +239,20 @@ button:active:not(:disabled){transform:scale(.98)}
 .live .askfield{background:rgba(255,255,255,.07);height:44px}
 .live .dockboost{padding:0 14px 0 12px;font-size:13.5px}
 .live #boostCd{display:none!important}
+/* boost sheet v6: copy trimmed, details behind (i) */
+.bsheet{gap:14px;padding:10px 18px 14px}
+.bs-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.bsheet .eyebrow{font-size:12px;font-weight:600;letter-spacing:0;color:var(--mute)}
+.bsheet .eyebrow .gm{color:var(--gold-ink);font-weight:800}.bsheet .eyebrow b{color:var(--ink)}
+.bsheet h2{margin-top:2px}
+.bs-x{background:var(--field)!important;border-radius:9999px;width:36px;height:36px}
+.addmsg{align-self:flex-start;height:32px;padding:0 4px;border:none;background:transparent;color:var(--link);font-size:13px;font-weight:600}
+.bs-cta{display:flex;flex-direction:column;align-items:center;gap:6px}
+.bs-cta .boostbtn{width:100%}
+.bs-gift{font-size:12px;color:var(--gold-ink);font-weight:600}
+.bs-legal{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--mute)}
+.bs-i{width:24px;height:24px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font-size:11px;font-weight:700}
+.bsheet #shareTxt{margin:-6px 0 0;text-align:center}
 /* sheet */
 .sheet-bg{position:absolute;inset:0;background:rgba(10,12,18,.55);z-index:8}
 .sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;padding:10px 18px 16px;border-radius:18px 18px 0 0;background:var(--sheet);border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:12px;max-height:92%;overflow-y:auto}
@@ -556,7 +570,7 @@ tr.me td{background:rgba(19,141,255,.16)}
             <p class="fine">Sample figures for the preview. LwRC+ 100 = league average.</p>
           </div>
           <div class="pane" data-pane="cheer" hidden>
-            <div class="nowcard" data-live-only hidden><div class="t"><span class="tag tl-clock2">18:20</span><span id="nowTitle">Right now · T1 vs GEN, Game 2</span></div><span class="k">Boosting together right now: <b style="color:var(--ink)">2,418</b>. A moment card comes with the Boost.</span><button class="boostbtn" type="button" data-open-boost style="height:44px;font-size:14px">Boost this moment</button></div>
+            <div class="nowcard" data-live-only hidden><div class="t"><span class="tag tl-clock2">18:20</span><span id="nowTitle">T1 vs GEN, Game 2</span></div><span class="k"><b style="color:var(--ink)">2,418</b> boosting now · moment card included</span><button class="boostbtn" type="button" data-open-boost style="height:44px;font-size:14px">Boost now</button></div>
             <div class="sec"><div class="sec-h"><h3>Cheers for T1</h3><span>Sent with Boosts</span></div>
               <div class="fchips" id="teamFilter"></div>
               <div class="cheers" id="teamCheers"></div></div>
@@ -617,28 +631,31 @@ tr.me td{background:rgba(19,141,255,.16)}
         </nav>
       </div>
       <div id="sheetWrap" hidden><div class="sheet-bg" data-close-sheet></div>
-        <div class="sheet" role="dialog" aria-label="Boost this moment">
+        <div class="sheet bsheet" role="dialog" aria-labelledby="sheetTitle">
           <span class="handle" style="align-self:center"></span>
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
-            <div><div class="eyebrow" style="color:var(--gold-ink)" id="sheetEyebrow">GOLD MOMENT</div><h2 id="sheetTitle">Boost the Baron fight</h2><div class="k">Boosting together now: <b style="color:var(--ink)" id="together">2,418</b></div></div>
-            <button class="icon-btn" type="button" aria-label="Close" data-close-sheet style="background:var(--field);border-radius:9999px;width:36px;height:36px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          <div class="bs-head">
+            <div><div class="eyebrow" id="sheetEyebrow"><span class="gm">Gold moment</span> · <b id="together">2,418</b> boosting</div><h2 id="sheetTitle">Boost T1's Baron fight</h2></div>
+            <button class="icon-btn bs-x" type="button" aria-label="Close" data-close-sheet><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           </div>
-          <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--mute)">Cheering for</span><span style="padding:4px 12px;border-radius:9999px;border:1px solid var(--blue);background:rgba(47,156,252,.16);font-weight:700">T1</span></div>
-          <div class="cur">
-            <button type="button" class="e" data-cur="e" aria-pressed="true"><b style="color:var(--energy-ink)">⚡ Energy 10</b><small>You have <span id="eBal">120</span></small></button>
-            <button type="button" class="s" data-cur="s" aria-pressed="false"><b style="color:var(--spark)">✦ Spark 5</b><small>You have <span id="sBal">35</span></small></button>
+          <div class="cur" role="radiogroup" aria-label="Pay with">
+            <button type="button" class="e" data-cur="e" aria-pressed="true"><b style="color:var(--energy-ink)">⚡ 10 Energy</b><small><span id="eBal">120</span> left</small></button>
+            <button type="button" class="s" data-cur="s" aria-pressed="false"><b style="color:var(--spark)">✦ 5 Spark</b><small><span id="sBal">35</span> left</small></button>
           </div>
-          <div class="field"><label for="cheerMsg">Cheer message (optional)</label><input id="cheerMsg" type="text" placeholder="Take it, T1!" autocomplete="off"></div>
-          <div class="note-box"><span>A gold moment card comes with this Boost</span><span style="display:flex;justify-content:space-between;color:var(--ink-2)">Part of this Energy goes to T1<button type="button" id="shareInfo" aria-expanded="false" style="border:1px solid var(--line-2);background:transparent;border-radius:9999px;width:28px;height:28px;font-size:12px">i</button></span><span class="fine" id="shareTxt" hidden>T1 receives 70% of Energy used for Boosts on T1 moments; RORR keeps 30% and pays the card fees.</span></div>
-          <span class="fine">Energy used for a Boost is delivered right away and can't be refunded. Moment cards are not sold.</span>
-          <button class="boostbtn" type="button" id="boostGo">Boost with 10 Energy</button>
-          <div class="links"><a href="https://rorr.club" target="_blank" rel="noopener">Top up on rorr.club</a><a href="https://rorr.club" target="_blank" rel="noopener">Get Spark on rorr.club</a></div>
+          <button type="button" class="addmsg" id="addMsg" aria-expanded="false" aria-controls="msgField">+ Add a cheer message</button>
+          <div class="field" id="msgField" hidden><label class="sr" for="cheerMsg">Cheer message</label><input id="cheerMsg" type="text" placeholder="Take it, T1!" maxlength="80" autocomplete="off"></div>
+          <div class="bs-cta">
+            <button class="boostbtn" type="button" id="boostGo">Boost with 10 Energy</button>
+            <span class="bs-gift">Gold moment card included</span>
+          </div>
+          <div class="bs-legal"><span id="legalLine">Non-refundable · 70% goes to T1</span><button type="button" id="shareInfo" class="bs-i" aria-expanded="false" aria-controls="shareTxt" aria-label="Details">i</button></div>
+          <p class="fine" id="shareTxt" hidden>Energy is delivered right away and can't be refunded. T1 receives 70% and RORR keeps 30%, which covers card fees. Moment cards are not sold.</p>
+          <div class="links"><a href="https://rorr.club" target="_blank" rel="noopener">Top up Energy</a><a href="https://rorr.club" target="_blank" rel="noopener">Get Spark</a></div>
         </div>
       </div>
       <div id="rewardWrap" class="reward" hidden><div class="reward-card">
         <span class="eyebrow" style="color:var(--gold-ink)">GOLD MOMENT CARD</span>
         <svg viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,32 30,30 55,26 70,10 120,6" fill="none" stroke="#2F9CFC" stroke-width="2.5"/></svg>
-        <div><b>Baron fight · Game 2</b><div class="k">Win chance 58% → 83%, <span id="rewardFans">2,419</span> fans boosted</div></div>
+        <div><b>Baron fight · Game 2</b><div class="k">Win chance 58% → 83%</div><div class="k"><span id="rewardFans">2,419</span> fans boosted with you</div></div>
         <button class="pill p" type="button" data-close-reward>Keep watching</button>
       </div></div>
       <div id="toastWrap"></div>
@@ -726,16 +743,17 @@ $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 let hInt=null;
 function headsUp(){ $('#heads').hidden=false; let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost()}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW') }
 function coolBoost(){ $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
-function openSheet(){ $('#sheetWrap').hidden=false; $('#boostGo').focus() }
+function openSheet(){ $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus() }
 function closeSheet(){ $('#sheetWrap').hidden=true }
 $('#boostOpen').addEventListener('click',openSheet);
 $$('[data-close-sheet]').forEach(b=>b.addEventListener('click',closeSheet));
-$$('[data-cur]').forEach(b=>b.addEventListener('click',()=>{S.cur=b.dataset.cur;$$('[data-cur]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#boostGo').textContent=S.cur==='e'?'Boost with 10 Energy':'Boost with 5 Spark'}));
+$$('[data-cur]').forEach(b=>b.addEventListener('click',()=>{S.cur=b.dataset.cur;$$('[data-cur]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#boostGo').textContent=S.cur==='e'?'Boost with 10 Energy':'Boost with 5 Spark'; $('#legalLine').textContent=S.cur==='e'?'Non-refundable · 70% goes to T1':'Spark has no cash value'; $('#shareTxt').textContent=S.cur==='e'?"Energy is delivered right away and can't be refunded. T1 receives 70% and RORR keeps 30%, which covers card fees. Moment cards are not sold.":"Spark comes from the rorr.club ad wall, has no cash value and can only be used for Boosts. Moment cards are not sold."}));
+$('#addMsg').addEventListener('click',e=>{const f=$('#msgField'); f.hidden=false; e.currentTarget.hidden=true; $('#cheerMsg').focus()});
 $('#shareInfo').addEventListener('click',e=>{const t=$('#shareTxt');t.hidden=!t.hidden;e.currentTarget.setAttribute('aria-expanded',String(!t.hidden))});
 $('#boostGo').addEventListener('click',()=>{ if(S.cur==='e'){if(S.eBal<10)return toast('Not enough Energy. Top up on rorr.club.');S.eBal-=10}else{if(S.sBal<5)return toast('Not enough Spark. Get more on rorr.club.');S.sBal-=5}
   $('#eBal').textContent=S.eBal;$('#sBal').textContent=S.sBal; closeSheet();
   if(!S.boosted){S.boosted=true;S.pts+=50;S.cards++; $('#rewardWrap').hidden=false; later(600,()=>{S.k1+=2;S.gold+=1500;renderScore();flash('Baron to T1');say('WE GOT IT! I am actually screaming right now!','hype');$('#heads').hidden=true;coolBoost();clearInterval(hInt);addMoment('Baron fight',fmt(S.clock)+' · Faker flank, win chance 58% → 83%','Card',true,'Faker')})}
-  else toast('Boost sent · same moment, no extra card'); });
+  else toast('Boost sent. One card per moment.'); });
 $$('[data-close-reward]').forEach(b=>b.addEventListener('click',()=>{$('#rewardWrap').hidden=true}));
 function toast(t){const w=$('#toastWrap');w.innerHTML='';const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;w.append(d);setTimeout(()=>d.remove(),2600)}
 $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);const r=b.dataset.react; say(r==='Ugh…'?"I know. Breathe. It's not over.":r==='Cheer!'?"Louder! They can feel it.":"LET'S GO!",r==='Ugh…'?'calm':'hype')}));
@@ -975,6 +993,13 @@ const KO={
 "Browser with the live stream":"라이브 방송이 열린 브라우저","RORR extension":"RORR 익스텐션","Stream placeholder":"방송 자리","Demo controls":"데모 컨트롤","RORR side panel":"RORR 사이드 패널",
 "Seoha, the VRM companion":"서하, VRM 컴패니언","Menu":"메뉴","Alert on":"알림 켜짐","Show more shortcuts":"바로 가기 더 보기","Hide shortcuts":"바로 가기 닫기","Send":"보내기",
 "Seoha, watching the match with you":"함께 경기를 보는 서하","Score. Show match details":"스코어. 경기 상세 보기","React with Seoha":"서하와 반응하기","React":"반응",
+"Gold moment":"골드 모먼트","boosting":"명 Boost 중","Boost T1's Baron fight":"T1 바론 교전에 Boost","⚡ 10 Energy":"⚡ 10 Energy","✦ 5 Spark":"✦ 5 Spark","left":"남음",
+"+ Add a cheer message":"+ 응원 메시지 추가","Cheer message":"응원 메시지","Gold moment card included":"골드 모먼트 카드 함께 발급",
+"Non-refundable · 70% goes to T1":"환불 불가 · 70%는 T1에 전달","Spark has no cash value":"Spark는 현금 가치 없음","Details":"자세히","Pay with":"결제 수단",
+"Energy is delivered right away and can't be refunded. T1 receives 70% and RORR keeps 30%, which covers card fees. Moment cards are not sold.":"Energy는 즉시 전달되어 환불되지 않습니다. 70%는 T1에, 30%는 RORR에 배분되며 RORR이 결제 수수료를 부담합니다. 모먼트 카드는 판매하지 않습니다.",
+"Spark comes from the rorr.club ad wall, has no cash value and can only be used for Boosts. Moment cards are not sold.":"Spark는 rorr.club 광고 월에서 받으며, 현금 가치가 없고 Boost에만 쓸 수 있습니다. 모먼트 카드는 판매하지 않습니다.",
+"boosting now · moment card included":"명 Boost 중 · 모먼트 카드 발급","T1 vs GEN, Game 2":"T1 vs GEN 2세트","Boost now":"지금 Boost","fans boosted with you":"명이 함께 Boost","Win chance 58% → 83%":"승률 58% → 83%",
+"Boost sent. One card per moment.":"Boost 완료. 카드는 순간당 1장이에요.",
 "Language":"언어"
 };
 const ROLE={Top:"탑",Jungle:"정글",Mid:"미드",Bot:"원딜",Support:"서포터",Teams:"팀"};
@@ -1010,7 +1035,7 @@ function doText(n){
   if(LANG==='ko'){
     const src=n.__en!==undefined?n.__en:n.nodeValue; const core=src.trim(); if(!core) return;
     const t=tr(core); if(t==null) return;
-    n.__en=src; n.__ko=src.replace(core,t); if(n.nodeValue!==n.__ko) n.nodeValue=n.__ko;
+    n.__en=src; n.__ko=src.replace(core,t); if(/^(명|번째)/.test(t)) n.__ko=n.__ko.replace(/^\s+/,''); if(n.nodeValue!==n.__ko) n.nodeValue=n.__ko;
   } else if(n.__en!==undefined && n.nodeValue!==n.__en){ n.nodeValue=n.__en }
 }
 function doAttrs(el){

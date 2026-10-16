@@ -897,9 +897,6 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
       <div id="menuWrap" hidden><div class="sheet-bg" data-close-menu></div>
         <nav class="menu-panel" aria-label="Menu"><button type="button" class="mclose" aria-label="Close menu" data-close-menu><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           <div class="m-me"><span class="av" aria-hidden="true">Y</span><div><b>yuna.gg</b><span class="k">⚡ <span id="mE">120</span> Energy · ✦ <span id="mS">35</span> Spark</span><a class="m-acct" href="https://yhc-pie.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Account &amp; sign out ↗</a></div></div>
-          <span class="lbl">SEOHA</span>
-          <button type="button" data-go="chat" data-v="chat">Chat</button>
-          <button type="button" data-go="live" data-v="live" id="mLive">Live match</button>
           <span class="lbl">MY TEAMS</span>
           <button type="button" data-page="team" data-v="team">T1<small>Main team · partner</small></button>
           <button type="button" data-page="teamgen" data-v="teamgen">GEN<small>Not a partner team</small></button>
@@ -1111,7 +1108,7 @@ $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);co
 $$('[data-bgpick]').forEach(b=>b.addEventListener('click',()=>{ $('#card').dataset.bg=b.dataset.bgpick; $$('[data-bgpick]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); applyBg() }));
 (function(){ const c=$('#card'); let raf=0; c.addEventListener('pointermove',e=>{ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const r=c.getBoundingClientRect(); c.style.setProperty('--px',((e.clientX-r.left)/r.width-.5).toFixed(3)); c.style.setProperty('--py',((e.clientY-r.top)/r.height-.5).toFixed(3)) }) }); c.addEventListener('pointerleave',()=>{ c.style.setProperty('--px','0'); c.style.setProperty('--py','0') }) })();
 /* menu & pages */
-function openMenu(){ $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); const ml=$('#mLive'); ml.disabled=!S.live; ml.title=S.live?'':'No match live right now' } function closeMenu(){ $('#menuWrap').hidden=true }
+function openMenu(){ $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); } function closeMenu(){ $('#menuWrap').hidden=true }
 $$('[data-open-menu]').forEach(b=>b.addEventListener('click',openMenu));
 $$('[data-close-menu]').forEach(b=>b.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{ const p=e.target.closest('[data-page]'); if(p){show(p.dataset.page,true)} const g=e.target.closest('[data-go]'); if(g){goStep(g.dataset.go)} const t=e.target.closest('[data-toast]'); if(t){closeMenu();toast(t.dataset.toast)} if(e.target.closest('[data-back]'))back() });

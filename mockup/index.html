@@ -216,7 +216,7 @@ button:active:not(:disabled){transform:scale(.98)}
 .streakchip b{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
 .streakchip .sc-l{font-size:12px;font-weight:700;color:var(--ink-2)}
 .hud{position:absolute;left:50%;top:56px;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;width:calc(100% - 28px)}
-.scorepill{min-height:44px;padding:6px 16px 7px;border-radius:9999px;color:var(--ink);display:flex;flex-direction:column;align-items:stretch;gap:5px}
+.scorepill{box-sizing:border-box;min-height:44px;padding:5px 16px;border-radius:9999px;color:var(--ink);display:flex;flex-direction:column;align-items:stretch;gap:5px}
 .sp-row{display:flex;align-items:center;gap:10px;font-size:14px;font-variant-numeric:tabular-nums}
 .sp-row b{font-size:16px;font-weight:700}
 .sp-t{font-size:14px;font-weight:700}.sp-t.b{color:var(--blue-ink)}.sp-t.r{color:var(--red-ink)}
@@ -360,8 +360,8 @@ button:active:not(:disabled){transform:scale(.98)}
 .burst{position:absolute;inset:0;pointer-events:none;z-index:12;overflow:hidden}
 .burst i{position:absolute;border-radius:2px;opacity:0;animation:shoot .85s cubic-bezier(.15,.85,.3,1) forwards}
 @keyframes shoot{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}70%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--r)) scale(1)}}
-.burst .fchip{position:absolute;transform:translate(-50%,-50%);padding:4px 10px;border-radius:9999px;background:rgba(10,12,20,.72);color:#fff;font-size:14px;font-weight:700;white-space:nowrap;opacity:0;animation:rise .9s ease-out forwards}
-@keyframes rise{0%{opacity:0;transform:translate(-50%,-20%)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-320%)}}
+.burst .fchip{position:absolute;transform:translate(-50%,-50%);padding:4px 10px;border-radius:9999px;background:rgba(10,12,20,.72);color:#fff;font-size:14px;font-weight:700;white-space:nowrap;opacity:0;animation:chiprise .9s ease-out forwards}
+@keyframes chiprise{0%{opacity:0;transform:translate(-50%,-20%)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-320%)}}
 .flashring{position:absolute;inset:0;border-radius:16px;opacity:0;animation:ringflash .75s ease-out forwards}
 .flashring.tier-gold{box-shadow:inset 0 0 0 2px rgba(245,196,106,.9),inset 0 0 48px rgba(245,196,106,.45)}.flashring.tier-silver{box-shadow:inset 0 0 0 2px rgba(201,205,250,.7),inset 0 0 36px rgba(201,205,250,.3)}.flashring.tier-holo{box-shadow:inset 0 0 0 2px rgba(156,163,241,.95),inset 0 0 60px rgba(255,143,168,.4)}
 @keyframes ringflash{30%{opacity:1}100%{opacity:0}}
@@ -386,9 +386,11 @@ button:active:not(:disabled){transform:scale(.98)}
 .sp-get{justify-self:start;height:40px;padding:0 16px;border-radius:9999px;border:0;background:var(--brand);color:#fff;font-weight:700;font-size:14px}.sp-get:hover{background:var(--send-h)}
 .sp-drop.got{border-color:var(--line);background:var(--panel)}.sp-drop.sppop{animation:spPop .5s cubic-bezier(.2,1.4,.4,1)}
 @keyframes spPop{0%{transform:scale(.97)}60%{transform:scale(1.015)}}
-.sp-tag{position:absolute;left:50%;top:76px;z-index:14;transform:translateX(-50%);padding:6px 12px;border-radius:9999px;background:rgba(6,10,18,.78);box-shadow:0 0 0 1px rgba(124,245,255,.4);pointer-events:none;animation:spfade 2s ease forwards}
+.sp-tag{position:absolute;left:50%;top:40%;z-index:12;transform:translateX(-50%);padding:6px 12px;border-radius:9999px;background:rgba(6,10,18,.78);box-shadow:0 0 0 1px rgba(124,245,255,.4);pointer-events:none;animation:spfade .9s ease forwards}
 .sp-tag .sp-lock{color:#fff}.sp-tag .sp-by{color:#B9C3D6}
 @keyframes spfade{0%{opacity:0;transform:translate(-50%,-4px)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+.heads-sp{display:none;align-self:center;padding:5px 12px;border-radius:9999px;background:rgba(6,10,18,.72);box-shadow:0 0 0 1px rgba(124,245,255,.35);animation:fadeup .3s ease-out}
+.sp-on #heads:not([hidden])+.heads-sp{display:flex}.heads-sp .sp-lock{color:#fff}.heads-sp .sp-by{color:#B9C3D6}
 .cv-sp{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--ink-2);text-align:center;max-width:280px}.cv-sp[hidden]{display:none}
 .sp-week{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:44px;padding:8px 12px;border-radius:12px;border:1px solid rgba(124,245,255,.3);background:linear-gradient(120deg,rgba(47,123,255,.12),transparent 60%);color:var(--ink);text-decoration:none;font-size:13px;font-weight:700}.sp-week[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.sp-tag{animation:none}.sp-drop.sppop{animation:none}}
@@ -752,6 +754,7 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
           </div>
           <div class="coach" id="goldCoach" hidden role="note"><span class="ca" aria-hidden="true"></span><span class="ct"><b>Gold gap</b><span>The bar fills toward the team that's ahead. Tap a team for the exact number.</span></span><button type="button" id="coachOk">Got it</button></div>
           <div class="heads glass" id="heads" hidden><span class="t">Baron fight incoming</span><span class="cd" id="headsCd">0:40</span></div>
+          <div class="heads-sp" role="note"><span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>NOVA Gear</b></span></div>
           <div class="scoredetail glass" id="scoreDetail" hidden>
             <div class="sd-row"><span class="sd-team"><i></i><b id="sdName">T1</b><span class="k" id="sdRole">Your team</span></span><span id="goldTxt" class="k">Gold +0.9k</span></div>
             <div class="sd-row" data-sd="T1"><button type="button" class="sd-link" data-page="team">T1 team page</button><span class="spill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 2-5 5-5 8 0 4 3 7 7 7z"/></svg><span id="streakPill">4</span> quiz streak</span></div>
@@ -1103,12 +1106,12 @@ function celebrate(m,amt,done,again){
 const SP={name:'NOVA Gear',drop:5};
 const spLock=()=>'<span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>'+SP.name+'</b></span>';
 const spOk=m=>S.sp&&m&&(m.tier==='gold'||m.tier==='holo');   /* partner (T1) live moments only; launch scope gold/holo */
-function spTag(){ const t=document.createElement('div'); t.className='sp-tag'; t.setAttribute('role','note'); t.innerHTML=spLock(); const c=$('#card'), h=$('#heads'); if(h&&!h.hidden&&h.offsetParent){ const cr=c.getBoundingClientRect(), hr=h.getBoundingClientRect(); t.style.top=(hr.bottom-cr.top+8)+'px' } c.appendChild(t); setTimeout(()=>t.remove(),2000) }
+function spTag(){ const t=document.createElement('div'); t.className='sp-tag'; t.setAttribute('role','note'); t.innerHTML=spLock(); $('#card').appendChild(t); setTimeout(()=>t.remove(),900) }
 function renderSpDrop(){ const d=$('#spDrop'); if(!S.sp){d.hidden=true;return} d.hidden=false; d.classList.toggle('got',!!S.spGot);
   d.innerHTML='<div>'+spLock()+'</div><p><b>'+(S.spGot?'You got '+SP.drop+' Spark from '+SP.name:SP.name+' is sending '+SP.drop+' Spark to everyone watching this moment')+'</b><span>Use it to Boost this moment. Points and cards follow the usual rules, and none of it goes to the team.</span></p>'+(S.spGot?'':'<button type="button" class="sp-get" id="spGet">Get '+SP.drop+' Spark</button>') }
 function renderSpWeek(){ const w=$('#spWeek'); w.hidden=!S.sp; w.innerHTML=S.sp?spLock()+'<span>Clutch Moment of the Week · vote ↗</span>':'' }
 document.addEventListener('click',e=>{ if(!e.target.closest('#spGet')) return; if(S.spGot) return; S.spGot=true; S.sBal+=SP.drop; $('#sBal').textContent=S.sBal; S.cur='s'; renderAmt(); renderSpDrop(); const d=$('#spDrop'); d.classList.remove('sppop'); void d.offsetWidth; d.classList.add('sppop'); toast('+'+SP.drop+' Spark from '+SP.name+' · Sponsored') });
-$$('[data-sp]').forEach(b=>b.addEventListener('click',()=>{ S.sp=b.dataset.sp==='1'; $$('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderSpDrop(); renderSpWeek(); toast(S.sp?'Sponsor preview on':'Sponsor preview off') }));
+$$('[data-sp]').forEach(b=>b.addEventListener('click',()=>{ S.sp=b.dataset.sp==='1'; $('#card').classList.toggle('sp-on',S.sp); $$('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderSpDrop(); renderSpWeek(); toast(S.sp?'Sponsor preview on':'Sponsor preview off') }));
 function openCard(id,isNew,mode){ const m=S.moms.find(x=>x.id===id); if(!m) return; setMo(false);
   const cs=$('#cvSp'), so=!!m.sp; cs.hidden=!so; cs.innerHTML=so?spLock()+'<span>This moment was presented by our sponsor. Your card stays ad-free.</span>':'';
   $('#cvCard').innerHTML=cardHTML(m,'full'); $('#cvNew').hidden=!isNew; $('#rewardWrap').classList.toggle('up',mode==='up'); const pb=$('#cvPlayer'); pb.hidden=!m.player; pb.dataset.player=m.player||'';
@@ -1172,7 +1175,7 @@ $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 
 /* moment + boost */
 let hInt=null;
-function headsUp(){ $('#card').classList.add('gold-moment'); $('#heads').hidden=false; if(S.sp) spTag(); let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost()}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW') }
+function headsUp(){ $('#card').classList.add('gold-moment'); $('#heads').hidden=false; let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost()}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW') }
 function coolBoost(){ $('#card').classList.remove('gold-moment'); $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
 function openSheet(){ renderAmt(); renderSpDrop(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus() }
 var cfT=null;

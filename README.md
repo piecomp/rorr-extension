@@ -29,10 +29,14 @@
 | 10 | [법률 사전 검토 — 퀴즈·상금](docs/10-legal-quiz-review.md) | 사행·경품(한국), 미국 sweepstakes, Riot 정책, 미성년자 — 조건부 진행 | Charles·Mansoo |
 | 11 | [UX·UI 리뷰](docs/11-ux-review.md) | 시청 맥락(왼쪽 중계) 기준 시선 동선·접근성, 웹 화면 이식 목록 | Jun·디자인 |
 | 12 | [앱 버전 아이디어 메모](docs/12-app-version-ideas.md) | 모바일 앱 출시 시 참조 — 세컨드 스크린 모델, PiP·화면 분할 대응 (보관용) | 전원 |
+| 13 | [디자인 리뷰·결정 이력](docs/13-design-review.md) | 목업 버전별 결정·수정 경위(v8~v45) | Jun·디자인 |
+| 14 | [UX 문구 — Boost](docs/14-ux-copy-boost.md) | Boost·배분·환불 문구 원칙 | 디자인·카피 |
+| 15 | [웹·확장 차이와 정합](docs/15-web-ext-gap.md) | 의도된 차이·불일치 처리 결정 | 전원 |
+| ★ | **[개발 핸드오프 패키지](handoff/README.md)** | 화면 명세·규칙·컴포넌트·토큰·CSS·문구·QA·캡처(2026-10-17, 목업 v45) | 개발·QA |
 
 ## 3. 기준 문서 (충돌 시 우선순위)
 
-1. **정책**: `~/Documents/Hermes_Brain_01/RORR/policy/boost-economy-policy.md` (v1.2, 2026-10-15) — 화면·문구·데이터 모델이 충돌하면 **정책 우선**
+1. **정책**: `RORR/policy/boost-economy-policy.md` (v1.3, 2026-10-17 · 사본 `handoff/policy/`) — 화면·문구·데이터 모델이 충돌하면 **정책 우선**
 2. **홈페이지 기획**: `20_RORR/00_노트/2026-10-01-rorr.club-홈페이지-심플화-제안.md` + 웹 현행 `20_RORR/02_디자인브랜드/rorr-hero` (`index.html`, `docs/HANDOFF.md`, 블로그 "Meet Muse") — **익스텐션 기획의 1차 근거**
 3. **디자인 시스템**: RORR Design System (2026-06, Pretendard·Primary #6F4CFF, Companion 토큰군)
 4. **Muse 말투**: `20_RORR/00_노트/마케팅/2026-07-30-Muse-말투가이드-팀모드-응원.md`

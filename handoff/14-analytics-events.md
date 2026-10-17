@@ -27,7 +27,9 @@
 |---|---|---|---|
 | `panel_open` / `panel_close` | 패널 열림·닫힘 | `state(S0~S5)`, `duration_s` | 체류 |
 | `match_resolved` | 매칭 결과 | `status(matched/ambiguous/none)`, `host` | 매칭 품질 |
-| `offset_adjust` | 지연 보정 탭 | `delta_ms`, `host` | 지연 실측(OI-06) |
+| `offset_adjust` | 지연 보정 탭 | `delta_ms`, `host`, `behind_edge_ms` | 지연 실측(OI-06) |
+| `watch_state` | 시청 상태 전환(v46) | `state(none/official/other/replay)`, `host`, `prev` | 공식 채널 유입·다시보기 비율 |
+| `watch_channels_open` / `watch_channel_click` / `watch_go_live` / `watch_dismiss` | 띠 조작 | `host`, `lang` | 채널 안내 효과 |
 | `stream_state` | 연결 상태 변화 | `state`, `retry_count` | 안정성 |
 | `headsup_shown` | 큰 순간 알림 표시 | `tier_hint`, `gap_since_last_s`, `sponsor(bool)` | 빈도 실측 |
 | `headsup_dismiss` | 알림 닫기 | `remaining_s` | 피로도 |
@@ -71,3 +73,5 @@
 | 내 선수 일치율 | `star_reason = fav_in_play` 비율 | 낮으면 미참여 문구·묻는 방식 재검토(EXT-1) |
 | 후원 효과 | 같은 순간 Boost 비율: 노출군 vs 홀드아웃 | 정책 §6-1 측정 가설. 하락 시 `SPONSOR_BOX_KILL_DROP` |
 | 고지 확인 | `boost_info_open(deduct)` ÷ 첫 Energy Boost 사용자 | 참고 지표(고지는 펼침 없이도 차감 줄에 표시) |
+| 공식 채널 전환율(v46) | 탭 없음·다른 방송 띠 노출 후 5분 안 `official` 전환 비율 | 코스트리밍 확장(2단계) 판단 근거 |
+| 지연 보정 빈도 | 시청 세션당 `offset_adjust` 수 | 높으면 채널 기본값 측정 주기·자동 보정 재검토 |

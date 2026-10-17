@@ -145,7 +145,8 @@ flowchart TB
 | 서비스 | 주요 책임 | 소유 테이블(10-data-schema) | 발행 이벤트 |
 |---|---|---|---|
 | Identity | 계정·OAuth·미성년 여부·동의 | `users`, `user_consents` | `user.*` |
-| Live Data Pipeline | Riot Live Stats 1초 수집, 정규화, 지연 테이블 | `matches`, `games`, Timescale `live_frames` | `match.*` |
+| Live Data Pipeline | Riot Live Stats 1초 수집, 정규화 | `matches`, `games`, Timescale `live_frames` | `match.*` |
+| Broadcast(v46, Live Data 안 모듈) | 공식 채널 등록부, 경기×채널 매칭, 채널 기본 지연 측정·사용자 보고 집계(16 §3) | `channels`, `broadcasts`, `broadcast_offset_measurements`, `stream_offset_reports` | `broadcast.offset` |
 | Moment Engine | 순간 후보 감지, 승률 변화, 등급(실버·골드·홀로), 참여 선수·기여도 1위, 예고·발생·종료 | `moments`, `moment_participants` | `moment.upcoming/started/resolved/closed` |
 | Boost Service | 의사 접수, 확정(OI-13 모드), 누적·배지 재계산 위임 | `boosts` | `boost.accepted/settled/rejected` |
 | Wallet Ledger | Energy 묶음(유료·보너스), Spark, 원장 append-only, 묶음 사용 기록 | `energy_lots`, `spark_lots`, `wallet_ledger`, `boost_lot_usage` | `wallet.changed` |

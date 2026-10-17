@@ -1,6 +1,6 @@
 # 08. 흐름도
 
-- 작성일: 2026-10-17 · 기준: 목업 v45, 정책 v1.3 · 표기: Mermaid(GitHub에서 그림으로 표시)
+- 작성일: 2026-10-17 · 기준: 목업 v46, 정책 v1.3 · 표기: Mermaid(GitHub에서 그림으로 표시)
 - 사용자 흐름(F-), 시퀀스(Q-), 상태(S-)로 구분. 화면 번호는 02-screen-spec, API는 09-api-spec, 이벤트는 09 §5
 
 ---
@@ -10,7 +10,9 @@
 | 번호 | 흐름 | 종류 |
 |---|---|---|
 | F-1 | 설치 → 첫 실행 → 로그인 | 사용자 흐름 |
-| F-2 | 중계 매칭 → 지연 보정 | 사용자 흐름 |
+| F-2 | 중계 매칭 → 시청 상태 확인(v46) | 사용자 흐름 |
+| W-1 | 시청 상태 4종(v46) | 상태 |
+| Q-5 | 채널 기본 지연 측정·갱신(v46) | 시퀀스 |
 | S-1 | 패널 화면 상태(S0~S5) | 상태 |
 | Q-1 | 큰 순간 예고 → Boost → 카드 공개 | 시퀀스 |
 | S-2 | 두 번 누르기 | 상태 |
@@ -52,26 +54,81 @@ flowchart TD
 - 둘러보기에서 Boost를 누르면 시트 대신 로그인 안내(잔액 0 표시 금지)
 - 미성년 계정(`users.is_minor`): 행운 박스·충전 진입 미노출, Energy Boost 불가(정책 §7)
 
-## F-2. 중계 매칭 → 지연 보정
+## F-2. 중계 매칭 → 시청 상태 확인 (v46)
 
 ```mermaid
 flowchart TD
-  A[CS: tab:context host·url·title] --> B[SW: POST /v1/ext/match/resolve]
-  B --> C{결과}
-  C -- matched --> D[match.resolved match_id·offset_ms 기본값]
-  C -- ambiguous --> E[후보 2~3개 선택 칩 · 사용자 선택]
-  E --> D
-  C -- none --> F[S1 평시 유지 · '이 중계는 아직 연결되지 않아요']
-  D --> G[SSE /v1/ext/stream?match_id 연결]
-  G --> H[S2 경기 중 화면]
-  H --> I{사용자가 '화면이 늦어요/빨라요' 탭?}
-  I -- 예 --> J[calibrate.offset ±2초 단위 · 로컬 저장 match별]
-  J --> H
+  A[경기 진행 중 · 패널 열림] --> B{지원 사이트 탭?<br/>CS: host·url·title·재생 위치}
+  B -- 없음 --> N[W-1 '탭 없음': 공식 채널 안내 띠 + 채널 목록]
+  B -- 있음 --> C[SW: POST /v1/ext/match/resolve]
+  C --> D{channel_status}
+  D -- official --> E[match.resolved · offset = 채널 기본값 + 라이브 끝 뒤처짐]
+  D -- unregistered --> O[W-1 '다른 방송': 안내 띠 + 공식 채널 버튼<br/>경기 연결은 유지, 기본 지연 사용]
+  D -- none 경기 없음 --> F[S1 평시 유지]
+  E --> G{라이브 끝에서 뒤처짐 ≥ WATCH_REPLAY_BEHIND_S?}
+  G -- 예 --> R[W-1 '다시보기': 안내 띠 · 결과형 알림 끔 · Boost 허용]
+  G -- 아니오 --> H[S3 경기 중 · 띠 없음]
+  N -- 채널 선택 --> T[새 탭으로 공식 채널 열기] --> C
+  O -- 공식 채널 --> N
+  R -- 라이브로 --> L[라이브 끝으로 이동 안내] --> H
+  H --> I{'화면이 늦어요/빨라요'}
+  I -- 탭 --> J[개인 보정 ±2초 · 로컬 저장 · 익명 보고] --> H
 ```
 
-- 지연 기본값: 서버가 호스트별 평균 지연(`stream_offsets`)으로 제공. 사용자 보정은 로컬에만 저장, 서버 집계용으로 익명 전송(선택)
-- 표시 시점(docs/04 §4): **예고형**(`moment.upcoming`, `quiz.opened`)은 받는 즉시, **결과형**(`moment.resolved`, `match.state` 스코어·골드, `quiz.resolved`, 킬·오브젝트 대사)은 `server_ts + offset_ms` 도달 후 — 먼저 받아 버퍼링, 스포일러 방지
+- 판정 입력은 Content Script가 읽는 **호스트·URL·제목·재생 상태·라이브 끝까지 거리**뿐(`video.seekable.end − currentTime`). 영상 화면은 읽지 않음, 권한 추가 없음
+- 초기 등록 범위: **공식 채널만**(`channels.kind=official`). 코스트리밍은 2단계에서 같은 구조로 등록 — 그전까지 코스트리밍은 '다른 방송'으로 판정
+- 다시보기·다른 방송에서도 **Boost는 막지 않음**(안내만, 2026-10-17 결정)
+- 표시 시점(docs/04 §4): **예고형**(`moment.upcoming`, `quiz.opened`)은 받는 즉시, **결과형**(`moment.resolved`, `match.state` 스코어·골드, `quiz.resolved`, 킬·오브젝트 대사)은 개인 지연 도달 후. 다시보기 상태에서는 결과형 알림 표시 안 함
 - 중계 URL은 매칭 후 서버에서 폐기(docs/04 §6)
+
+## W-1. 시청 상태 (v46)
+
+```mermaid
+stateDiagram-v2
+  [*] --> 탭없음: 경기 중 + 지원 사이트 탭 없음
+  [*] --> 공식채널: 등록 채널 + 라이브 근접
+  [*] --> 다른방송: 지원 사이트 + 미등록 채널
+  탭없음 --> 공식채널: 채널 목록에서 열기 · 사용자가 직접 이동
+  다른방송 --> 공식채널: 공식 채널로 이동
+  공식채널 --> 다시보기: 뒤처짐 ≥ 60초 또는 일시정지 60초
+  다시보기 --> 공식채널: 라이브로 · 뒤처짐 < 60초
+  공식채널 --> 다른방송: 탭 URL이 미등록 채널로 바뀜
+  공식채널 --> 탭없음: 중계 탭 닫힘
+```
+
+| 상태 | 띠 문구(제목 / 보조 / 버튼) | 결과형 알림 | Boost |
+|---|---|---|---|
+| 공식 채널 | (띠 없음) | 개인 지연 후 표시 | 가능 |
+| 탭 없음 | '지금 T1 vs GEN 경기 중이에요' / '공식 채널에서 보면 서하가 화면에 맞춰요' / '채널 보기' | 채널 기본 지연 후 표시 | 가능 |
+| 다른 방송 | '이 방송은 경기와 맞춰지지 않아요' / '알림이 화면과 어긋날 수 있어요' / '공식 채널' | 채널 기본 지연 후 표시 | 가능 |
+| 다시보기 | '라이브보다 N분 늦게 보고 있어요' / '스포일러가 없도록 결과 알림은 꺼 둘게요' / '라이브로' | **표시 안 함** | 가능(안내만) |
+
+- 상태 전환은 3초 이상 유지될 때만 반영(탭 이동·버퍼링으로 띠가 깜박이지 않게)
+- 사용자가 띠를 닫으면 그 경기 동안 같은 상태로는 다시 띄우지 않음(상태가 바뀌면 다시 표시)
+
+## Q-5. 채널 기본 지연 측정·갱신 (v46)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant OP as 운영자(초기) / 자동 측정(이후)
+  participant BC as Broadcast Service
+  participant RT as Realtime GW
+  participant SW as 확장 SW
+  participant U as 사용자
+  OP->>BC: 경기 시작 직후 채널별 측정<br/>화면 게임 시계 vs 데이터 시계
+  BC->>BC: broadcasts.default_offset_ms 갱신 (source=ops)
+  BC--)RT: broadcast.offset {broadcast_id, offset_ms}
+  RT-->>SW: 채널 기본값 갱신
+  SW->>SW: 개인 지연 = 기본값 + 라이브 끝 뒤처짐 + 개인 보정
+  U->>SW: '화면이 늦어요' (+2초)
+  SW->>BC: POST /v1/ext/offset-reports {delta_ms, behind_edge_ms} (익명)
+  BC->>BC: 1분마다 채널별 보고 중앙값(이상값 제외, 최소 표본 30)
+  alt 중앙값이 기본값과 OFFSET_DRIFT_ALERT_MS 이상 차이
+    BC->>BC: 기본값 갱신 (source=crowd) + 운영 경보
+    BC--)RT: broadcast.offset
+  end
+```
 
 ## S-1. 패널 화면 상태 (이름은 docs/03-ux-flow §2와 동일)
 

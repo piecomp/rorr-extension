@@ -19,7 +19,7 @@ rorr-extension-app/
 │  │  ├─ stream.ts              # SSE 연결·재연결·Last-Event-ID
 │  │  ├─ badge.ts               # 아이콘 배지(패널 닫힘)
 │  │  └─ alarms.ts              # 경기 시작 알림
-│  ├─ cs/watch.ts               # Content Script(읽기 전용)
+│  ├─ cs/watch.ts               # Content Script(읽기 전용): host·URL·제목·재생 상태·라이브 끝까지 거리(2초 주기)
 │  ├─ panel/
 │  │  ├─ main.tsx
 │  │  ├─ app/                   # 화면 상태 S0~S5 라우팅(08 S-1)
@@ -37,7 +37,7 @@ rorr-extension-app/
 │  │  ├─ ui/                    # Button, Sheet, Toast, Segment, Badge, InfoToggle …(04-components)
 │  │  ├─ store/                 # Zustand 슬라이스(§3)
 │  │  ├─ api/                   # openapi.yaml 생성 클라이언트 + 멱등 키
-│  │  ├─ i18n/                  # ko.json·en.json·조사 함수(05 §9)
+│  │  ├─ i18n/                  # ko.json·en.json·조사 함수(05 §10)
 │  │  └─ telemetry/             # 이벤트 큐(14)
 │  └─ shared/                   # SW·패널 공용 타입(메시지·이벤트)
 ├─ public/models/               # VRM·애니메이션(동봉, 원격 로드 금지)
@@ -86,6 +86,7 @@ flowchart TB
 | `prefs` | `favPlayers, alertLevel, lang` | `/me/preferences` | 메뉴 변경 즉시 PATCH |
 | `ui` | `coachmarksSeen, toast, reducedMotion` | `chrome.storage.local` | — |
 | `conn` | `streamState, since` | SW `stream.status` | — |
+| `watch`(v46) | `state(none/official/other/replay), broadcastId, channelOffsetMs, behindEdgeMs, nudgeMs, dismissed` | CS `tab:context`, `/ext/match/resolve`, `broadcast.offset` | 상태 3초 유지 후 반영, `nudgeMs`는 `chrome.storage.local`(경기·채널별) |
 
 - `idemKey`: 2차 탭 순간 생성, 실패 후 재시도 버튼은 **같은 키** 사용, 금액·재화가 바뀌면 새 키
 - 표시 시각 버퍼: 결과형 이벤트(`moment.resolved`·`match.state`·`quiz.resolved`)는 `server_ts + offsetMs` 도달 시 반영(스포일러 방지), 예고형은 즉시. 버퍼 상한 120초
@@ -123,6 +124,23 @@ async function send() {
 available = (c) => c === 'energy' ? state.paid : state.spark;
 ```
 
+## 4-1. 시청 상태·개인 지연 (v46)
+
+```ts
+// CS → SW 2초마다 (지원 사이트 4곳에서만)
+{ host, url, title, playing, behindEdgeMs: video ? (video.seekable.end(video.seekable.length-1) - video.currentTime) * 1000 : null }
+
+// 패널
+const personalOffset = watch.channelOffsetMs + (watch.behindEdgeMs ?? 0) + watch.nudgeMs;
+const state = !tab ? 'none'
+  : resolve.channel_status !== 'official' ? 'other'
+  : (watch.behindEdgeMs ?? 0) >= config.WATCH_REPLAY_BEHIND_S * 1000 ? 'replay' : 'official';
+// state === 'replay' → 결과형 이벤트 표시 안 함(버퍼에서 폐기), 예고형·Boost는 그대로
+```
+
+- `seekable`이 비어 있거나 라이브가 아니면 `behindEdgeMs = null` → 채널 기본값만 사용
+- 탭 이동·버퍼링 깜박임 방지: 같은 상태가 `WATCH_STATE_HOLD_MS` 유지될 때만 띠 전환
+
 ## 5. 메시징·수명 주기
 
 - 패널 열림: `chrome.runtime.connect({name:'panel'})` → SW가 스트림 연결 유지. 닫힘(`port.onDisconnect`) → SW가 스트림 종료, 경량 폴링 + 아이콘 배지
@@ -144,7 +162,7 @@ available = (c) => c === 'energy' ? state.paid : state.spark;
 ## 7. i18n
 
 - 문구 원본 `i18n-ko.json`(영문 → 국문 536개 + 패턴 59개) → 키 체계로 변환: `area.element.state` (예: `boost.confirm.hint`, `card.star.fav_not_in_play`)
-- 숫자·이름 뒤 조사: `josa(word, '이/가')` 함수(05 §9). 정규식 치환 방식 금지
+- 숫자·이름 뒤 조사: `josa(word, '이/가')` 함수(05 §10). 정규식 치환 방식 금지
 - 서버 문구 키(`message_key`, `title_key`)도 같은 사전에서 찾음. 없으면 영어 → 키 이름 순으로 대체하고 측정 이벤트 `i18n_missing`
 
 ## 8. 테스트

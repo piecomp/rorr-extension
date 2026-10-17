@@ -24,6 +24,11 @@
 
 | 요소 | 트리거 | 반응 | 시간/곡선 | 키보드·보조기술 | 측정 |
 |---|---|---|---|---|---|
+| 시청 상태 띠(v46) | 상태가 3초 유지 | HUD 안에 띠 등장 `viewin` | .22s | `role="status"` — 제목 1회 읽음 | `watch_state{state}` |
+| 띠 버튼 '채널 보기'·'공식 채널' | 클릭 | 채널 목록 펼침·닫힘, 첫 항목 포커스 | 즉시 | `aria-expanded`, `Esc` 닫기 | `watch_channels_open` |
+| 채널 항목 | 클릭 | 새 탭으로 채널 열기 → 매칭 후 띠 사라짐 + 서하 한 줄 | — | 이름 '치지직 · LCK 열기' | `watch_channel_click{host}` |
+| 띠 버튼 '라이브로' | 클릭 | 중계 탭에 라이브 이동 안내, 상태 해제 | — | — | `watch_go_live` |
+| 중계 맞춤 버튼 | 클릭 | 개인 지연 ±2초, 표시 값 갱신, 토스트 | .2s | 결과 `role="status"` | `offset_adjust{delta_ms}` |
 | 스코어 칩(HUD) | `match.state` 변화 | 숫자 교체, 변한 쪽 숫자 0.3초 강조색 | .3s | `aria-live` 없음(소음 방지) | — |
 | 연속 정답 칩 | 퀴즈 정답 | `chiprise` 위로 떠오르며 사라지는 +1 | .9s ease-out | — | — |
 | 큰 순간 알림 | `moment.upcoming` | 위에서 내려옴 + 골드 테두리, 카운트다운 40초, 독의 Boost 버튼 `hot` | 진입 .3s, `glow` 1.4초 반복 | `role="alert"` 1회 '큰 순간: {제목}, {n}초' | `headsup_shown` |

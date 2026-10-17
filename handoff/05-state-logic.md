@@ -1,6 +1,6 @@
 # 05. 규칙·상태 모델
 
-- 작성일: 2026-10-17 · 근거: 정책 v1.3(§ 번호), 목업 v45 상수
+- 작성일: 2026-10-17 · 근거: 정책 v1.3(§ 번호), 목업 v46 상수
 - 서버가 판단할 것과 클라이언트가 표시만 할 것을 구분. **차감·적립·발급·판정은 모두 서버**, 클라이언트는 결과를 받아 표시
 
 ---
@@ -21,6 +21,11 @@
 | `SPONSOR_BOX_ODDS` | 꽝 75 / Spark 5 20 / Spark 10 5 | §6-1 B·§8 | [논의 중] 임시값, 확률 상시 표시 |
 | `SPONSOR_BOX_POOL` | 미정 | §8 | 소진 시 박스 미노출(후원 라벨만) |
 | `HEADSUP_FREQ` | 웹: 3분 간격·방문당 3회 / 확장: 더 높게 허용 | 15 §2-6 | 값은 실측 후 |
+| `WATCH_REPLAY_BEHIND_S` | 60초 | v46 | 라이브 끝에서 이만큼 뒤처지면 다시보기로 판정(실측 후 확정) |
+| `WATCH_STATE_HOLD_MS` | 3000 | v46 | 상태가 이 시간 유지돼야 띠 전환 |
+| `OFFSET_STEP_MS` | 2000 | v46 | 1탭 보정 단위 |
+| `OFFSET_DRIFT_ALERT_MS` | 3000 | v46 | 사용자 보고 중앙값과 기본값 차이 경보 기준 |
+| `BOOST_GRACE_MS` | 상한(30000 제안, 통합본 현재 0) — 실제 여유 = min(채널 기본 지연, 값) | v46·BE-4·16 C-8 | 마감 여유. 사용자 보정값은 쓰지 않음 |
 
 ## 2. Boost 처리 순서
 
@@ -102,7 +107,24 @@ headsup --Boost 2차 탭--> sp-busy(후원 줄 숨김) --card closed--> headsup|
 | 코치마크 확인 여부 | 로컬(chrome.storage) | — |
 | 언어 | 로컬 + 계정 기본값 | — |
 
-## 9. 한국어 조사 처리
+## 9. 시청 상태·방송 지연 (v46)
+
+```
+data_time      = 서버 이벤트 시각(server_ts)
+channel_offset = broadcasts.default_offset_ms        // 데이터 시각 → 라이브 끝 화면 시각
+behind_edge    = video.seekable.end − video.currentTime  // 확장이 재생 위치로 자동 측정
+user_nudge     = Σ 1탭 보정(±2초)                     // 로컬 저장, 익명 보고
+personal_offset = channel_offset + behind_edge + user_nudge
+```
+
+- 결과형 이벤트 표시 시각 = `data_time + personal_offset`. 예고형은 즉시
+- 상태 판정: 탭 없음 / 공식 채널 / 다른 방송(미등록 채널) / 다시보기(`behind_edge ≥ WATCH_REPLAY_BEHIND_S` 또는 일시정지 60초)
+- '탭 없음'·'다른 방송'은 개인 측정이 불가 → `channel_offset`만 사용(공식 채널 중 사용자 언어 우선 채널의 값)
+- 마감 계산(서버): Boost는 `closes_at + min(channel_offset, 상한)`. **퀴즈는 결과가 실제로 일어난 데이터 시각 이후 답을 무효**(지연과 무관, 상금 공정성) — 문항은 결과까지 여유 있는 것으로 출제
+- 사용자 보정값은 마감 계산에 쓰지 않음(임의로 마감을 늦추는 것 방지)
+- 범위: 초기 공식 채널만, 코스트리밍은 2단계(같은 구조, 채널별 기본값만 별도 측정)
+
+## 10. 한국어 조사 처리
 
 - 선수·팀 이름 뒤 조사는 마지막 글자 받침으로 판별
   - 라틴 문자: 끝이 n·m·l·ng 계열이면 받침으로 취급(목업은 `n`만 처리 — Doran이, Faker가). 구현 시 사전형 예외 목록 권장

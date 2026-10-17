@@ -715,6 +715,22 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
 .ms-ic{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:rgba(245,196,106,.14);color:#F5C46A}.ms-t{display:flex;flex-direction:column;min-width:0}.ms-t b{font-size:14px;color:var(--ink)}.ms-t small{font-size:12px;color:var(--mute)}
 .ms-go{height:32px;font-size:12.5px;white-space:nowrap}.ms-done{font-size:12.5px;font-weight:700;color:var(--energy-ink)}
 .ms-pv{grid-column:2/-1;justify-self:end;font-size:12px;color:var(--link);text-decoration:none;font-weight:700}
+
+/* v42 sponsor critique fixes */
+.heads-sp{flex-wrap:nowrap!important;gap:8px!important;padding:4px 4px 4px 10px!important;border-radius:14px!important;margin-top:-2px}
+.heads-sp .sp-by{display:none}
+.hsp-box{flex-wrap:nowrap}
+.hsp-msg{display:none}
+.hsp-open{height:36px!important;padding:0 12px 0 6px!important;border:1px solid rgba(124,245,255,.6)!important;background:rgba(47,123,255,.16)!important;color:#fff!important}
+.spx-x{width:40px!important;height:40px!important}
+.sp-by{font-size:12px}
+#spDrop.slim{padding:8px 12px}
+#spDrop.slim summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;min-height:28px}
+#spDrop.slim summary::-webkit-details-marker{display:none}
+#spDrop.slim .sp-by{display:none}
+.sps-t{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--ink)}
+.sps-i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);font:700 11px "Pretendard Variable",sans-serif;font-style:normal;color:var(--mute)}
+#spDrop.slim details p{margin:6px 0 0;font-size:12px;color:var(--ink-2);line-height:1.5}
 </style>
 <style>body{margin:0}img{max-width:100%}</style>
 </head>
@@ -1179,7 +1195,7 @@ const spLock=()=>'<span class="sp-lock"><span class="sp-ad">Sponsored</span><spa
 const spOk=m=>S.sp&&m&&(m.tier==='gold'||m.tier==='holo');   /* partner (T1) live moments only; launch scope gold/holo */
 function spTag(){ const t=document.createElement('div'); t.className='sp-tag'; t.setAttribute('role','note'); t.innerHTML=spLock(); $('#card').appendChild(t); setTimeout(()=>t.remove(),900) }
 function renderSpDrop(){ const d=$('#spDrop'); if(!S.sp){d.hidden=true;return} d.hidden=false; d.classList.add('got');
-  d.innerHTML='<div>'+spLock()+'</div><p><b>NOVA Gear lucky box opens with the turning-point heads-up</b><span>Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box</span></p>' }
+  d.classList.add('slim'); d.innerHTML='<details><summary>'+spLock()+'<span class="sps-t">Lucky box at big moments</span><em class="sps-i" aria-hidden="true">i</em></summary><p>Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box</p></details>' }
 /* sponsor lucky box (v36 · web 52fce74): heads-up shows the branded message, the box plays center-stage in the panel */
 const BOXODDS=[[0,75],[5,20],[10,5]];
 function boxRoll(){ let f=null; try{f=new URLSearchParams(location.search).get('box')}catch(e){} if(f!==null&&/^(0|5|10)$/.test(f)) return +f; let r=Math.random()*100; for(const [n,w] of BOXODDS){ if((r-=w)<0) return n } return 0 }
@@ -1495,7 +1511,7 @@ initChat(); resetLive(); renderScore(); syncStream(false); applyBg();
 /* KO/EN toggle. English is the source text; Korean comes from KO (exact match) or RX (patterns).
    A MutationObserver translates text that scripts insert later, so the demo logic stays untouched. */
 (function(){
-const KO={"NOVA Gear lucky box opens with the turning-point heads-up":"큰 순간 알림이 뜨면 NOVA Gear 행운 박스를 열 수 있어요","Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box":"확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요","NOVA Gear has a lucky box for this moment":"NOVA Gear가 이 순간 행운 박스를 준비했어요","Play the lucky box":"행운 박스 열기","Spark won":"Spark 당첨","No prize":"꽝","Pick a box":"박스 하나를 골라 보세요","Opening…":"여는 중…","You won!":"당첨!","No prize this time":"이번엔 꽝이에요","Your Spark is in the wallet and works like any other Spark.":"당첨 Spark는 지갑에 들어가고 일반 Spark처럼 쓸 수 있어요.","This moment is still live. Want to Boost it with Energy? RORR shares part of Boost revenue with T1.":"이 순간은 아직 진행 중이에요. Energy로 직접 Boost해 볼까요? RORR는 Boost 수익의 일부를 T1과 나눠요.","Boost this moment with Spark":"Spark로 이 순간 Boost","Boost this moment with Energy":"Energy로 이 순간 Boost","Save it for later":"나중에 쓸게요","No thanks":"괜찮아요","NOVA Gear lucky box · Spark won":"NOVA Gear 행운 박스 · Spark 당첨","NOVA Gear lucky box · no prize":"NOVA Gear 행운 박스 · 꽝","Moments to celebrate":"기념할 순간","LCK 300th game":"LCK 통산 300경기","Today · live":"오늘 · 진행 중","1,500 career kills":"통산 1,500킬","2026-10-14 · reached":"2026-10-14 · 달성","Commemorative Boost":"기념 Boost","Celebrated ✓":"축하 완료 ✓","Preview ↗":"미리 보기 ↗","Boost in the celebration window (3 days either side) and you get a commemorative edition, separate from moment cards.":"기념 기간(당일 ±3일)에 Boost하면 모먼트 카드와 별도인 기념 에디션을 받아요.","Commemorative edition":"기념 에디션","Celebrate Faker's 300th LCK game":"Faker LCK 통산 300경기 축하 Boost","Celebrate Faker's 1,500th career kill":"Faker 통산 1,500킬 축하 Boost","Commemorative edition card included":"기념 에디션 카드가 함께 발급돼요","Commemorative edition added · see it in My cards on rorr.club":"기념 에디션을 받았어요 · rorr.club 내 카드에서 볼 수 있어요","Box 1":"1번 박스","Box 2":"2번 박스","Box 3":"3번 박스","NOVA Gear lucky box":"NOVA Gear 행운 박스",
+const KO={"Lucky box at big moments":"큰 순간에 행운 박스","NOVA Gear lucky box opens with the turning-point heads-up":"큰 순간 알림이 뜨면 NOVA Gear 행운 박스를 열 수 있어요","Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box":"확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요","NOVA Gear has a lucky box for this moment":"NOVA Gear가 이 순간 행운 박스를 준비했어요","Play the lucky box":"행운 박스 열기","Spark won":"Spark 당첨","No prize":"꽝","Pick a box":"박스 하나를 골라 보세요","Opening…":"여는 중…","You won!":"당첨!","No prize this time":"이번엔 꽝이에요","Your Spark is in the wallet and works like any other Spark.":"당첨 Spark는 지갑에 들어가고 일반 Spark처럼 쓸 수 있어요.","This moment is still live. Want to Boost it with Energy? RORR shares part of Boost revenue with T1.":"이 순간은 아직 진행 중이에요. Energy로 직접 Boost해 볼까요? RORR는 Boost 수익의 일부를 T1과 나눠요.","Boost this moment with Spark":"Spark로 이 순간 Boost","Boost this moment with Energy":"Energy로 이 순간 Boost","Save it for later":"나중에 쓸게요","No thanks":"괜찮아요","NOVA Gear lucky box · Spark won":"NOVA Gear 행운 박스 · Spark 당첨","NOVA Gear lucky box · no prize":"NOVA Gear 행운 박스 · 꽝","Moments to celebrate":"기념할 순간","LCK 300th game":"LCK 통산 300경기","Today · live":"오늘 · 진행 중","1,500 career kills":"통산 1,500킬","2026-10-14 · reached":"2026-10-14 · 달성","Commemorative Boost":"기념 Boost","Celebrated ✓":"축하 완료 ✓","Preview ↗":"미리 보기 ↗","Boost in the celebration window (3 days either side) and you get a commemorative edition, separate from moment cards.":"기념 기간(당일 ±3일)에 Boost하면 모먼트 카드와 별도인 기념 에디션을 받아요.","Commemorative edition":"기념 에디션","Celebrate Faker's 300th LCK game":"Faker LCK 통산 300경기 축하 Boost","Celebrate Faker's 1,500th career kill":"Faker 통산 1,500킬 축하 Boost","Commemorative edition card included":"기념 에디션 카드가 함께 발급돼요","Commemorative edition added · see it in My cards on rorr.club":"기념 에디션을 받았어요 · rorr.club 내 카드에서 볼 수 있어요","Box 1":"1번 박스","Box 2":"2번 박스","Box 3":"3번 박스","NOVA Gear lucky box":"NOVA Gear 행운 박스",
 // browser + demo chrome
 "LCK 2026: T1 vs GEN":"LCK 2026: T1 vs GEN","LIVE: T1 vs GEN, Game 2":"LIVE: T1 vs GEN 2세트",
 "Stream offline · Next: T1 vs GEN, Sat 17:00":"방송 대기 중 · 다음 경기: T1 vs GEN, 토 17:00",

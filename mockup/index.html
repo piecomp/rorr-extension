@@ -664,6 +664,57 @@ tr.me td{background:rgba(19,141,255,.16)}
 .msg,.kpi2,.acts .one{box-shadow:var(--sh-surface)}
 h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
 @media (prefers-reduced-transparency:reduce){.send,.send-s{box-shadow:none}}
+
+/* v36 sponsor lucky box + commemorative */
+.heads-sp{flex-wrap:wrap;justify-content:center;gap:6px 10px}
+.hsp-box{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.hsp-msg{font-size:12px;color:#DCE6F5;font-weight:600}
+.hsp-open{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px 0 5px;border-radius:9999px;border:1px solid rgba(255,181,71,.6);background:rgba(255,181,71,.16);color:#fff;font:700 12px "Pretendard Variable",sans-serif;cursor:pointer}
+.hsp-res{font-size:12px;font-weight:700;color:#B9C3D6}.hsp-res.win{color:#FFB547}
+#spxWrap{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:12px;background:rgba(5,8,16,.74);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .22s}
+#spxWrap.on{opacity:1}
+.spx-in{position:relative;width:100%;max-width:340px;padding:22px 16px 16px;border-radius:22px;text-align:center;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#12305A 0%,#0B1424 60%,#080D18 100%);border:1px solid rgba(124,245,255,.28);box-shadow:0 24px 60px rgba(0,0,0,.5);color:#EAF2FF}
+.spx-rays{position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent 0 8deg,rgba(124,245,255,.08) 8deg 16deg,transparent 16deg 30deg);animation:spxSpin 14s linear infinite;pointer-events:none;opacity:.6}
+#spxWrap.won .spx-rays{background:conic-gradient(from 0deg,transparent 0 8deg,rgba(255,181,71,.16) 8deg 16deg,transparent 16deg 30deg);animation-duration:6s;opacity:1}
+@keyframes spxSpin{to{transform:rotate(360deg)}}
+.spx-top{position:relative;display:flex;justify-content:center}.spx-top .sp-lock{color:#fff}.spx-top .sp-by{color:#B9C3D6}
+.spx-h{position:relative;margin:12px 0 4px;font:800 19px/1.25 "Pretendard Variable",sans-serif;color:#fff}
+.spx-row{position:relative;display:flex;justify-content:center;gap:6px;margin:8px 0 4px;height:100px;transition:height .4s ease}
+.spx-b{width:80px;height:88px;padding:0;border:0;background:none;cursor:pointer;border-radius:14px;filter:drop-shadow(0 8px 14px rgba(47,123,255,.35));transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s,width .35s ease,margin .35s ease}
+.spx-b:focus-visible{outline:2px solid #7CF5FF;outline-offset:3px}.spx-b:disabled{cursor:default}
+.spx-svg{width:100%;height:100%;overflow:visible}.spx-lid{transform-origin:60px 46px;transition:transform .5s cubic-bezier(.2,1.4,.4,1)}
+#spxWrap.shuffle .spx-b{animation:spxShuf 1.5s ease-in-out}
+#spxWrap.shuffle .spx-b[style*="--i:0"]{--dx:172px;--h:-22px}#spxWrap.shuffle .spx-b[style*="--i:1"]{--dx:0px;--h:-28px}#spxWrap.shuffle .spx-b[style*="--i:2"]{--dx:-172px;--h:18px}
+@keyframes spxShuf{0%,100%{transform:none}25%{transform:translate(calc(var(--dx)*.5),var(--h))}50%{transform:translate(var(--dx),0)}75%{transform:translate(calc(var(--dx)*.5),calc(var(--h)*-1))}}
+#spxWrap.ready .spx-b{animation:spxBob 1.6s ease-in-out infinite;animation-delay:calc(var(--i)*.18s)}
+@keyframes spxBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#spxWrap.picked .spx-b:not(.pick){opacity:0;transform:scale(.7);width:0;margin:0 -3px;overflow:hidden}
+#spxWrap.picked .spx-b.pick{animation:spxShake .9s ease both}
+@keyframes spxShake{0%{transform:scale(1.12)}15%{transform:scale(1.16) rotate(-8deg)}30%{transform:scale(1.16) rotate(8deg)}45%{transform:scale(1.18) rotate(-6deg)}60%{transform:scale(1.2) rotate(6deg)}75%{transform:scale(1.2) rotate(-3deg)}100%{transform:scale(1.2)}}
+#spxWrap .spx-b.lidoff .spx-lid{transform:translate(0,-30px) rotate(-18deg)}
+#spxWrap.won .spx-b.lidoff,#spxWrap.lost .spx-b.lidoff{animation:none;transform:scale(1.05);transform-origin:50% 100%}
+#spxWrap.won .spx-row{height:160px;align-items:flex-end;margin-bottom:12px}#spxWrap.lost .spx-row{height:130px;align-items:flex-end;margin-bottom:12px}
+.spx-pz{position:absolute;left:0;right:0;top:0;display:flex;justify-content:center;pointer-events:none}
+.spx-prize{display:inline-flex;align-items:baseline;gap:6px;animation:spxPop .55s cubic-bezier(.2,1.6,.4,1) both;color:#FFB547;text-shadow:0 0 22px rgba(255,181,71,.6)}
+.spx-prize .pz-i{font-size:26px;align-self:center}.spx-prize b{font:900 52px/1 "Pretendard Variable",sans-serif}.spx-prize span:last-child{font:800 17px "Pretendard Variable",sans-serif}
+@keyframes spxPop{0%{transform:scale(.2) translateY(26px);opacity:0}70%{transform:scale(1.12)}100%{transform:none;opacity:1}}
+.spx-burst{position:absolute;left:50%;top:32px;width:0;height:0}
+.spx-burst i{position:absolute;width:6px;height:6px;border-radius:50%;background:#FFB547;box-shadow:0 0 8px #FFB547;opacity:0;animation:spxBurst .9s cubic-bezier(.1,.8,.3,1) var(--t) both}.spx-burst i:nth-child(3n){background:#7CF5FF;box-shadow:0 0 8px #7CF5FF}
+@keyframes spxBurst{0%{opacity:1;transform:rotate(var(--a)) translate(0) scale(1.2)}100%{opacity:0;transform:rotate(var(--a)) translate(var(--d)) scale(.4)}}
+.spx-puff{position:relative;width:110px;height:50px;margin-top:30px}.spx-puff i{position:absolute;left:50%;top:34px;width:22px;height:22px;border-radius:50%;background:rgba(185,195,214,.35);filter:blur(2px);animation:spxPuff 1s ease-out both}.spx-puff i:nth-child(2){--x:-30px;animation-delay:.05s}.spx-puff i:nth-child(3){--x:30px;animation-delay:.1s}
+@keyframes spxPuff{0%{transform:translate(-50%,0) scale(.3);opacity:.9}100%{transform:translate(calc(-50% + var(--x,0px)),-36px) scale(1.6);opacity:0}}
+.spx-res p{position:relative;margin:4px auto 0;max-width:30ch;font-size:13px;line-height:1.55;color:#C9D4E8}
+.spx-odds{position:relative;margin:10px 0 0;font-size:11px;color:#8FA0BC}
+.spx-act{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:10px}.spx-act:empty{display:none}
+.spx-go{width:100%;height:44px;border:0;border-radius:9999px;font:800 14px "Pretendard Variable",sans-serif;cursor:pointer;background:linear-gradient(90deg,#00B395,#2BD4B4);color:#04201B}.spx-go.spk{background:#FF8A1F;color:#1A0D00}
+.spx-later{border:0;background:none;color:#B9C3D6;font:600 12.5px "Pretendard Variable",sans-serif;cursor:pointer;padding:6px}
+.spx-x{position:absolute;top:8px;right:10px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.spx-rays,#spxWrap.ready .spx-b,#spxWrap.shuffle .spx-b,#spxWrap.picked .spx-b.pick,.spx-burst i{animation:none}}
+.ms-list{display:flex;flex-direction:column;gap:8px}
+.ms-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px 10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--panel)}
+.ms-ic{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:rgba(245,196,106,.14);color:#F5C46A}.ms-t{display:flex;flex-direction:column;min-width:0}.ms-t b{font-size:14px;color:var(--ink)}.ms-t small{font-size:12px;color:var(--mute)}
+.ms-go{height:32px;font-size:12.5px;white-space:nowrap}.ms-done{font-size:12.5px;font-weight:700;color:var(--energy-ink)}
+.ms-pv{grid-column:2/-1;justify-self:end;font-size:12px;color:var(--link);text-decoration:none;font-weight:700}
 </style>
 <style>body{margin:0}img{max-width:100%}</style>
 </head>
@@ -768,7 +819,7 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
           </div>
           <div class="coach" id="goldCoach" hidden role="note"><span class="ca" aria-hidden="true"></span><span class="ct"><b>Gold gap</b><span>The bar fills toward the team that's ahead. Tap a team for the exact number.</span></span><button type="button" id="coachOk">Got it</button></div>
           <div class="heads glass" id="heads" hidden><span class="t">Baron fight incoming</span><span class="cd" id="headsCd">0:40</span></div>
-          <div class="heads-sp" role="note"><span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>NOVA Gear</b></span></div>
+          <div class="heads-sp" role="note"><span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>NOVA Gear</b></span><span class="hsp-box" id="hspBox"></span></div>
           <div class="scoredetail glass" id="scoreDetail" hidden>
             <div class="sd-row"><span class="sd-team"><i></i><b id="sdName">T1</b><span class="k" id="sdRole">Your team</span></span><span id="goldTxt" class="k">Gold +0.9k</span></div>
             <div class="sd-row" data-sd="T1"><button type="button" class="sd-link" data-page="team">T1 team page</button><span class="spill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 2-5 5-5 8 0 4 3 7 7 7z"/></svg><span id="streakPill">4</span> quiz streak</span></div>
@@ -951,6 +1002,7 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
             <p class="fine">Sample player figures for the preview. Season contribution is a provisional measure, not converted to wins.</p>
           </div>
           <div class="pane" data-pane="cheer" hidden>
+            <div class="sec" id="pMs" hidden></div>
             <div class="sec"><div class="sec-h"><h3 id="pCheerH">Cheers for Faker</h3><span>Sent with Boosts</span></div><div class="cheers" id="pCheers"></div></div>
             <div class="myrank"><span>Cheer for a player inside a T1 Boost</span><button class="pill s" type="button" data-open-boost style="height:34px;padding:0 12px;font-size:12px" data-live-only hidden>Boost</button></div>
           </div>
@@ -987,6 +1039,7 @@ h1,h2,h3{letter-spacing:-.01em;text-wrap:balance}
           <p class="m-foot">An independent fan companion. Not endorsed by Riot Games. · v2.0</p>
         </nav>
       </div>
+      <div id="spxWrap" class="spx" hidden></div>
       <div id="sheetWrap" hidden><div class="sheet-bg" data-close-sheet></div>
         <div class="sheet bsheet" role="dialog" aria-labelledby="sheetTitle">
           <span class="handle" style="align-self:center"></span>
@@ -1116,7 +1169,7 @@ function celebrate(m,amt,done,again){
     p.style.cssText='left:'+ox+'px;top:'+oy+'px;width:'+sz+'px;height:'+sz+'px;background:'+cols[i%cols.length]+';--dx:'+(Math.cos(a)*d).toFixed(0)+'px;--dy:'+(Math.sin(a)*d).toFixed(0)+'px;--r:'+(Math.random()*540-270).toFixed(0)+'deg;animation-delay:'+(i*9)+'ms'+(i%3===0?';border-radius:9999px':'');
     layer.appendChild(p) }
   const cx=Math.min(Math.max(ox,90),cr.width-90); const chip=(t,dx,dy,dl)=>{const c=document.createElement('span'); c.className='fchip'; c.textContent=t; c.style.cssText='left:'+(cx+dx)+'px;top:'+(oy+dy)+'px;animation-delay:'+dl+'ms'; layer.appendChild(c)};
-  if(again==='up'){ chip('Badge Lv.'+m.lv+'!',-20,-100,60) } else if(again){ chip('Cheered again',-20,-100,60) } else { chip('+50 P',-40,-110,60); chip('+1 boosting',10,-80,240) }
+  if(again==='ms'){ chip('Commemorative edition',-60,-100,60) } else if(again==='up'){ chip('Badge Lv.'+m.lv+'!',-20,-100,60) } else if(again){ chip('Cheered again',-20,-100,60) } else { chip('+50 P',-40,-110,60); chip('+1 boosting',10,-80,240) }
   const ring=document.createElement('div'); ring.className='flashring tier-'+tier; layer.appendChild(ring);
   card.appendChild(layer); const sb=$('.live-bg'); if(sb){ sb.classList.remove('cheer'); void sb.offsetWidth; sb.classList.add('cheer') }
   const t=again?null:$('#together'); if(t) t.textContent=(parseInt(t.textContent.replace(/,/g,''))+1).toLocaleString('en-US');
@@ -1125,10 +1178,35 @@ const SP={name:'NOVA Gear',drop:5};
 const spLock=()=>'<span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>'+SP.name+'</b></span>';
 const spOk=m=>S.sp&&m&&(m.tier==='gold'||m.tier==='holo');   /* partner (T1) live moments only; launch scope gold/holo */
 function spTag(){ const t=document.createElement('div'); t.className='sp-tag'; t.setAttribute('role','note'); t.innerHTML=spLock(); $('#card').appendChild(t); setTimeout(()=>t.remove(),900) }
-function renderSpDrop(){ const d=$('#spDrop'); if(!S.sp){d.hidden=true;return} d.hidden=false; d.classList.toggle('got',!!S.spGot);
-  d.innerHTML='<div>'+spLock()+'</div><p><b>'+(S.spGot?'You got '+SP.drop+' Spark from '+SP.name:SP.name+' is sending '+SP.drop+' Spark to everyone watching this moment')+'</b><span>Use it to Boost this moment. Points and cards follow the usual rules, and none of it goes to the team.</span></p>'+(S.spGot?'':'<button type="button" class="sp-get" id="spGet">Get '+SP.drop+' Spark</button>') }
-function renderSpWeek(){ const w=$('#spWeek'); w.hidden=!S.sp; w.innerHTML=S.sp?spLock()+'<span>Clutch Moment of the Week · vote ↗</span>':'' }
-document.addEventListener('click',e=>{ if(!e.target.closest('#spGet')) return; if(S.spGot) return; S.spGot=true; S.sBal+=SP.drop; $('#sBal').textContent=S.sBal; S.cur='s'; renderAmt(); renderSpDrop(); const d=$('#spDrop'); d.classList.remove('sppop'); void d.offsetWidth; d.classList.add('sppop'); toast('+'+SP.drop+' Spark from '+SP.name+' · Sponsored') });
+function renderSpDrop(){ const d=$('#spDrop'); if(!S.sp){d.hidden=true;return} d.hidden=false; d.classList.add('got');
+  d.innerHTML='<div>'+spLock()+'</div><p><b>NOVA Gear lucky box opens with the turning-point heads-up</b><span>Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box</span></p>' }
+/* sponsor lucky box (v36 · web 52fce74): heads-up shows the branded message, the box plays center-stage in the panel */
+const BOXODDS=[[0,75],[5,20],[10,5]];
+function boxRoll(){ let f=null; try{f=new URLSearchParams(location.search).get('box')}catch(e){} if(f!==null&&/^(0|5|10)$/.test(f)) return +f; let r=Math.random()*100; for(const [n,w] of BOXODDS){ if((r-=w)<0) return n } return 0 }
+function renderHsp(){ const h=$('#hspBox'); if(!h) return; const r=S.boxRes;
+  h.innerHTML=r===undefined||r===null?'<span class="hsp-msg">NOVA Gear has a lucky box for this moment</span><button type="button" class="hsp-open" id="spBoxOpen"><span class="sp-mk" aria-hidden="true">N</span><span>Play the lucky box</span></button>'
+   :r?'<span class="hsp-res win">✦ <b>'+r+'</b> <span>Spark won</span></span>':'<span class="hsp-res">No prize</span>' }
+const BOXSVG='<svg class="spx-svg" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="spxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7CF5FF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient></defs><g><rect x="14" y="52" width="92" height="58" rx="10" fill="url(#spxg)"/><rect x="54" y="52" width="12" height="58" fill="#06121F" opacity=".22"/><text x="60" y="92" text-anchor="middle" font-size="26" font-weight="900" fill="#06121F" font-family="Pretendard Variable,sans-serif">N</text></g><g class="spx-lid"><rect x="8" y="36" width="104" height="20" rx="7" fill="url(#spxg)"/><rect x="54" y="36" width="12" height="20" fill="#06121F" opacity=".22"/><path d="M60 36c-10-16-28-14-24-4 3 6 16 5 24 4zM60 36c10-16 28-14 24-4-3 6-16 5-24 4z" fill="#FFB547"/></g></svg>';
+function closeBox(){ const w=$('#spxWrap'); w.classList.remove('on'); setTimeout(()=>{ if(!w.classList.contains('on')){ w.hidden=true; w.innerHTML='' } },220) }
+function playBox(){ if(S.boxRes!==undefined&&S.boxRes!==null) return; const w=$('#spxWrap'), reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  w.innerHTML='<div class="spx-in" role="dialog" aria-modal="true" aria-label="NOVA Gear lucky box"><div class="spx-rays" aria-hidden="true"></div><div class="spx-top">'+spLock()+'</div><h3 class="spx-h">Pick a box</h3><div class="spx-row">'+[0,1,2].map(n=>'<button type="button" class="spx-b" data-spxi="'+n+'" style="--i:'+n+'" disabled aria-label="Box '+(n+1)+'">'+BOXSVG+'</button>').join('')+'</div><div class="spx-res" aria-live="assertive"></div><p class="spx-odds">Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box</p><div class="spx-act"></div><button type="button" class="spx-x" aria-label="Close">×</button></div>';
+  w.hidden=false; void w.offsetWidth; w.classList.add('on','shuffle'); w.classList.remove('ready','picked','won','lost');
+  w.querySelector('.spx-x').onclick=closeBox;
+  setTimeout(()=>{ w.classList.remove('shuffle'); w.classList.add('ready'); w.querySelectorAll('.spx-b').forEach(b=>b.disabled=false); const f=w.querySelector('.spx-b'); f&&f.focus() },reduce?50:1500);
+  w.querySelectorAll('.spx-b').forEach(btn=>btn.onclick=()=>{ if(S.boxRes!==undefined&&S.boxRes!==null) return; const n=boxRoll(); S.boxRes=n; w.classList.remove('ready'); w.classList.add('picked'); btn.classList.add('pick'); w.querySelectorAll('.spx-b').forEach(b=>b.disabled=true); w.querySelector('.spx-h').textContent='Opening…';
+    setTimeout(()=>{ w.classList.add(n?'won':'lost'); btn.classList.add('lidoff');
+      if(n){ S.sBal+=n; $('#sBal').textContent=S.sBal; const ms=$('#mS'); if(ms) ms.textContent=S.sBal }
+      w.querySelector('.spx-h').textContent=n?'You won!':'No prize this time';
+      const row=w.querySelector('.spx-row');
+      row.insertAdjacentHTML('beforeend',n?'<div class="spx-pz"><div class="spx-burst" aria-hidden="true">'+Array.from({length:20},(_,k)=>'<i style="--a:'+(k*18)+'deg;--d:'+(56+(k%5)*16)+'px;--t:'+((k%4)*.04)+'s"></i>').join('')+'</div><div class="spx-prize"><span class="pz-i" aria-hidden="true">✦</span><b>'+n+'</b><span>Spark</span></div></div>':'<div class="spx-pz"><div class="spx-puff" aria-hidden="true"><i></i><i></i><i></i></div></div>');
+      w.querySelector('.spx-res').innerHTML='<p>'+(n?'Your Spark is in the wallet and works like any other Spark.':'This moment is still live. Want to Boost it with Energy? RORR shares part of Boost revenue with T1.')+'</p>';
+      const act=w.querySelector('.spx-act');
+      act.innerHTML=n?'<button type="button" class="spx-go spk">Boost this moment with Spark</button><button type="button" class="spx-later">Save it for later</button>':'<button type="button" class="spx-go">Boost this moment with Energy</button><button type="button" class="spx-later">No thanks</button>';
+      act.querySelector('.spx-go').onclick=()=>{ closeBox(); S.cur=n?'s':'e'; if(n&&S.sBal>=10) S.amt.s=n>=10?10:5; openSheet() };
+      act.querySelector('.spx-later').onclick=closeBox;
+      renderHsp(); toast(n?'NOVA Gear lucky box · Spark won':'NOVA Gear lucky box · no prize'); act.querySelector('.spx-go').focus() },reduce?100:1100) }) }
+document.addEventListener('click',e=>{ if(e.target.closest('#spBoxOpen')) playBox() });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('#spxWrap').classList.contains('on')) closeBox() });
 $$('[data-sp]').forEach(b=>b.addEventListener('click',()=>{ S.sp=b.dataset.sp==='1'; $('#card').classList.toggle('sp-on',S.sp); $$('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderSpDrop(); renderSpWeek(); toast(S.sp?'Sponsor preview on':'Sponsor preview off') }));
 function openCard(id,isNew,mode){ const m=S.moms.find(x=>x.id===id); if(!m) return; setMo(false);
   $('#cvShare').hidden=!(isNew||mode==='up')||!(m.lv&&m.lv.e);
@@ -1195,7 +1273,7 @@ $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 
 /* moment + boost */
 let hInt=null;
-function headsUp(){ $('#card').classList.add('gold-moment'); $('#heads').hidden=false; let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost()}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW') }
+function headsUp(){ $('#card').classList.add('gold-moment'); $('#heads').hidden=false; S.boxRes=null; renderHsp(); let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost()}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW') }
 function coolBoost(){ $('#card').classList.remove('gold-moment'); $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
 const LINEUP=['Doran','Oner','Faker','Peyz','Keria'], FIGHT={players:['Oner','Faker','Keria'],top:'Faker'}, SUBS={Faker:'Faker flank',Oner:'Oner smite',Keria:'Keria engage'};
 const starOf=()=>S.fav&&FIGHT.players.includes(S.fav)?S.fav:FIGHT.top;
@@ -1209,9 +1287,19 @@ function renderMFav(){ $('#mFav').innerHTML=favPick(true) }
 document.addEventListener('click',e=>{ const c=e.target.closest('[data-favchg]'); if(c){ S.pick=true; renderHero(); return }
   const f=e.target.closest('[data-fav]'); if(!f) return; S.fav=f.dataset.fav||null; S.pick=false; renderHero(); renderMFav(); if(f.closest('#mFav')) toast(S.fav?'Your player: '+S.fav:'Card star: top performer') });
 renderMFav();
-function openSheet(){ renderAmt(); renderSpDrop(); renderHero(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus() }
+/* commemorative edition (v36 · web f7448e0 · policy §4-2): shown in the player's cheer tab like the web, also during a live match */
+const MSL={Faker:[{id:'g300',t:'LCK 300th game',sub:'Today · live',title:"Celebrate Faker's 300th LCK game",ic:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>'},{id:'k1500',t:'1,500 career kills',sub:'2026-10-14 · reached',title:"Celebrate Faker's 1,500th career kill",ic:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/></svg>'}]};
+S.msDone={};
+function renderMs(n){ const el=$('#pMs'); const L=MSL[n]; if(!el) return; if(!L){ el.hidden=true; el.innerHTML=''; return } el.hidden=false;
+  el.innerHTML='<div class="sec-h"><h3>Moments to celebrate</h3></div><div class="ms-list">'+L.map(x=>'<div class="ms-row"><span class="ms-ic" aria-hidden="true">'+x.ic+'</span><span class="ms-t"><b>'+x.t+'</b><small>'+x.sub+'</small></span>'+(S.msDone[x.id]?'<span class="ms-done">Celebrated ✓</span>':'<button type="button" class="pill p ms-go" data-msgo="'+x.id+'">Commemorative Boost</button>')+'<a class="ms-pv" href="https://yhc-pie.github.io/rorr-hero/#player/Faker" target="_blank" rel="noopener">Preview ↗</a></div>').join('')+'</div><p class="fine">Boost in the celebration window (3 days either side) and you get a commemorative edition, separate from moment cards.</p>' }
+document.addEventListener('click',e=>{ const g=e.target.closest('[data-msgo]'); if(!g) return; const x=(MSL[S.player]||[]).find(y=>y.id===g.dataset.msgo); if(!x) return; S.ms=x; openSheet() });
+let SH0=null;
+function msSheet(){ if(!SH0) SH0={e:$('#sheetEyebrow').innerHTML,t:$('#sheetTitle').textContent};
+  if(S.ms){ $('#sheetEyebrow').innerHTML='<span class="gm">Commemorative edition</span>'; $('#sheetTitle').textContent=S.ms.title; $('#bsHero').innerHTML=''; $('#spDrop').hidden=true; $('#bsGift').textContent='Commemorative edition card included' }
+  else { $('#sheetEyebrow').innerHTML=SH0.e; $('#sheetTitle').textContent=SH0.t } }
+function openSheet(){ renderAmt(); renderSpDrop(); renderHero(); msSheet(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus() }
 var cfT=null;
-function closeSheet(){ $('#sheetWrap').hidden=true; const b=$('#boostGo'); if(b&&b.dataset.cf) renderAmt() }
+function closeSheet(){ $('#sheetWrap').hidden=true; if(S.ms){ S.ms=null; msSheet() } const b=$('#boostGo'); if(b&&b.dataset.cf) renderAmt() }
 /* first tap arms (nothing spent), second tap within 5s sends */
 function armTap(b,amt,cur,onEnd){ if(b.dataset.cf){ clearTimeout(b._cf); delete b.dataset.cf; b.classList.remove('cf'); b.removeAttribute('aria-label'); return true }
   b.dataset.cf='1'; b.classList.remove('cf'); void b.offsetWidth; b.classList.add('cf');
@@ -1229,10 +1317,11 @@ function renderAmt(){ const c=S.cur,a=S.amt[c],L=AMT[c],i=L.indexOf(a),b=c==='e'
   $('#amtDown').disabled=i<=0; $('#amtUp').disabled=!nx||nx>b;
   const bm=S.boosted?baron():null, prev=bm&&bm.sum?bm.sum[c]:0, cn=c==='e'?'Energy':'Spark', tot=prev+a, lt=lvOf(c,tot), nxt=LV[c].find(x=>x>tot);
   $('#bsGift').textContent=!bm?'Gold moment card included':!(bm.lv[c])?'You already have the card · adds a '+cn+' Lv.'+lt+' badge':lt>bm.lv[c]?'You already have the card · '+cn+' badge to Lv.'+lt:'Adds to this moment\'s total';
-  $('#amtNote').textContent=bm?cn+' Lv.'+lt+' · total '+tot+' this moment · '+(nxt?'Lv.'+(lt+1)+' from '+nxt:'top badge'):(c==='e'?'Lv.'+lvOf(c,a)+' badge · partner revenue sharing':'Lv.'+lvOf(c,a)+' badge · free, not shared');
+  $('#amtNote').textContent=bm?cn+' Lv.'+lt+' · total '+tot+' this moment · '+(nxt?(nxt-tot)+' more to Lv.'+(lt+1):'top badge'):(c==='e'?'Lv.'+lvOf(c,a)+' badge · partner revenue sharing':'Lv.'+lvOf(c,a)+' badge · free, not shared');
   const low=!!nx&&nx>b; $('#amtTop').hidden=!low; $('#amtTop').href=c==='e'?'https://yhc-pie.github.io/rorr-hero/#account/energy':'https://yhc-pie.github.io/rorr-hero/#spark'; $('#amtTop').textContent=c==='e'?'Top up ↗':'Get Spark ↗';
   $('#legalLine').textContent=c==='e'?'Used right away · no refund · partner revenue sharing':'Free · not shared with the team';
   $('#shareCur').textContent=c==='e'?'Only paid Energy can be used for Boosts, and it is spent right away with no refund. RORR shares part of its Boost revenue with partner teams like T1 under its agreement with each team, and pays card fees from its own share. Unused Energy can be refunded on the web: in full within 7 days of purchase, with a fee after that.':'Spark comes from the rorr.club ad wall. It has no cash value, can only be used for Boosts and is never shared with a team.';
+  if(S.ms) $('#bsGift').textContent='Commemorative edition card included';
   $$('[data-cur]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.cur===c))) }
 $$('[data-cur]').forEach(b=>b.addEventListener('click',()=>{S.cur=b.dataset.cur; renderAmt()}));
 $('#amtUp').addEventListener('click',()=>{const L=AMT[S.cur],i=L.indexOf(S.amt[S.cur]); if(L[i+1]) S.amt[S.cur]=L[i+1]; renderAmt()});
@@ -1243,12 +1332,14 @@ $('#boostGo').addEventListener('click',()=>{ const amt=S.amt[S.cur];
   if(!$('#boostGo').dataset.cf&&(S.cur==='e'?S.eBal:S.sBal)>=amt){ armTap($('#boostGo'),amt,S.cur==='e'?'Energy':'Spark',renderAmt); const n=$('#amtNote'); n.textContent='Tap again within 5 seconds to send. Nothing is spent yet.'; n.classList.add('cf-hint'); return }
   if($('#boostGo').dataset.cf) armTap($('#boostGo'),amt,'',()=>{});
   if(S.cur==='e'){if(S.eBal<amt)return toast('Not enough Energy. Top up on rorr.club.');S.eBal-=amt}else{if(S.sBal<amt)return toast('Not enough Spark. Get more on rorr.club.');S.sBal-=amt}
-  $('#eBal').textContent=S.eBal;$('#sBal').textContent=S.sBal; renderAmt(); closeSheet();
+  $('#eBal').textContent=S.eBal;$('#sBal').textContent=S.sBal;
+  if(S.ms){ const x=S.ms; S.msDone[x.id]=true; renderAmt(); closeSheet(); S.pts+=20; celebrate({tier:'gold',cur:S.cur==='e'?'energy':'spark'},amt,()=>{ renderMs(S.player); toast('Commemorative edition added · see it in My cards on rorr.club') },'ms'); return }
+  renderAmt(); closeSheet();
   if(!S.boosted){S.boosted=true;S.pts+=50;S.cards++; if(S.fav===undefined) S.fav=null; S.pick=false; const star=starOf(); const nm=addMoment('Baron fight',fmt(S.clock)+' · '+SUBS[star]+', win chance 58% → 83%','Card',true,star); nm.cur=S.cur==='e'?'energy':'spark'; nm.sp=spOk(nm); if(nm.sp) spTag(); nm.sum={e:0,s:0}; nm.sum[S.cur]=amt; nm.lv={}; nm.lv[S.cur]=lvOf(S.cur,amt); nm.deco=nm.lv[S.cur]; celebrate(nm,amt,()=>{ openCard(nm.id,true); $('#cvNew').textContent='NEW CARD · +50 P' }); later(600,()=>{S.k1+=2;S.gold+=1500;renderScore();flash('Baron to T1');say('WE GOT IT! I am actually screaming right now!','hype');$('#heads').hidden=true;coolBoost();clearInterval(hInt)})}
   else { const m=baron(); if(!m) return; const c=S.cur, nmC=c==='e'?'Energy':'Spark', was=m.lv[c]||0; m.sum[c]+=amt; const now=lvOf(c,m.sum[c]); m.lv[c]=now; const cur=c==='e'?'energy':'spark';
     if(spOk(m)){ m.sp=true; spTag() }
     if(now>was){ m.up=c; celebrate({tier:m.tier,cur,lv:now},amt,()=>{ openCard(m.id,false,'up'); $('#cvNew').hidden=false; $('#cvNew').textContent=was?'BADGE UP · '+nmC+' Lv.'+was+' → Lv.'+now:'NEW BADGE · '+nmC+' Lv.'+now; m.up='' },'up') }
-    else { const t=LV[c], nx=t.find(x=>x>m.sum[c]); celebrate({tier:m.tier,cur},amt,()=>toast(nx?nmC+' total '+m.sum[c]+' · '+(nx-m.sum[c])+' more to Lv.'+(now+1):nmC+' total '+m.sum[c]+' · top badge reached'),true) } } });
+    else { const t=LV[c], nx=t.find(x=>x>m.sum[c]); celebrate({tier:m.tier,cur},amt,()=>{ openCard(m.id,false); $('#cvNew').hidden=false; $('#cvNew').textContent=nx?nmC+' total '+m.sum[c]+' · '+(nx-m.sum[c])+' more to Lv.'+(now+1):nmC+' total '+m.sum[c]+' · top badge reached' },true) } } });
 $$('[data-close-reward]').forEach(b=>b.addEventListener('click',()=>{$('#rewardWrap').hidden=true}));
 function toast(t){const w=$('#toastWrap');w.innerHTML='';const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;w.append(d);setTimeout(()=>d.remove(),2600)}
 $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);const r=b.dataset.react; say(r==='Ugh…'?"I know. Breathe. It's not over.":r==='Cheer!'?"Louder! They can feel it.":"LET'S GO!",r==='Ugh…'?'calm':'hype')}));
@@ -1329,6 +1420,7 @@ function renderPlayer(n){ const p=P[n], avg=ROLE_AVG[p.role]; S.player=n;
   vbars($('#playerBars'),OFF.map(o=>p.ix+o),p.ix); $('#pBarsLbl').textContent='Last 10 sets · dashed = season '+p.ix;
   $('#pRecent').innerHTML=[['vs HLE','10-13',p.ix+14,p.kda[0]],['vs BFX','10-10',p.ix-7,p.kda[1]]].map(r=>'<div class="mrow"><span><b>'+r[0]+'</b> <span class="k">· '+r[1]+'</span></span><span class="val">'+r[2]+' <span style="font-weight:400;color:var(--mute);margin-left:10px">'+r[3]+'</span></span></div>').join('');
   const mine=CHEERS.filter(c=>c.p===n); $('#pCheerH').textContent='Cheers for '+n; $('#pCheerCnt').textContent=mine.length;
+  renderMs(n);
   $('#pCheers').innerHTML=mine.map(cheerHTML).join('')||'<p class="fine">No cheers for '+n+' yet today. Add one with your next Boost.</p>' }
 renderPlayer('Faker');
 
@@ -1364,7 +1456,7 @@ document.addEventListener('click',e=>{
 });
 
 /* steps */
-function resetLive(){ coolBoost(); S.clock=1100;S.k1=6;S.k2=5;S.gold=900;S.boosted=false; S.spGot=false; S.moms=[]; $('#moList').innerHTML=''; addMoment('Bot lane 2-for-0','14:10 · Peyz & Keria, win chance 52% → 61%','Card',true,'Peyz'); $('#heads').hidden=true; setMo(false); const q=$('#quiz'); q.hidden=true; $('#v-live').classList.remove('has-quiz'); setReact(false); sdTeam=null; renderSD(); q.className='glass quiz idle'; $('#qText').textContent='Next question soon'; $('#answers').hidden=true; $('#qResult').hidden=true; $('#qTimer').hidden=true; $('#qNote').textContent='Seoha asks about what\'s coming next. Free to play.'; renderScore() }
+function resetLive(){ coolBoost(); S.clock=1100;S.k1=6;S.k2=5;S.gold=900;S.boosted=false; S.spGot=false; S.boxRes=null; S.moms=[]; $('#moList').innerHTML=''; addMoment('Bot lane 2-for-0','14:10 · Peyz & Keria, win chance 52% → 61%','Card',true,'Peyz'); $('#heads').hidden=true; setMo(false); const q=$('#quiz'); q.hidden=true; $('#v-live').classList.remove('has-quiz'); setReact(false); sdTeam=null; renderSD(); q.className='glass quiz idle'; $('#qText').textContent='Next question soon'; $('#answers').hidden=true; $('#qResult').hidden=true; $('#qTimer').hidden=true; $('#qNote').textContent='Seoha asks about what\'s coming next. Free to play.'; renderScore() }
 function setStepUI(s){ $$('.step').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.step===s))) }
 function goStep(s){ clearTimers(); clearInterval(qInt); clearInterval(hInt); closeSheet(); $('#rewardWrap').hidden=true; S.prev=[]; setStepUI(s);
   S.live=!(s==='chat'||s==='recap'); syncLiveOnly();
@@ -1395,7 +1487,7 @@ initChat(); resetLive(); renderScore(); syncStream(false); applyBg();
 /* KO/EN toggle. English is the source text; Korean comes from KO (exact match) or RX (patterns).
    A MutationObserver translates text that scripts insert later, so the demo logic stays untouched. */
 (function(){
-const KO={
+const KO={"NOVA Gear lucky box opens with the turning-point heads-up":"큰 순간 알림이 뜨면 NOVA Gear 행운 박스를 열 수 있어요","Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box":"확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요","NOVA Gear has a lucky box for this moment":"NOVA Gear가 이 순간 행운 박스를 준비했어요","Play the lucky box":"행운 박스 열기","Spark won":"Spark 당첨","No prize":"꽝","Pick a box":"박스 하나를 골라 보세요","Opening…":"여는 중…","You won!":"당첨!","No prize this time":"이번엔 꽝이에요","Your Spark is in the wallet and works like any other Spark.":"당첨 Spark는 지갑에 들어가고 일반 Spark처럼 쓸 수 있어요.","This moment is still live. Want to Boost it with Energy? RORR shares part of Boost revenue with T1.":"이 순간은 아직 진행 중이에요. Energy로 직접 Boost해 볼까요? RORR는 Boost 수익의 일부를 T1과 나눠요.","Boost this moment with Spark":"Spark로 이 순간 Boost","Boost this moment with Energy":"Energy로 이 순간 Boost","Save it for later":"나중에 쓸게요","No thanks":"괜찮아요","NOVA Gear lucky box · Spark won":"NOVA Gear 행운 박스 · Spark 당첨","NOVA Gear lucky box · no prize":"NOVA Gear 행운 박스 · 꽝","Moments to celebrate":"기념할 순간","LCK 300th game":"LCK 통산 300경기","Today · live":"오늘 · 진행 중","1,500 career kills":"통산 1,500킬","2026-10-14 · reached":"2026-10-14 · 달성","Commemorative Boost":"기념 Boost","Celebrated ✓":"축하 완료 ✓","Preview ↗":"미리 보기 ↗","Boost in the celebration window (3 days either side) and you get a commemorative edition, separate from moment cards.":"기념 기간(당일 ±3일)에 Boost하면 모먼트 카드와 별도인 기념 에디션을 받아요.","Commemorative edition":"기념 에디션","Celebrate Faker's 300th LCK game":"Faker LCK 통산 300경기 축하 Boost","Celebrate Faker's 1,500th career kill":"Faker 통산 1,500킬 축하 Boost","Commemorative edition card included":"기념 에디션 카드가 함께 발급돼요","Commemorative edition added · see it in My cards on rorr.club":"기념 에디션을 받았어요 · rorr.club 내 카드에서 볼 수 있어요","Box 1":"1번 박스","Box 2":"2번 박스","Box 3":"3번 박스","NOVA Gear lucky box":"NOVA Gear 행운 박스",
 // browser + demo chrome
 "LCK 2026: T1 vs GEN":"LCK 2026: T1 vs GEN","LIVE: T1 vs GEN, Game 2":"LIVE: T1 vs GEN 2세트",
 "Stream offline · Next: T1 vs GEN, Sat 17:00":"방송 대기 중 · 다음 경기: T1 vs GEN, 토 17:00",
@@ -1450,9 +1542,9 @@ const KO={
 // boost sheet + reward
 "GOLD MOMENT":"골드 모먼트","Boost the Baron fight":"바론 교전 Boost","Boosting together now:":"지금 함께 Boost 중:","Cheering for":"응원 팀",
 "⚡ Energy 10":"⚡ Energy 10","✦ Spark 5":"✦ Spark 5","You have":"보유","Cheer message (optional)":"응원 메시지 (선택)","Take it, T1!":"가자, T1!",
-"A gold moment card comes with this Boost":"이 Boost에는 골드 모먼트 카드가 함께 발급됩니다","Part of this Energy goes to T1":"이 Energy의 일부가 T1에 전달됩니다",
+"A gold moment card comes with this Boost":"이 Boost에는 골드 모먼트 카드가 함께 발급됩니다","RORR shares part of Boost revenue with T1":"RORR는 Boost 수익의 일부를 T1과 나눠요",
 
-"Energy used for a Boost is delivered right away and can't be refunded. Moment cards are not sold.":"Boost에 사용한 Energy는 즉시 전달되어 환불되지 않습니다. 모먼트 카드는 판매하지 않습니다.",
+"Energy used for a Boost is spent right away and can't be refunded. Moment cards are not sold.":"Boost에 사용한 Energy는 즉시 사용 처리되어 환불되지 않습니다. 모먼트 카드는 판매하지 않습니다.",
 "Boost with 10 Energy":"Energy 10으로 Boost","Boost with 5 Spark":"Spark 5로 Boost","Top up on rorr.club":"rorr.club에서 충전","Get Spark on rorr.club":"rorr.club에서 Spark 받기",
 "GOLD MOMENT CARD":"골드 모먼트 카드","Baron fight · Game 2":"바론 교전 · 2세트","fans boosted":"명이 Boost","Keep watching":"계속 보기",
 "Boost sent · same moment, no extra card":"Boost 완료 · 같은 순간이라 카드는 추가 발급되지 않아요",
@@ -1531,7 +1623,7 @@ const KO={
 const ROLE={Top:"탑",Jungle:"정글",Mid:"미드",Bot:"원딜",Support:"서포터",Teams:"팀"};
 const EVT={"Dragon secure":"드래곤 확보","Late-game carry":"후반 캐리","Mid roam":"미드 로밍","Teleport flank":"순간이동 측면 진입","Vision control":"시야 장악","Baron fight":"바론 교전","Teamfight win":"한타 승리"};
 const WHO={"Peyz & Keria":"Peyz·Keria","Oner smite":"Oner 강타","Faker flank":"Faker 측면 진입","Keria engage":"Keria 이니시"};
-const RX=[
+const RX=[[/^(Energy|Spark) Lv\.(\d) · total (\d+) this moment · (\d+) more to Lv\.(\d)$/,(m,c,l,t,r,n)=>c+" "+l+"단계 · 이 순간 누적 "+t+" · "+n+"단계까지 "+r+" 남음"],
 [/^Streak (\d+)$/,(m,a)=>"연속 "+a],
 [/^#(\d+) (Top|Jungle|Mid|Bot|Support) · league avg 100$/,(m,a,r)=>ROLE[r]+" "+a+"위 · 리그 평균 100"],
 [/^#(\d+) overall · vs replacement$/,(m,a)=>"전체 "+a+"위 · 대체 선수 대비"],

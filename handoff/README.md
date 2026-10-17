@@ -1,6 +1,6 @@
 # RORR 확장 프로그램 v2.0 — 개발 핸드오프 패키지
 
-> **2026-10-17 통합 안내** — 공용 API·DB의 단일 기준은 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45, 웹·확장 통합)입니다. 이 문서는 통합 전 확장 설계로 **참고용**이며, 차이·채택 근거와 확장 쪽 변경 사항(E-1~E-6)은 `rorr-hero/handoff/18-canonical-merge.md`를 보세요. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1은 '첫 경기 0'으로 결정).
+> **2026-10-17 통합 안내** — 이 패키지 중 **API·DB(09·10·13, `api/`, `schema/`)만** 웹·확장 공용 단일 기준 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45)로 대체되었습니다(차이·채택 근거와 확장 쪽 변경 E-1~E-6: `rorr-hero/handoff/18-canonical-merge.md`). 화면 명세·컴포넌트·토큰·상태 로직·QA 등 나머지는 그대로 확장 구현 기준입니다. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1 '첫 경기 0' 결정).
 
 - 작성일: 2026-10-17 · 기준 목업: **v45** (`mockup/index.html`, 핸드오프 커밋) · 기준 태그: `handoff-ext-2026-10-17`
 - 대상: 확장 프로그램 구현 개발(Jun·Kazel), QA, 디자인 리뷰

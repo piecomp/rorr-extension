@@ -1,0 +1,703 @@
+openapi: 3.1.0
+info:
+  title: RORR API (확장 프로그램 v2.0 사용 범위)
+  version: 1.0.0-draft.2026-10-17
+  description: |
+    웹·확장 공용 API 중 확장 프로그램이 사용하는 범위 + 확장 전용 /ext/*.
+    사람이 읽는 기준 문서는 handoff/09-api-spec.md (불일치 시 그 문서 우선).
+    모든 쓰기 요청은 Idempotency-Key 필수. 문구는 *_key + params 로만 반환.
+servers:
+  - url: https://api.rorr.club/v1
+  - url: https://api.stg.rorr.club/v1
+security:
+  - bearer: []
+tags:
+  - name: account
+  - name: wallet
+  - name: match
+  - name: boost
+  - name: card
+  - name: quiz
+  - name: sponsor
+  - name: message
+  - name: ext
+  - name: telemetry
+
+paths:
+  /config:
+    get:
+      tags: [account]
+      security: []
+      summary: 정책 변수·기능 플래그·최소 확장 버전
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Config' } } } }
+
+  /me:
+    get:
+      tags: [account]
+      summary: 내 계정
+      parameters: [ { $ref: '#/components/parameters/Client' } ]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } } }
+        '401': { $ref: '#/components/responses/Error' }
+
+  /me/preferences:
+    get:
+      tags: [account]
+      summary: 내 설정
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Preferences' } } } }
+    patch:
+      tags: [account]
+      summary: 내 설정 변경(부분)
+      parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/Preferences' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Preferences' } } } }
+
+  /me/teams:
+    put:
+      tags: [account]
+      summary: 응원 팀·대표 팀
+      parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [team_ids, rep_team_id]
+              properties:
+                team_ids: { type: array, items: { type: string } }
+                rep_team_id: { type: string }
+      responses:
+        '200': { description: OK }
+
+  /me/wallet:
+    get:
+      tags: [wallet]
+      summary: 잔액 (웹 refund.md 와 동일). Boost 가능 Energy = energy.paid
+      parameters:
+        - name: fields
+          in: query
+          schema: { type: string, enum: [summary, full], default: full }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Wallet' } } } }
+
+  /me/wallet/ledger:
+    get:
+      tags: [wallet]
+      summary: 원장 내역
+      parameters: [ { $ref: '#/components/parameters/Cursor' }, { $ref: '#/components/parameters/Limit' } ]
+      responses:
+        '200': { description: OK }
+
+  /schedule:
+    get:
+      tags: [match]
+      security: []
+      parameters:
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - { name: team_ids, in: query, schema: { type: string }, description: 쉼표 구분 }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/MatchSummary' } } } }
+
+  /matches/{match_id}:
+    get:
+      tags: [match]
+      security: []
+      parameters: [ { $ref: '#/components/parameters/MatchId' } ]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Match' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+
+  /matches/{match_id}/moments:
+    get:
+      tags: [match]
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/MatchId' }
+        - { name: status, in: query, schema: { type: string, enum: [open, closed] } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Moment' } } } }
+
+  /moments/{moment_id}:
+    get:
+      tags: [match]
+      security: [ {}, { bearer: [] } ]
+      parameters: [ { $ref: '#/components/parameters/MomentId' } ]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Moment' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+
+  /boosts:
+    post:
+      tags: [boost]
+      summary: Boost 보내기 (두 번째 탭에서만 호출)
+      parameters: [ { $ref: '#/components/parameters/IdemKey' }, { $ref: '#/components/parameters/Client' } ]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/BoostRequest' } } }
+      responses:
+        '201': { description: '확정 — immediate', content: { application/json: { schema: { $ref: '#/components/schemas/BoostResult' } } } }
+        '202': { description: '접수 — on_moment, status=pending', content: { application/json: { schema: { $ref: '#/components/schemas/BoostResult' } } } }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+
+  /me/boosts:
+    get:
+      tags: [boost]
+      parameters:
+        - { name: match_id, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { description: OK }
+
+  /me/cards:
+    get:
+      tags: [card]
+      parameters:
+        - { name: team_id, in: query, schema: { type: string } }
+        - { name: season, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/Cursor' }
+        - { $ref: '#/components/parameters/Limit' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/Card' } }
+                  next_cursor: { type: [string, 'null'] }
+
+  /cards/{card_id}:
+    get:
+      tags: [card]
+      parameters: [ { name: card_id, in: path, required: true, schema: { type: string } } ]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+
+  /cards/{card_id}/share-image:
+    get:
+      tags: [card]
+      parameters: [ { name: card_id, in: path, required: true, schema: { type: string } } ]
+      responses:
+        '200': { description: PNG, content: { image/png: {} } }
+
+  /me/points:
+    get:
+      tags: [card]
+      parameters: [ { name: team_id, in: query, required: true, schema: { type: string } } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  team_id: { type: string }
+                  season: { type: string }
+                  points: { type: integer }
+                  streak_matches: { type: integer }
+                  rank: { type: [integer, 'null'] }
+
+  /rankings/supporters:
+    get:
+      tags: [card]
+      security: []
+      parameters:
+        - { name: team_id, in: query, required: true, schema: { type: string } }
+        - { name: scope, in: query, schema: { type: string, enum: [season, match], default: season } }
+        - { name: match_id, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { description: OK }
+
+  /teams/{team_id}/fandom:
+    get:
+      tags: [card]
+      security: []
+      parameters: [ { name: team_id, in: path, required: true, schema: { type: string } } ]
+      responses:
+        '200': { description: 파트너만. 배분 비율 미포함 }
+
+  /quiz/{quiz_id}/answers:
+    post:
+      tags: [quiz]
+      parameters:
+        - { name: quiz_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdemKey' }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [option_id], properties: { option_id: { type: string } } } } }
+      responses:
+        '202': { description: 접수, content: { application/json: { schema: { type: object, properties: { accepted_at: { type: string, format: date-time } } } } } }
+        '409': { $ref: '#/components/responses/Error' }
+
+  /quiz/ranking:
+    get:
+      tags: [quiz]
+      parameters:
+        - { name: scope, in: query, required: true, schema: { type: string, enum: [match, week] } }
+        - { name: match_id, in: query, schema: { type: string } }
+      responses:
+        '200': { description: OK }
+
+  /sponsor/boxes:
+    post:
+      tags: [sponsor]
+      summary: '[논의 중] 스폰서 행운 박스 열기 (플래그 sponsor_moment_enabled)'
+      parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [moment_id], properties: { moment_id: { type: string } } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/BoxResult' } } } }
+        '403': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+
+  /matches/{match_id}/messages:
+    get:
+      tags: [message]
+      security: [ {}, { bearer: [] } ]
+      parameters:
+        - { $ref: '#/components/parameters/MatchId' }
+        - { name: filter, in: query, schema: { type: string, enum: [my_teams, all], default: my_teams } }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { description: OK }
+
+  /messages:
+    post:
+      tags: [message]
+      parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [match_id, body]
+              properties:
+                match_id: { type: string }
+                moment_id: { type: [string, 'null'] }
+                body: { type: string, maxLength: 60 }
+      responses:
+        '201': { description: OK }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /messages/{message_id}/reports:
+    post:
+      tags: [message]
+      parameters:
+        - { name: message_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdemKey' }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [reason], properties: { reason: { type: string, enum: [abuse, spam, spoiler, other] } } } } }
+      responses:
+        '202': { description: 접수 }
+
+  /ext/match/resolve:
+    post:
+      tags: [ext]
+      summary: 현재 탭의 중계 → 경기 매칭
+      parameters: [ { $ref: '#/components/parameters/IdemKey' }, { $ref: '#/components/parameters/Client' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [host, url]
+              properties:
+                host: { type: string, enum: [youtube.com, chzzk.naver.com, sooplive.co.kr, twitch.tv] }
+                url: { type: string }
+                title: { type: string }
+                channel_id: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: { type: string, enum: [matched, ambiguous, none] }
+                  match_id: { type: string }
+                  candidates: { type: array, items: { $ref: '#/components/schemas/MatchSummary' } }
+                  offset_ms: { type: integer, description: 호스트별 기본 지연 }
+
+  /ext/stream:
+    get:
+      tags: [ext]
+      summary: 실시간 이벤트(SSE). 이벤트 목록은 09-api-spec §5 / components.schemas.StreamEvent
+      security: [ {}, { bearer: [] } ]
+      parameters:
+        - { name: match_id, in: query, required: true, schema: { type: string } }
+        - { name: Last-Event-ID, in: header, schema: { type: string } }
+      responses:
+        '200': { description: text/event-stream, content: { text/event-stream: { schema: { $ref: '#/components/schemas/StreamEvent' } } } }
+
+  /ext/muse/lines:
+    get:
+      tags: [ext]
+      security: []
+      parameters:
+        - { name: segment, in: query, required: true, schema: { type: string, enum: [pre, live, between, post] } }
+        - { name: lang, in: query, schema: { type: string, enum: [ko, en] } }
+        - { name: since_version, in: query, schema: { type: integer } }
+      responses:
+        '200': { description: '대사 묶음 — version, lines[{id, trigger, text, expression}]' }
+
+  /ext/muse/chat:
+    post:
+      tags: [ext]
+      summary: '서하 1:1 대화(스트리밍). Energy 차감 없음(정책 v1.3 §1). 로그인 필수'
+      parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text: { type: string, maxLength: 500 }
+                context: { type: object, properties: { match_id: { type: string }, moment_id: { type: string } } }
+      responses:
+        '200': { description: text/event-stream 토큰 스트림 }
+        '429': { $ref: '#/components/responses/Error' }
+
+  /ext/offset-reports:
+    post:
+      tags: [ext]
+      security: []
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [host, match_id, delta_ms], properties: { host: { type: string }, match_id: { type: string }, delta_ms: { type: integer } } } } }
+      responses:
+        '202': { description: 접수 }
+
+  /events:
+    post:
+      tags: [telemetry]
+      security: [ {}, { bearer: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                events: { type: array, maxItems: 50, items: { $ref: '#/components/schemas/AnalyticsEvent' } }
+      responses:
+        '202': { description: 접수 }
+
+components:
+  securitySchemes:
+    bearer: { type: http, scheme: bearer, bearerFormat: JWT }
+
+  parameters:
+    IdemKey: { name: Idempotency-Key, in: header, required: true, schema: { type: string, format: uuid } }
+    Client: { name: X-RORR-Client, in: header, required: true, schema: { type: string, example: ext/2.0.0 } }
+    Cursor: { name: cursor, in: query, schema: { type: string } }
+    Limit: { name: limit, in: query, schema: { type: integer, default: 20, maximum: 100 } }
+    MatchId: { name: match_id, in: path, required: true, schema: { type: string } }
+    MomentId: { name: moment_id, in: path, required: true, schema: { type: string } }
+
+  responses:
+    Error:
+      description: 오류
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message_key, request_id]
+          properties:
+            code:
+              type: string
+              enum: [bad_request, unauthorized, minor_restricted, client_outdated, moment_not_found, moment_closed,
+                     quiz_closed, quiz_already_answered, box_unavailable, box_already_opened,
+                     insufficient_paid_energy, insufficient_spark, amount_not_allowed, idempotency_mismatch,
+                     message_rejected, rate_limited, server_error]
+            message_key: { type: string }
+            params: { type: object, additionalProperties: true }
+            request_id: { type: string }
+
+    Currency: { type: string, enum: [energy, spark] }
+    Tier: { type: string, enum: [silver, gold, holo] }
+    BadgeLevel: { type: integer, minimum: 0, maximum: 3 }
+
+    Config:
+      type: object
+      properties:
+        min_ext_version: { type: string }
+        flags:
+          type: object
+          properties:
+            sponsor_moment_enabled: { type: boolean }
+            partner_official_label: { type: boolean }
+            fav_player_star: { type: boolean }
+        BOOST_SETTLE_MODE: { type: string, enum: [immediate, on_moment] }
+        STEP_ENERGY: { type: array, items: { type: integer } }
+        STEP_SPARK: { type: array, items: { type: integer } }
+        BADGE_ENERGY_L2: { type: integer }
+        BADGE_ENERGY_L3: { type: integer }
+        BADGE_SPARK_L2: { type: integer }
+        BADGE_SPARK_L3: { type: integer }
+        BOOST_CONFIRM_WINDOW_MS: { type: integer }
+        HEADSUP_COUNTDOWN_S: { type: integer }
+        EXT_HEADSUP_MIN_GAP: { type: integer }
+        HEADSUP_GOLD_MIN_GAP: { type: integer }
+        QUIZ_WINDOW_S: { type: integer }
+        QUIZ_GRACE_MS: { type: integer }
+        SPARK_PER_AD: { type: integer }
+        SPONSOR_BOX_ODDS: { type: array, items: { type: array, items: { type: integer }, minItems: 2, maxItems: 2 } }
+        BONUS_ENERGY_SCOPE: { type: string, enum: [rorr_deco] }
+        MOMENT_TIER_GOLD_PP: { type: number }
+        MOMENT_TIER_HOLO_PP: { type: number }
+
+    Me:
+      type: object
+      properties:
+        user_id: { type: string }
+        nickname: { type: string }
+        is_minor: { type: boolean }
+        cheer_teams: { type: array, items: { type: string } }
+        rep_team_id: { type: [string, 'null'] }
+        created_at: { type: string, format: date-time }
+
+    Preferences:
+      type: object
+      properties:
+        lang: { type: string, enum: [ko, en] }
+        alert_level: { type: string, enum: [all, decisive, off] }
+        notify_match_start: { type: boolean }
+        fav_players:
+          type: object
+          description: '키 없음 = 아직 안 물음, null = 자동, 문자열 = 선수 ID'
+          additionalProperties: { type: [string, 'null'] }
+
+    Wallet:
+      type: object
+      properties:
+        energy:
+          type: object
+          properties:
+            paid: { type: integer, description: Boost 가능 }
+            bonus: { type: integer, description: RORR 장식 전용 }
+            bonus_scope: { type: string, enum: [rorr_deco] }
+        spark:
+          type: object
+          properties:
+            balance: { type: integer }
+            expires_at: { type: [string, 'null'], format: date-time }
+        lots:
+          type: array
+          items:
+            type: object
+            properties:
+              lot_id: { type: string }
+              kind: { type: string, enum: [paid, bonus] }
+              remaining: { type: integer }
+              expires_at: { type: string, format: date-time }
+
+    Player:
+      type: object
+      properties:
+        player_id: { type: string }
+        nickname: { type: string }
+        role: { type: string, enum: [top, jungle, mid, adc, support] }
+        photo_url: { type: [string, 'null'] }
+
+    Team:
+      type: object
+      properties:
+        team_id: { type: string }
+        name: { type: string }
+        short: { type: string }
+        is_partner: { type: boolean }
+        logo_url: { type: [string, 'null'], description: 비제휴 팀은 null(텍스트만) }
+
+    MatchSummary:
+      type: object
+      properties:
+        match_id: { type: string }
+        league: { type: string }
+        starts_at: { type: string, format: date-time }
+        status: { type: string, enum: [scheduled, live, between, ended] }
+        teams: { type: array, items: { $ref: '#/components/schemas/Team' }, minItems: 2, maxItems: 2 }
+        partner_side: { type: [string, 'null'], description: 파트너 팀 ID 또는 null }
+        broadcast_hosts: { type: array, items: { type: string } }
+
+    Match:
+      allOf:
+        - $ref: '#/components/schemas/MatchSummary'
+        - type: object
+          properties:
+            best_of: { type: integer }
+            games:
+              type: array
+              items:
+                type: object
+                properties:
+                  game_no: { type: integer }
+                  status: { type: string, enum: [scheduled, live, ended] }
+                  winner_team_id: { type: [string, 'null'] }
+            score: { type: object, additionalProperties: { type: integer } }
+            lineups: { type: object, additionalProperties: { type: array, items: { $ref: '#/components/schemas/Player' } } }
+
+    Sponsor:
+      type: object
+      properties:
+        sponsor_id: { type: string }
+        label: { type: string }
+        logo_url: { type: string }
+        box_eligible: { type: boolean }
+        odds: { type: array, items: { type: array, items: { type: integer } } }
+
+    Moment:
+      type: object
+      properties:
+        moment_id: { type: string }
+        match_id: { type: string }
+        game_no: { type: integer }
+        kind: { type: string, enum: [teamfight, baron_fight, dragon_soul, elder, inhibitor, ace, comeback, base_race, other] }
+        title_key: { type: string }
+        team_id: { type: string, description: 승리확률이 움직인 쪽 }
+        status: { type: string, enum: [upcoming, open, resolved, closed, cancelled] }
+        tier_hint: { $ref: '#/components/schemas/Tier' }
+        final_tier: { oneOf: [ { $ref: '#/components/schemas/Tier' }, { type: 'null' } ] }
+        winprob_delta_pp: { type: number }
+        announced_at: { type: string, format: date-time }
+        closes_at: { type: string, format: date-time }
+        participants: { type: array, items: { type: string } }
+        top_performer: { type: [string, 'null'] }
+        star_preview:
+          type: object
+          properties:
+            player_id: { type: [string, 'null'] }
+            reason: { type: string, enum: [fav_in_play, fav_not_in_play, auto, non_partner] }
+        boosters_count: { type: integer }
+        sponsor: { $ref: '#/components/schemas/Sponsor' }
+        my:
+          type: object
+          properties:
+            card_id: { type: [string, 'null'] }
+            totals: { type: object, properties: { energy: { type: integer }, spark: { type: integer } } }
+            badges: { type: object, properties: { energy: { $ref: '#/components/schemas/BadgeLevel' }, spark: { $ref: '#/components/schemas/BadgeLevel' } } }
+
+    BoostRequest:
+      type: object
+      required: [moment_id, currency, amount]
+      properties:
+        moment_id: { type: string }
+        currency: { $ref: '#/components/schemas/Currency' }
+        amount: { type: integer, description: STEP_ENERGY / STEP_SPARK 값만 }
+        team_id: { type: string, description: 양쪽 팀 응원 시 대상 명시 }
+        message: { type: [string, 'null'], maxLength: 60 }
+        target_player_id: { type: [string, 'null'], description: '웹 이 교전의 선수 칩(B-7 결정 대기). 확장은 생략' }
+        disclosure_version: { type: string, description: 표시한 환불 불가 고지 문구 버전 }
+
+    Card:
+      type: object
+      properties:
+        card_id: { type: string }
+        moment_id: { type: string }
+        team_id: { type: string }
+        is_new: { type: boolean }
+        tier: { $ref: '#/components/schemas/Tier' }
+        edition: { type: string, enum: [partner, rorr] }
+        serial_no: { type: integer, description: 순간 내 발급 순번 }
+        star_player:
+          type: object
+          properties:
+            player_id: { type: [string, 'null'] }
+            reason: { type: string, enum: [fav_in_play, fav_not_in_play, auto, non_partner] }
+        badges: { type: object, properties: { energy: { $ref: '#/components/schemas/BadgeLevel' }, spark: { $ref: '#/components/schemas/BadgeLevel' } } }
+        totals: { type: object, properties: { energy: { type: integer }, spark: { type: integer } } }
+        level_up:
+          oneOf:
+            - type: 'null'
+            - type: object
+              properties:
+                currency: { $ref: '#/components/schemas/Currency' }
+                from: { $ref: '#/components/schemas/BadgeLevel' }
+                to: { $ref: '#/components/schemas/BadgeLevel' }
+        next:
+          oneOf:
+            - type: 'null'
+            - type: object
+              properties:
+                currency: { $ref: '#/components/schemas/Currency' }
+                level: { $ref: '#/components/schemas/BadgeLevel' }
+                remaining: { type: integer }
+        issued_at: { type: string, format: date-time }
+
+    BoostResult:
+      type: object
+      properties:
+        boost_id: { type: string }
+        status: { type: string, enum: [settled, pending] }
+        card: { $ref: '#/components/schemas/Card' }
+        points_awarded:
+          type: object
+          properties:
+            total: { type: integer }
+            base: { type: integer }
+            tier_bonus: { type: integer }
+            streak_bonus: { type: integer }
+        wallet: { $ref: '#/components/schemas/Wallet' }
+        boosters_count: { type: integer }
+
+    BoxResult:
+      type: object
+      properties:
+        result: { type: string, enum: [win, miss] }
+        prize: { oneOf: [ { type: 'null' }, { type: object, properties: { spark: { type: integer } } } ] }
+        wallet: { $ref: '#/components/schemas/Wallet' }
+
+    StreamEvent:
+      type: object
+      description: 'SSE data 본문. event 이름은 type 과 같음'
+      required: [type, server_ts]
+      properties:
+        type:
+          type: string
+          enum: [ping, resync, config.changed, match.state, match.started, match.ended, game.started, game.ended,
+                 moment.upcoming, moment.stats, moment.resolved, moment.cancelled, quiz.opened, quiz.resolved,
+                 boost.settled, boost.voided, wallet.changed, card.updated]
+        server_ts: { type: string, format: date-time }
+        data: { type: object, additionalProperties: true }
+
+    AnalyticsEvent:
+      type: object
+      required: [name, ts, client_event_id]
+      properties:
+        name: { type: string }
+        ts: { type: string, format: date-time }
+        client_event_id: { type: string, format: uuid }
+        session_id: { type: string }
+        props: { type: object, additionalProperties: true }

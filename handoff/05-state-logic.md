@@ -9,10 +9,10 @@
 
 | 이름 | 목업 값 | 근거 | 비고 |
 |---|---|---|---|
-| `BOOST_STEPS.energy` | 10 / 50 / 100 / 500 | 13 §15(스테퍼) | 기본 선택 10 |
-| `BOOST_STEPS.spark` | 5 / 10 / 20 / 50 | 정책 §4 | 기본 선택 10 |
-| `BADGE_LV.energy` | 10 → 1단계, 50 → 2단계, 100 → 3단계 | §4·§8 `deco.e2/e3` | 같은 순간 **누적** 기준 |
-| `BADGE_LV.spark` | 5 → 1단계, 20 → 2단계, 50 → 3단계 | §4·§8 `deco.s2/s3` | 재화별 따로 계산·표기 |
+| `STEP_ENERGY` | 10 / 50 / 100 / 500 | 13 §15(스테퍼) | 기본 선택 10 |
+| `STEP_SPARK` | 5 / 10 / 20 / 50 | 정책 §4 | 기본 선택 10 |
+| `BADGE_ENERGY_L2`·`L3` | 10 → 1단계, 50 → 2단계, 100 → 3단계 | §4·§8 `deco.e2/e3` | 같은 순간 **누적** 기준 |
+| `BADGE_SPARK_L2`·`L3` | 5 → 1단계, 20 → 2단계, 50 → 3단계 | §4·§8 `deco.s2/s3` | 재화별 따로 계산·표기 |
 | `CHEER_POINTS` | 순간당 1회 +50(골드 순간 예시) | §5-3 | 재Boost는 포인트 없음 |
 | `MOMENT_TIER` | 승률 변화 ≥30%p 홀로그램, ≥12%p 골드, 그 외 실버 | §4 | 목업 `tierOf` |
 | `CONFIRM_WINDOW` | 5초 | 웹 4e72431 | 두 번 누르기 |
@@ -26,7 +26,7 @@
 
 ```
 [1차 탭] → client: 대기 상태(5초), 서버 호출 없음
-[2차 탭] → POST /boost {moment_id, currency, amount, message?}
+[2차 탭] → POST /v1/boosts {moment_id, currency, amount, message?}
    server: 잔액 확인(유료 Energy만 · v1.3 §1-1) → 차감 → 순간 누적 갱신 → 배지 단계 재계산
            → 첫 Boost면 카드 발급 + 응원 포인트 적립, 재Boost면 배지만 갱신
    response: {card_id, is_new, badges:{energy:lv, spark:lv}, totals:{energy, spark},
@@ -40,7 +40,7 @@
 ## 3. 배지 누적 (정책 §4, 2026-10-17 개정)
 
 - 순간별·사용자별·재화별 누적 합계 `total[currency]`
-- 단계 = `BADGE_LV[currency]`의 임계값을 넘은 개수(0~3)
+- 단계 = `BADGE_*_L2`·`L3` 임계값(1단계 = 첫 Boost)을 넘은 개수(0~3)
 - 카드는 순간당 1장. 재Boost는 **배지만** 상승, 테두리(등급)·포인트 불변
 - 두 재화를 모두 쓰면 배지 2개를 세로로 표시(재화별)
 - 화면 문구

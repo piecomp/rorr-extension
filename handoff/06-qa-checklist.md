@@ -88,3 +88,19 @@
 
 - 목업 작업 폴더의 Playwright 스크립트: `shot.js`(레이아웃·오류) · `ko.js`(한국어 전환) · `cards.js` · `cel.js`·`cel2.js`(축하) · `menu.js`(874/874 번역) · `stp.js`(스테퍼) · `rep.js`(재Boost 누적) · `lb.js`(행운 박스) · `fa.js`(내 선수) · `nat4.js`(전체 흐름)
 - 구현 저장소에서는 같은 시나리오를 E2E로 이관(목업 DOM 선택자 대신 테스트 ID 사용)
+
+## 8. 서버·계약 (P0 — 구현 저장소)
+
+| ID | 항목 | 기준 |
+|---|---|---|
+| S-01 | Boost 트랜잭션 | `schema/boost_tx_test.sql` 9개 시나리오와 같은 결과(서비스 코드 테스트로 이식) |
+| S-02 | 유료 Energy만 | 보너스만 있는 계정의 Energy Boost → `insufficient_paid_energy` + `bonus_available=true`, 보너스 묶음 미차감 |
+| S-03 | 멱등 | 같은 `Idempotency-Key` 2회 → Boost 1건, 응답 동일. 본문 다르면 422 |
+| S-04 | 카드 1장 | 같은 순간 동시 Boost 20건(한 사용자) → 카드 1장, 누적 합 정확, 포인트 1회 |
+| S-05 | API 계약 | 모든 응답이 `api/openapi.yaml` 스키마 통과(계약 테스트) |
+| S-06 | SSE 재연결 | 연결 강제 종료 후 `Last-Event-ID`로 누락 0건, 5분 초과 시 `resync` |
+| S-07 | 지연 표시 | 결과형 이벤트가 `offset_ms` 전에 화면에 나오지 않음(스포일러 0건) |
+| S-08 | 확정 모드 | `BOOST_SETTLE_MODE=on_moment`에서 `moment.cancelled` → `boost.voided`·원장 `boost_release`·잔액 원복 |
+| S-09 | 행운 박스 | 순간당 1회, 결과 서버 판정, 1만 회 모의 시 확률 ±1%p, 총량 소진 시 `box_unavailable` |
+| S-10 | 원장 대조 | 테스트 종료 시 사용자별 `Σ remaining` = `Σ ledger.delta` |
+

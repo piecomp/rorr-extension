@@ -1,3 +1,5 @@
+-- [2026-10-17 통합 안내] 단일 기준은 rorr-hero/handoff/db/schema.sql · reference_boost.sql (be35b45).
+-- 이 파일은 통합 전 확장 설계로 참고용. 차이·채택 근거: rorr-hero/handoff/18-canonical-merge.md
 -- Boost 확정 트랜잭션 참조 구현 (BOOST_SETTLE_MODE = immediate)
 -- 작성일: 2026-10-17 · 설명: handoff/13-backend-middleware.md §2
 -- 목적: 규칙(유료 Energy만·FIFO·카드 1장·재화별 누적 배지·포인트 1회)을 한 트랜잭션으로 보여 주는 기준.

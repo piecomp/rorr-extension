@@ -1,3 +1,5 @@
+-- [2026-10-17 통합 안내] 단일 기준은 rorr-hero/handoff/db/schema.sql · reference_boost.sql (be35b45).
+-- 이 파일은 통합 전 확장 설계로 참고용. 차이·채택 근거: rorr-hero/handoff/18-canonical-merge.md
 -- RORR 데이터 스키마 초안 (PostgreSQL 16) — 확장 프로그램 v2.0 사용 범위 + 웹 공용
 -- 작성일: 2026-10-17 · 설명 문서: handoff/10-data-schema.md
 -- 지갑·환불 테이블(energy_lots, wallet_ledger, boost_lot_usage, refunds, settlements, partner_agreements)은

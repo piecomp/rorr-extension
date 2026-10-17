@@ -1,5 +1,7 @@
 # 09. API 명세
 
+> **2026-10-17 통합 안내** — 공용 API·DB의 단일 기준은 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45, 웹·확장 통합)입니다. 이 문서는 통합 전 확장 설계로 **참고용**이며, 차이·채택 근거와 확장 쪽 변경 사항(E-1~E-6)은 `rorr-hero/handoff/18-canonical-merge.md`를 보세요. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1은 '첫 경기 0'으로 결정).
+
 - 작성일: 2026-10-17 · 기계 판독본: `api/openapi.yaml`(OpenAPI 3.1) — 이 문서와 다르면 **이 문서 우선**, 발견 시 둘 다 고칠 것
 - 원칙: 웹과 **같은 API**. 확장 전용은 `/v1/ext/*` 3종(매칭·스트림·Muse — 웹 OI-20)
 - 이름 규칙: 웹 `docs/specs/refund.md`(`/me/wallet`, `POST /refunds` + `Idempotency-Key`)와 웹 handoff 06 §6 설정 변수 이름을 그대로 사용

@@ -1,3 +1,5 @@
+-- [2026-10-17 통합 안내] 단일 기준은 rorr-hero/handoff/db/schema.sql · reference_boost.sql (be35b45).
+-- 이 파일은 통합 전 확장 설계로 참고용. 차이·채택 근거: rorr-hero/handoff/18-canonical-merge.md
 -- boost_tx.sql 검증 시나리오 (빈 DB: schema.sql → boost_tx.sql → 이 파일)
 -- 기대값은 정책 v1.3 · 목업 v45 · 05-state-logic 기준. 실패 시 ASSERT 오류로 중단.
 \set ON_ERROR_STOP 1

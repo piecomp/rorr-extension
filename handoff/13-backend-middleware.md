@@ -1,5 +1,7 @@
 # 13. 미들·백엔드 구현 가이드
 
+> **2026-10-17 통합 안내** — 공용 API·DB의 단일 기준은 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45, 웹·확장 통합)입니다. 이 문서는 통합 전 확장 설계로 **참고용**이며, 차이·채택 근거와 확장 쪽 변경 사항(E-1~E-6)은 `rorr-hero/handoff/18-canonical-merge.md`를 보세요. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1은 '첫 경기 0'으로 결정).
+
 - 작성일: 2026-10-17 · 구성 전제: 07-system-architecture(서비스 13종) · 데이터: 10-data-schema · API: 09-api-spec
 - 참조 구현: `schema/boost_tx.sql`(Boost 확정 트랜잭션) + `schema/boost_tx_test.sql`(9개 시나리오, PostgreSQL 16에서 통과 2026-10-17)
 

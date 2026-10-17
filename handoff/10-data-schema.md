@@ -1,5 +1,7 @@
 # 10. 데이터 스키마
 
+> **2026-10-17 통합 안내** — 공용 API·DB의 단일 기준은 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45, 웹·확장 통합)입니다. 이 문서는 통합 전 확장 설계로 **참고용**이며, 차이·채택 근거와 확장 쪽 변경 사항(E-1~E-6)은 `rorr-hero/handoff/18-canonical-merge.md`를 보세요. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1은 '첫 경기 0'으로 결정).
+
 - 작성일: 2026-10-17 · DDL: `schema/schema.sql`(PostgreSQL 16, 빈 DB 적용 확인 2026-10-17 — 테이블 43개·뷰 1개)
 - 지갑·환불 테이블은 웹 `docs/specs/refund.md`와 **이름·컬럼 동일**. 이 패키지에서 더한 컬럼은 DDL에 `-- (ext)` 표시
 - 실시간 프레임(Live Stats 1초 단위)은 TimescaleDB `live_frames`(별도, 파이프라인 소유)로 이 DDL에서 제외

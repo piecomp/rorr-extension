@@ -1,5 +1,7 @@
 # 15. 웹 핸드오프 교차 점검
 
+> **2026-10-17 통합 안내** — 공용 API·DB의 단일 기준은 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45, 웹·확장 통합)입니다. 이 문서는 통합 전 확장 설계로 **참고용**이며, 차이·채택 근거와 확장 쪽 변경 사항(E-1~E-6)은 `rorr-hero/handoff/18-canonical-merge.md`를 보세요. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1은 '첫 경기 0'으로 결정).
+
 - 작성일: 2026-10-17 · 대상: 웹 `rorr-hero/handoff/`(8709612 + 48749d6), `rorr-hero/docs/specs/refund.md` · 이 저장소 `handoff/` 01~14
 - 결론
   - 웹 패키지는 웹·확장 공통 **규칙·토큰·화면 정합**을 다루고, 48749d6에서 확장 세부는 이 패키지(v45)로 넘김 — 역할 분담은 맞음

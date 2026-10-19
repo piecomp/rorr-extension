@@ -159,6 +159,16 @@ const state = !tab ? 'none'
 | 축하 입자 | DOM 40개 이하, `transform`·`opacity`만 애니메이션 |
 | 메모리 | 패널 150MB 이하(VRM 포함) |
 
+### 6-1. 움직임 성능 규칙 (v47에서 목업에 적용)
+
+| 규칙 | 이유 |
+|---|---|
+| 자주 바뀌는 값은 해당 요소의 `style.transform`에 직접 지정. 패널 최상위에 CSS 변수(`--px` 등)를 쓰지 않음 | 최상위 변수 변경은 패널 전체 스타일 재계산 |
+| 움직임은 `transform`·`opacity`만. `width`·`left`·`height`·`margin`·`box-shadow` 애니메이션 금지(필요하면 미리 그린 레이어의 투명도) | 레이아웃·다시 그리기 비용 |
+| 배경 장식 반복 애니메이션은 경기 중(S3)·패널 숨김(`document.hidden`) 동안 정지(`animation-play-state: paused`) | 중계 영상과 GPU 공유, 반투명 흐림 패널 위 반복 그리기 비용 |
+| `transition: all` 금지, 속성 명시 | 의도하지 않은 속성까지 움직임 |
+| 반복 애니메이션은 동작 줄이기에서 정지 또는 고정 표시 | 어지럼 위험 |
+
 ## 7. i18n
 
 - 문구 원본 `i18n-ko.json`(영문 → 국문 536개 + 패턴 59개) → 키 체계로 변환: `area.element.state` (예: `boost.confirm.hint`, `card.star.fav_not_in_play`)

@@ -30,6 +30,7 @@
 | `offset_adjust` | 지연 보정 탭 | `delta_ms`, `host`, `behind_edge_ms` | 지연 실측(OI-06) |
 | `watch_state` | 시청 상태 전환(v46) | `state(none/official/other/replay)`, `host`, `prev` | 공식 채널 유입·다시보기 비율 |
 | `watch_channels_open` / `watch_channel_click` / `watch_go_live` / `watch_dismiss` | 띠 조작 | `host`, `lang` | 채널 안내 효과 |
+| `watch_chip_open` | 큰 순간 중 시청 상태 칩 펼침(v47) | `state` | 접힘 칩의 발견성 |
 | `stream_state` | 연결 상태 변화 | `state`, `retry_count` | 안정성 |
 | `headsup_shown` | 큰 순간 알림 표시 | `tier_hint`, `gap_since_last_s`, `sponsor(bool)` | 빈도 실측 |
 | `headsup_dismiss` | 알림 닫기 | `remaining_s` | 피로도 |

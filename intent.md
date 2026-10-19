@@ -158,6 +158,7 @@
 
 ## 13. 관련 문서
 
+- **요구사항 명세: [SPEC.md](SPEC.md)** — 요구 ID·수용 기준·설정값·API·비기능·시험
 - 기획: `docs/00`~`16` · 핸드오프: `handoff/README.md` · 목업: `mockup/index.html`
 - 웹·공용: `rorr-hero/handoff/README.md`, `09-open-items.md` §0, `18-canonical-merge.md`, `api/`, `db/`
 - 정책: `handoff/policy/boost-economy-policy-v1.3.md`

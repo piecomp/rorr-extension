@@ -167,6 +167,7 @@ const state = !tab ? 'none'
 | 움직임은 `transform`·`opacity`만. `width`·`left`·`height`·`margin`·`box-shadow` 애니메이션 금지(필요하면 미리 그린 레이어의 투명도) | 레이아웃·다시 그리기 비용 |
 | 배경 장식 반복 애니메이션은 경기 중(S3)·패널 숨김(`document.hidden`) 동안 정지(`animation-play-state: paused`) | 중계 영상과 GPU 공유, 반투명 흐림 패널 위 반복 그리기 비용 |
 | `transition: all` 금지, 속성 명시 | 의도하지 않은 속성까지 움직임 |
+| 오버레이를 열며 포커스를 옮길 때 `focus({preventScroll:true})` | 화면 밖(진입 애니메이션 시작 위치)에 있는 요소에 포커스하면 브라우저가 부모를 스크롤해 화면 전체가 튐(v47d 수정) |
 | 반복 애니메이션은 동작 줄이기에서 정지 또는 고정 표시 | 어지럼 위험 |
 
 ## 7. i18n

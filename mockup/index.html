@@ -1206,9 +1206,9 @@ function renderWatch(){ const w=$('#watch'), d=WATCH[S.watch], on=S.live&&!!d;
   $('#wTitle').textContent=d.t; $('#wSub').textContent=d.s; $('#wGo').textContent=d.b; }
 function setWatch(v){ S.watch=v; $('#chList').hidden=true; renderWatch() }
 $$('[data-watch]').forEach(b=>b.addEventListener('click',()=>setWatch(b.dataset.watch)));
-$('#wChip').addEventListener('click',()=>{ $('#card').classList.add('watch-open'); $('#wGo').focus() });
+$('#wChip').addEventListener('click',()=>{ $('#card').classList.add('watch-open'); $('#wGo').focus({preventScroll:true}) });
 $('#wGo').addEventListener('click',()=>{ if(S.watch==='replay'){ setWatch('official'); toast('Back to live · synced'); return }
-  const l=$('#chList'), open=l.hidden||!!l.__closing; if(open){ unclose(l); l.hidden=false; l.querySelector('.ch').focus() } else hideAnim(l,[[null,'up']]); $('#wGo').setAttribute('aria-expanded',String(open)) });
+  const l=$('#chList'), open=l.hidden||!!l.__closing; if(open){ unclose(l); l.hidden=false; l.querySelector('.ch').focus({preventScroll:true}) } else hideAnim(l,[[null,'up']]); $('#wGo').setAttribute('aria-expanded',String(open)) });
 $$('.ch').forEach(b=>b.addEventListener('click',()=>{ S.ch=b.dataset.ch; S.off=CH[S.ch].off; S.offUser=0; setWatch('official'); say("Synced to "+S.ch+". I'll keep my alerts in step with your stream.",'happy') }));
 $$('[data-off]').forEach(b=>b.addEventListener('click',()=>{ S.offUser+=Number(b.dataset.off); renderWatch(); toast('Stream delay set to +'+(S.off+S.offUser)+'s') }));
 function flash(t){const f=$('#vFlash');f.textContent=t;f.classList.add('on');setTimeout(()=>f.classList.remove('on'),2600)}
@@ -1304,7 +1304,7 @@ function playBox(){ if(S.boxRes!==undefined&&S.boxRes!==null) return; const w=$(
   w.innerHTML='<div class="spx-in" role="dialog" aria-modal="true" aria-label="NOVA Gear lucky box"><div class="spx-rays" aria-hidden="true"></div><div class="spx-top">'+spLock()+'</div><h3 class="spx-h">Pick a box</h3><div class="spx-row">'+[0,1,2].map(n=>'<button type="button" class="spx-b" data-spxi="'+n+'" style="--i:'+n+'" disabled aria-label="Box '+(n+1)+'">'+BOXSVG+'</button>').join('')+'</div><div class="spx-res" aria-live="assertive"></div><p class="spx-odds">Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box</p><div class="spx-act"></div><button type="button" class="spx-x" aria-label="Close">×</button></div>';
   w.hidden=false; void w.offsetWidth; w.classList.add('on','shuffle'); w.classList.remove('ready','picked','won','lost');
   w.querySelector('.spx-x').onclick=closeBox;
-  setTimeout(()=>{ w.classList.remove('shuffle'); w.classList.add('ready'); w.querySelectorAll('.spx-b').forEach(b=>b.disabled=false); const f=w.querySelector('.spx-b'); f&&f.focus() },reduce?50:1500);
+  setTimeout(()=>{ w.classList.remove('shuffle'); w.classList.add('ready'); w.querySelectorAll('.spx-b').forEach(b=>b.disabled=false); const f=w.querySelector('.spx-b'); f&&f.focus({preventScroll:true}) },reduce?50:1500);
   w.querySelectorAll('.spx-b').forEach(btn=>btn.onclick=()=>{ if(S.boxRes!==undefined&&S.boxRes!==null) return; const n=boxRoll(); S.boxRes=n; w.classList.remove('ready'); w.classList.add('picked'); btn.classList.add('pick'); w.querySelectorAll('.spx-b').forEach(b=>b.disabled=true); w.querySelector('.spx-h').textContent='Opening…';
     setTimeout(()=>{ w.classList.add(n?'won':'lost'); btn.classList.add('lidoff');
       if(n){ S.sBal+=n; $('#sBal').textContent=S.sBal; const ms=$('#mS'); if(ms) ms.textContent=S.sBal }
@@ -1316,7 +1316,7 @@ function playBox(){ if(S.boxRes!==undefined&&S.boxRes!==null) return; const w=$(
       act.innerHTML=n?'<button type="button" class="spx-go spk">Boost this moment with Spark</button><button type="button" class="spx-later">Save it for later</button>':'<button type="button" class="spx-go">Boost this moment with Energy</button><button type="button" class="spx-later">No thanks</button>';
       act.querySelector('.spx-go').onclick=()=>{ closeBox(); S.cur=n?'s':'e'; if(n&&S.sBal>=10) S.amt.s=n>=10?10:5; openSheet() };
       act.querySelector('.spx-later').onclick=closeBox;
-      renderHsp(); toast(n?'NOVA Gear lucky box · Spark won':'NOVA Gear lucky box · no prize'); act.querySelector('.spx-go').focus() },reduce?100:1100) }) }
+      renderHsp(); toast(n?'NOVA Gear lucky box · Spark won':'NOVA Gear lucky box · no prize'); act.querySelector('.spx-go').focus({preventScroll:true}) },reduce?100:1100) }) }
 document.addEventListener('click',e=>{ if(e.target.closest('#spBoxOpen')) playBox() });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('#spxWrap').classList.contains('on')) closeBox() });
 $$('[data-sp]').forEach(b=>b.addEventListener('click',()=>{ S.sp=b.dataset.sp==='1'; $('#card').classList.toggle('sp-on',S.sp); $$('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderSpDrop(); renderSpWeek(); toast(S.sp?'Sponsor preview on':'Sponsor preview off') }));
@@ -1410,7 +1410,7 @@ let SH0=null;
 function msSheet(){ if(!SH0) SH0={e:$('#sheetEyebrow').innerHTML,t:$('#sheetTitle').textContent};
   if(S.ms){ $('#sheetEyebrow').innerHTML='<span class="gm">Commemorative edition</span>'; $('#sheetTitle').textContent=S.ms.title; $('#bsHero').innerHTML=''; $('#spDrop').hidden=true; $('#bsGift').textContent='Commemorative edition card included' }
   else { $('#sheetEyebrow').innerHTML=SH0.e; $('#sheetTitle').textContent=SH0.t } }
-function openSheet(kbd){ const sw=$('#sheetWrap'); unclose(sw); sw.classList.toggle('instant',kbd===true); renderAmt(); renderSpDrop(); renderHero(); msSheet(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus() }
+function openSheet(kbd){ const sw=$('#sheetWrap'); unclose(sw); sw.classList.toggle('instant',kbd===true); renderAmt(); renderSpDrop(); renderHero(); msSheet(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus({preventScroll:true}) }
 var cfT=null;
 function closeSheet(){ hideAnim($('#sheetWrap'),[['.sheet','sheet'],['.sheet-bg','fade']]); if(S.ms){ S.ms=null; msSheet() } const b=$('#boostGo'); if(b&&b.dataset.cf) renderAmt() }
 /* first tap arms (nothing spent), second tap within 5s sends */
@@ -1439,7 +1439,7 @@ function renderAmt(){ const c=S.cur,a=S.amt[c],L=AMT[c],i=L.indexOf(a),b=c==='e'
 $$('[data-cur]').forEach(b=>b.addEventListener('click',()=>{S.cur=b.dataset.cur; renderAmt()}));
 $('#amtUp').addEventListener('click',()=>{const L=AMT[S.cur],i=L.indexOf(S.amt[S.cur]); if(L[i+1]) S.amt[S.cur]=L[i+1]; renderAmt()});
 $('#amtDown').addEventListener('click',()=>{const L=AMT[S.cur],i=L.indexOf(S.amt[S.cur]); if(i>0) S.amt[S.cur]=L[i-1]; renderAmt()});
-$('#addMsg').addEventListener('click',e=>{const f=$('#msgField'); f.hidden=false; e.currentTarget.hidden=true; $('#cheerMsg').focus()});
+$('#addMsg').addEventListener('click',e=>{const f=$('#msgField'); f.hidden=false; e.currentTarget.hidden=true; $('#cheerMsg').focus({preventScroll:true})});
 $('#shareInfo').addEventListener('click',e=>{const t=$('#shareTxt');t.hidden=!t.hidden;e.currentTarget.setAttribute('aria-expanded',String(!t.hidden))});
 $('#boostGo').addEventListener('click',()=>{ const amt=S.amt[S.cur];
   if(!$('#boostGo').dataset.cf&&(S.cur==='e'?S.eBal:S.sBal)>=amt){ armTap($('#boostGo'),amt,S.cur==='e'?'Energy':'Spark',renderAmt); const n=$('#amtNote'); n.textContent='Tap again within 5 seconds to send. Nothing is spent yet.'; n.classList.add('cf-hint'); return }

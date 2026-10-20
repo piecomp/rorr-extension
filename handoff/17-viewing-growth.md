@@ -54,12 +54,13 @@
 ### 3-1. 팬 드래프트 보상 원칙 (2026-10-20 결정)
 
 - **맞힌 만큼 Spark 지급은 하지 않음** — 예측 보상 기능이 되어 Riot 정책(G-12)·사행성 검토 범위를 벗어나고, Spark 공급이 늘어 광고 Spark·유료 Energy 가치를 떨어뜨림(정책 v1.3 §6-1 Spark 잠식 검토)
-- **A. 주간 퀴즈 순위 편입**: 실제 밴픽과 일치 1개당 퀴즈 포인트 5점(밴 3 + 픽 5 = 최대 40점). Spark는 기존 주간 상위 10명·총 30 Spark로만 → Spark 총량·법률 검토 범위·정책 문구 그대로. 퀴즈 공식 규칙(`#rules/quiz`)에 드래프트 항목 추가 필요
+- **A. 주간 퀴즈 순위 편입**: 실제 밴픽과 일치 시 퀴즈 포인트 — **직접 바꾼 칸·★ 픽 5점, 그대로 둔 칸·자동 칸 2점**(v49, 2026-10-20 결정. 최대 40점). Spark는 기존 주간 상위 10명·총 30 Spark로만 → Spark 총량·법률 검토 범위·정책 문구 그대로. 퀴즈 공식 규칙(`#rules/quiz`)에 드래프트 항목 추가 필요
 - **B. 돈이 아닌 즉시 보상**: 공유 카드('감독과 6/8 일치 · T1 팬 중 상위 12%'), 시즌 칭호('밴픽 리더'), 서하 반응, 팬덤 안 선택 분포('T1 팬이 가장 많이 고른 미드: 오리아나 41%')
 - 공유 카드에 넣지 않을 것: Spark 금액, 상대 팬덤과 비교(정책 §5-2)
 - C(참여만 하면 소량 Spark)는 베타 참여율이 낮을 때만 대조군 실험으로 검토
 - 미결: 밴픽 이벤트의 실시간 수신 가능 여부(VG-7) — 불가하면 팬 드래프트 마감 = 경기 시작 예정 시각, 비교는 경기 시작 직후 / 픽 공개는 개인 지연 기준(스포일러)
-- 화면: `02` §19, 캡처 36~41
+- 미리 채움·섞기 도입(v49): 기본 예상을 그대로 맞히는 것은 실력이 아니므로 2점, 남과 다르게 바꿔 맞힌 것이 자랑의 중심(★·희소 적중을 공유 카드 중심에). 섞기는 무료, **Energy·Spark 사용 불가**(유료로 적중 확률을 높이는 구조 = 페이투윈·사행성, G-12)
+- 화면: `02` §19, 캡처 36·40~46
 
 ## 4. 효과 측정과 기준선(Baseline)
 
@@ -172,7 +173,11 @@
 | 이벤트 | 속성 |
 |---|---|
 | `draft_invite_shown` / `draft_open` | `match_id`, `source(chat/menu)` |
-| `draft_submit` | `match_id`, `used_suggest(bool)`, `seconds_to_submit` |
+| `draft_submit` | `match_id`, `changed_n(0~8)`, `auto_n`, `starred(bool)`, `seconds_to_submit` |
+| `draft_slot_open` | `match_id`, `slot(ban/top/…)` |
+| `draft_slot_change` | `match_id`, `slot`, `from`, `to`, `via(tray/search/move)`, `rank_in_pool(1~6, 검색은 0)` |
+| `draft_shuffle` / `draft_reset` | `match_id`, `kept_n` |
+| `draft_star` | `match_id`, `slot` |
 | `draft_result_shown` | `match_id`, `matches(0~8)`, `submitted(bool)` |
-| `draft_share` | `matches` |
+| `draft_share` | `matches`, `star_hit(bool)`, `rare_pct` |
 | `watch_point_hit` | `match_id`, `point_index` |

@@ -1,5 +1,5 @@
 {
- "_note": "목업 v45 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
+ "_note": "목업 v52 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
  "exact": {
   "The lucky box opens with the turning-point heads-up": "행운 박스는 승부처 미리 알림에서 열려요",
   "Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box": "확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요",
@@ -91,6 +91,140 @@
   "Game 2": "2세트",
   "T1 team page": "T1 팀 페이지",
   "Your team": "응원 팀",
+  "Nothing else to shuffle": "랜덤으로 채울 칸이 없어요 · 모두 직접 바꾼 칸이에요",
+  "I filled this from T1's recent games. Tap only what you'd do differently.": "최근 T1 경기를 보고 채워 뒀어. 다르게 하고 싶은 칸만 눌러서 바꿔 봐.",
+  "Changed and right: 5 pts · kept and right: 2 pts": "바꿔서 맞히면 5점 · 그대로 둬도 맞으면 2점",
+  "Next · pick your ★": "다음 · 자신 있는 픽 고르기",
+  "Your surest pick?": "가장 자신 있는 픽은?",
+  "Call it right and it leads your share card.": "이 픽이 맞으면 공유 카드 맨 위에 크게 나와요.",
+  "Back": "뒤로",
+  "Lock in": "제출하기",
+  "Lock in without ★": "★ 없이 제출하기",
+  "Your surest pick": "가장 자신 있는 픽",
+  "If you were T1's coach on Saturday, what would you change? I filled a draft from T1's recent games. Swap what you disagree with and star your surest call.": "토요일 T1 밴픽, 네가 감독이면 어떻게 할래? 최근 경기로 미리 채워 뒀으니 다르게 하고 싶은 곳만 바꿔 줘.",
+  "Ban": "밴",
+  "Shuffle": "랜덤 채우기",
+  "Filled from T1's recent drafts. Tap what you'd change, then star your surest pick.": "T1 최근 밴픽으로 채워 뒀어요. 바꾸고 싶은 칸만 누르고, 가장 자신 있는 픽에 ★를 달아 주세요.",
+  "not yet": "아직 없음",
+  "Your call": "바꿈",
+  "Auto-filled": "자동 채움",
+  "Not in recent games": "최근 10경기 기록 없음",
+  "Banned": "밴됨",
+  "In your bans · tap to move": "밴에 있음 · 누르면 여기로 옮겨요",
+  "Ban options": "밴 후보",
+  "Other champion": "다른 챔피언 검색",
+  "No champion found": "검색 결과가 없어요",
+  "Matches add quiz points: 5 for your calls and your ★, 2 for slots you kept. Spark prizes stay with the weekly quiz ranking.": "실제 밴픽과 맞으면 퀴즈 포인트를 받아요. 직접 바꾼 칸과 ★ 픽은 5점, 그대로 둔 칸은 2점이에요. Spark 상금은 주간 퀴즈 순위로만 지급돼요.",
+  "Start over": "처음 상태로",
+  "Shuffled · your own calls stayed": "바꾼 칸은 두고 나머지를 랜덤으로 채웠어요",
+  "· called it": "· 적중",
+  "Aatrox": "아트록스",
+  "Renekton": "레넥톤",
+  "Sejuani": "세주아니",
+  "Viego": "비에고",
+  "Wukong": "오공",
+  "Syndra": "신드라",
+  "Corki": "코르키",
+  "Galio": "갈리오",
+  "Sylas": "사일러스",
+  "Kai'Sa": "카이사",
+  "Xayah": "자야",
+  "Zeri": "제리",
+  "Alistar": "알리스타",
+  "Leona": "레오나",
+  "Poppy": "뽀삐",
+  "If you were T1's coach on Saturday, what would you ban and pick? Make your fan draft and I'll compare it with the real one.": "토요일에 네가 T1 감독이라면 뭘 밴하고 뭘 뽑을래? 팬 드래프트를 만들어 두면 실제 밴픽이랑 비교해 줄게.",
+  "Make my fan draft": "팬 드래프트 만들기",
+  "Fan draft": "팬 드래프트",
+  "Fan draft · T1": "팬 드래프트 · T1",
+  "Closes when the draft starts": "밴픽 시작 전까지",
+  "Bans": "밴",
+  "Picks": "픽",
+  "Top": "탑",
+  "Jungle": "정글",
+  "Mid": "미드",
+  "Bot": "원딜",
+  "Support": "서포터",
+  "Each match with the real draft adds 5 quiz points. Spark prizes stay with the weekly quiz ranking.": "실제 밴픽과 하나 맞을 때마다 퀴즈 포인트 5점이 더해져요. Spark 상금은 주간 퀴즈 순위로만 지급돼요.",
+  "Use Seoha's picks": "서하 추천으로 채우기",
+  "Lock in my draft": "이대로 확정",
+  "Locked in. When the real draft is done, I'll show you how close you were.": "제출 완료! 밴픽이 끝나면 감독이랑 얼마나 같은지 바로 보여 줄게.",
+  "Draft locked · I'll compare it at game start": "이미 제출했어요 · 밴픽이 끝나면 결과를 보여 드려요",
+  "Draft read · Game 2": "밴픽 리뷰 · 2세트",
+  "Draft read": "밴픽 리뷰",
+  "Close draft read": "밴픽 리뷰 닫기",
+  "T1 went teamfight. GEN went early pressure.": "T1은 한타 조합, GEN은 초반 압박이야.",
+  "match with the coach": "감독 밴픽과 일치",
+  "Draft reader": "밴픽 리더",
+  "T1 fans' most-picked Mid: Orianna (41%)": "T1 팬이 가장 많이 고른 미드: 오리아나(41%)",
+  "Make your fan draft before the next game and I'll compare it with the coach's.": "다음 경기 전에 팬 드래프트를 만들면 감독 밴픽과 비교해 줄게.",
+  "Baron call before 20:00": "20분 전 첫 바론 시도",
+  "Orianna and Rakan win a teamfight together": "오리아나·라칸이 함께 한타 승리",
+  "Gold lead flips after 30:00": "30분 이후 골드 역전",
+  "Share": "공유하기",
+  "Got it": "확인",
+  "Share text copied": "공유 문구를 복사했어요",
+  "Watch points": "지켜볼 포인트",
+  "Azir": "아지르",
+  "Rumble": "럼블",
+  "Vi": "바이",
+  "Kalista": "칼리스타",
+  "Rell": "렐",
+  "Yone": "요네",
+  "Jayce": "제이스",
+  "Nidalee": "니달리",
+  "Ashe": "애쉬",
+  "K'Sante": "크산테",
+  "Jax": "잭스",
+  "Gnar": "나르",
+  "Lee Sin": "리 신",
+  "Xin Zhao": "신 짜오",
+  "Maokai": "마오카이",
+  "Orianna": "오리아나",
+  "Ahri": "아리",
+  "Taliyah": "탈리야",
+  "Varus": "바루스",
+  "Ezreal": "이즈리얼",
+  "Jinx": "징크스",
+  "Rakan": "라칸",
+  "Nautilus": "노틸러스",
+  "Braum": "브라움",
+  "Azir · Rumble · Kalista": "아지르 · 럼블 · 칼리스타",
+  "Stream notice": "중계 상태 안내",
+  "Official channels · T1 vs GEN": "공식 채널 · T1 vs GEN",
+  "CHZZK · LCK": "치지직 · LCK",
+  "Korean": "한국어",
+  "YouTube · LCK Global": "유튜브 · LCK Global",
+  "English": "영어",
+  "Open ↗": "열기 ↗",
+  "Stream sync ·": "중계 맞춤 ·",
+  "Stream sync": "중계 맞춤",
+  "auto": "자동",
+  "Screen is behind": "화면이 늦어요",
+  "Screen is ahead": "화면이 빨라요",
+  "Matched to where your video is. Nudge it if Seoha reacts too early or too late.": "영상 재생 위치에 자동으로 맞춰요. 서하 반응이 너무 빠르거나 늦으면 조정하세요.",
+  "Watching": "시청 상태",
+  "Official channel": "공식 채널",
+  "No stream tab": "중계 탭 없음",
+  "Other stream": "다른 방송",
+  "Replay": "다시보기",
+  "What the user is watching": "사용자 시청 상태",
+  "Official channels": "공식 채널",
+  "T1 vs GEN is live now": "지금 T1 vs GEN 경기 중이에요",
+  "Watch on an official channel and I'll sync to it": "공식 채널에서 보면 서하가 화면에 맞춰요",
+  "Channels": "채널 보기",
+  "This stream isn't synced with the match": "이 방송은 경기와 맞춰지지 않아요",
+  "Alerts may not line up with what you see": "알림이 화면과 어긋날 수 있어요",
+  "Official": "공식 채널",
+  "You're 2 min behind live": "라이브보다 2분 늦게 보고 있어요",
+  "Result alerts are off so nothing gets spoiled": "스포일러가 없도록 결과 알림은 꺼 둘게요",
+  "Go live": "라이브로",
+  "New Tab": "새 탭",
+  "Late-night variety stream": "심야 예능 방송",
+  "No stream in this tab": "이 탭에는 중계가 없어요",
+  "A different live stream": "다른 라이브 방송",
+  "Rewound · 2 min behind live": "되감기 · 라이브보다 2분 늦음",
+  "Back to live · synced": "라이브로 돌아왔어요 · 맞춤 완료",
   "Card star · Auto": "카드 주인공 · 자동",
   "How the card star is chosen": "카드 주인공 정하는 방법",
   "Your player goes on the card when they're in the fight; otherwise the top performer does. Change it in the menu.": "교전에 참여하면 내 선수가, 아니면 가장 크게 기여한 선수가 카드에 담겨요. 메뉴에서 바꿀 수 있어요.",
@@ -255,7 +389,6 @@
   "Spark cheer sent for GEN · RORR card added": "GEN에 Spark 응원 완료 · RORR 카드 추가",
   "Gold gap": "골드 격차",
   "The bar fills toward the team that's ahead. Tap a team for the exact number.": "앞선 팀 쪽으로 바가 차올라요. 팀을 누르면 정확한 수치를 볼 수 있어요.",
-  "Got it": "확인",
   "Both teams lead early, but T1 build the bigger 15-minute lead and finish more cleanly after Baron. Saturday is about whether GEN can win the dragons before T1 reach Baron.": "두 팀 모두 초반에 앞서지만, 15분 리드는 T1이 더 크고 바론 이후 마무리도 T1이 깔끔해. 토요일 승부는 GEN이 T1의 바론 전에 드래곤을 가져갈 수 있느냐야.",
   "Dragons. GEN take 2.5 per game, first in the league, and they are +352 gold at 15 minutes, second only to T1.": "드래곤이야. GEN은 경기당 2.5개로 리그 1위고, 15분 골드도 +352로 T1 다음이야.",
   "Closing. After the first Baron GEN win 82%, fifth in the league, so leads sometimes slip late.": "마무리야. 첫 바론 후 승률이 82%로 리그 5위라, 후반에 리드를 놓칠 때가 있어.",
@@ -384,11 +517,6 @@
   "LwRC+ · season contribution": "LwRC+ · 시즌 기여",
   "Role": "포지션",
   "Contrib.": "기여",
-  "Top": "탑",
-  "Jungle": "정글",
-  "Mid": "미드",
-  "Bot": "원딜",
-  "Support": "서포터",
   "Recent matches": "최근 경기",
   "Sets": "세트",
   "· Live · today": "· 라이브 · 오늘",
@@ -419,7 +547,6 @@
   "Supporter ranking →": "서포터 순위 →",
   "React with “Me too” · report from the ⋯ menu on rorr.club.": "“나도 응원”으로 반응하고, 신고는 rorr.club의 ⋯ 메뉴에서 할 수 있어요.",
   "Favourite": "즐겨찾기",
-  "Back": "뒤로",
   "Close": "닫기",
   "sets": "세트",
   "LwRC+ · level": "LwRC+ · 수준",
@@ -631,6 +758,71 @@
    "pattern": "^Gold ([+−][\\d.]+)k$",
    "flags": "",
    "ko": "(m,a)=>\"골드 \"+a+\"k\""
+  },
+  {
+   "pattern": "^Watch for · (\\d)\\/3$",
+   "flags": "",
+   "ko": "(m,a)=>\"지켜볼 포인트 · \"+a+\"/3\""
+  },
+  {
+   "pattern": "^(\\d) \\/ 3 happened$",
+   "flags": "",
+   "ko": "(m,a)=>\"3개 중 \"+a+\"개 달성\""
+  },
+  {
+   "pattern": "^Top (\\d+)% of T1 fans$",
+   "flags": "",
+   "ko": "(m,a)=>\"T1 팬 중 상위 \"+a+\"%\""
+  },
+  {
+   "pattern": "^\\+(\\d+) quiz points$",
+   "flags": "",
+   "ko": "(m,a)=>\"퀴즈 포인트 +\"+a"
+  },
+  {
+   "pattern": "^Watch point (\\d)\\/3 · (.+)$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"지켜볼 포인트 \"+a+\"/3 · \"+(KO[b]||b)"
+  },
+  {
+   "pattern": "^RORR fan draft · T1 vs GEN · (\\d)\\/8 match with the coach · top (\\d+)% of T1 fans$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"RORR 팬 드래프트 · T1 vs GEN · 감독과 \"+a+\"/8 일치 · T1 팬 상위 \"+b+\"%\""
+  },
+  {
+   "pattern": "^(\\d) \\/ 8$",
+   "flags": "",
+   "ko": "(m,a)=>a+\" / 8\""
+  },
+  {
+   "pattern": "^(\\d) \\/ (3|5)$",
+   "flags": "",
+   "ko": "(m,a,b)=>a+\" / \"+b"
+  },
+  {
+   "pattern": "^\\+(\\d+)s · auto$",
+   "flags": "",
+   "ko": "(m,a)=>\"+\"+a+\"초 · 자동\""
+  },
+  {
+   "pattern": "^\\+(\\d+)s · adjusted$",
+   "flags": "",
+   "ko": "(m,a)=>\"+\"+a+\"초 · 직접 조정\""
+  },
+  {
+   "pattern": "^Stream delay set to \\+(\\d+)s$",
+   "flags": "",
+   "ko": "(m,a)=>\"중계 지연을 +\"+a+\"초로 맞췄어요\""
+  },
+  {
+   "pattern": "^Live stream · (\\w+) · official channel$",
+   "flags": "",
+   "ko": "(m,a)=>\"라이브 · \"+(a===\"CHZZK\"?\"치지직\":a===\"YouTube\"?\"유튜브\":a)+\" · 공식 채널\""
+  },
+  {
+   "pattern": "^Synced to (\\w+)\\. I'll keep my alerts in step with your stream\\.$",
+   "flags": "",
+   "ko": "(m,a)=>(a===\"CHZZK\"?\"치지직\":a===\"YouTube\"?\"유튜브\":a)+\"에 맞췄어. 알림을 네 화면에 맞춰 줄게.\""
   },
   {
    "pattern": "^Card star · ★ (\\w+) first$",
@@ -856,6 +1048,86 @@
    "pattern": "^(\\S+) · (Top|Jungle|Mid|Bot|Support)$",
    "flags": "",
    "ko": "(m,a,r)=>a+\" · \"+ROLE[r]"
+  },
+  {
+   "pattern": "^(\\w+) · (\\d+) of last 10$",
+   "flags": "",
+   "ko": "(m,a,b)=>a+\" · 10경기 중 \"+b+\"회\""
+  },
+  {
+   "pattern": "^(\\d+) of last 10$",
+   "flags": "",
+   "ko": "(m,a)=>\"10경기 중 \"+a+\"회\""
+  },
+  {
+   "pattern": "^(\\w+)'s most-played, last 10 games$",
+   "flags": "",
+   "ko": "(m,a)=>a+\" · 최근 10경기 많이 쓴 순\""
+  },
+  {
+   "pattern": "^Picked for (Top|Jungle|Mid|Bot|Support) · tap to move$",
+   "flags": "",
+   "ko": "(m,r)=>ROLE[r]+\"에 있음 · 누르면 여기로 옮겨요\""
+  },
+  {
+   "pattern": "^(.+) moved to (your bans|Top|Jungle|Mid|Bot|Support) · (ban|Top|Jungle|Mid|Bot|Support) is now (.+)$",
+   "flags": "",
+   "ko": "(m,c,a,b,n)=>(KO[c]||c)+\" → \"+(a===\"your bans\"?\"밴\":ROLE[a])+\" · \"+(b===\"ban\"?\"밴\":ROLE[b])+\" 칸은 \"+(KO[n]||n)+\"(으)로 바뀌었어요\""
+  },
+  {
+   "pattern": "^Options for (Top|Jungle|Mid|Bot|Support)$",
+   "flags": "",
+   "ko": "(m,r)=>ROLE[r]+\" 후보\""
+  },
+  {
+   "pattern": "^Star pick: (.+)$",
+   "flags": "",
+   "ko": "(m,a)=>\"★ 픽: \"+(KO[a]||a)"
+  },
+  {
+   "pattern": "^★ (.+)$",
+   "flags": "",
+   "ko": "(m,a)=>\"★ \"+(KO[a]||a)"
+  },
+  {
+   "pattern": "^· coach went (.+)$",
+   "flags": "",
+   "ko": "(m,a)=>\"· 감독 선택은 \"+(KO[a]||a)"
+  },
+  {
+   "pattern": "^Your calls (\\d)\\/(\\d)$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"바꾼 칸 \"+b+\"개 중 \"+a+\"개 적중\""
+  },
+  {
+   "pattern": "^Only (\\d+)% of T1 fans called (.+)$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"T1 팬 중 \"+a+\"%만 고른 픽 · \"+(KO[b]||b)"
+  },
+  {
+   "pattern": "^Locked in, with (.+) as your star\\. When the real draft is done, I'll show you how close you were\\.$",
+   "flags": "",
+   "ko": "(m,a)=>\"제출 완료! ★ 픽은 \"+(KO[a]||a)+\". 밴픽이 끝나면 감독이랑 얼마나 같은지 바로 보여 줄게.\""
+  },
+  {
+   "pattern": "^RORR fan draft · T1 vs GEN(?: · ★ (.+?) (called|missed))? · (\\d)\\/8 with the coach · top (\\d+)% of T1 fans(?: · only (\\d+)% called (.+))?$",
+   "flags": "",
+   "ko": "(m,s,h,n,p,r,c)=>\"RORR 팬 드래프트 · T1 vs GEN\"+(s?\" · ★ \"+(KO[s]||s)+(h===\"called\"?\" 적중\":\" 빗나감\"):\"\")+\" · 감독과 \"+n+\"/8 일치 · T1 팬 상위 \"+p+\"%\"+(r?\" · \"+r+\"%만 고른 \"+(KO[c]||c)+\" 적중\":\"\")"
+  },
+  {
+   "pattern": "^(\\w+) played most · last 10 games$",
+   "flags": "",
+   "ko": "(m,a)=>a+\" · 최근 10경기 자주 쓴 챔피언\""
+  },
+  {
+   "pattern": "^Ban (\\d):$",
+   "flags": "",
+   "ko": "(m,a)=>\"밴 \"+a+\":\""
+  },
+  {
+   "pattern": "^Auto-filled (Ban|Top|Jungle|Mid|Bot|Support): (.+)$",
+   "flags": "",
+   "ko": "(m,a,c)=>(a===\"Ban\"?\"밴\":ROLE[a])+\" 자리가 비어서 자동으로 채웠어요 · \"+(KO[c]||c)"
   }
  ]
 }

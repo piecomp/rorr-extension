@@ -1,5 +1,5 @@
 {
- "_note": "목업 v52 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
+ "_note": "목업 v53 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
  "exact": {
   "The lucky box opens with the turning-point heads-up": "행운 박스는 승부처 미리 알림에서 열려요",
   "Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box": "확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요",
@@ -91,6 +91,29 @@
   "Game 2": "2세트",
   "T1 team page": "T1 팀 페이지",
   "Your team": "응원 팀",
+  "Changed by me": "내가 바꾼 칸",
+  "FAN DRAFT CARD": "팬 드래프트 카드",
+  "Kept in My record › Fan drafts. It's not a moment card.": "내 기록 › 팬 드래프트에 남아요. 모먼트 카드와는 따로 보관돼요.",
+  "Save image": "이미지 저장",
+  "Close fan draft card": "팬 드래프트 카드 닫기",
+  "Fan draft card": "팬 드래프트 카드",
+  "MY RECORD": "내 기록",
+  "Fan drafts": "팬 드래프트",
+  "My fan drafts": "내 팬 드래프트",
+  "2026 season": "2026 시즌",
+  "avg / 8": "평균 / 8",
+  "matches": "경기",
+  "★ called": "★ 적중",
+  "No ★": "★ 없음",
+  "called it": "적중",
+  "missed": "빗나감",
+  "FAN DRAFT": "FAN DRAFT",
+  "match": "적중",
+  "Fan draft cards stay here, apart from moment cards. Quiz points from drafts go to the weekly quiz ranking.": "팬 드래프트 카드는 모먼트 카드와 따로 여기에 쌓여요. 드래프트로 받은 퀴즈 포인트는 주간 퀴즈 순위에 들어가요.",
+  "Saved as an image · 1080 × 1350": "이미지로 저장했어요 · 1080 × 1350",
+  "T1 vs KT": "T1 vs KT",
+  "T1 vs DK": "T1 vs DK",
+  "T1 vs BRO": "T1 vs BRO",
   "Nothing else to shuffle": "랜덤으로 채울 칸이 없어요 · 모두 직접 바꾼 칸이에요",
   "I filled this from T1's recent games. Tap only what you'd do differently.": "최근 T1 경기를 보고 채워 뒀어. 다르게 하고 싶은 칸만 눌러서 바꿔 봐.",
   "Changed and right: 5 pts · kept and right: 2 pts": "바꿔서 맞히면 5점 · 그대로 둬도 맞으면 2점",
@@ -1085,6 +1108,11 @@
    "ko": "(m,a)=>\"★ 픽: \"+(KO[a]||a)"
   },
   {
+   "pattern": "^★ (.+) · (called it|missed)$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"★ \"+(KO[a]||a)+\" · \"+(b===\"called it\"?\"적중\":\"빗나감\")"
+  },
+  {
    "pattern": "^★ (.+)$",
    "flags": "",
    "ko": "(m,a)=>\"★ \"+(KO[a]||a)"
@@ -1128,6 +1156,16 @@
    "pattern": "^Auto-filled (Ban|Top|Jungle|Mid|Bot|Support): (.+)$",
    "flags": "",
    "ko": "(m,a,c)=>(a===\"Ban\"?\"밴\":ROLE[a])+\" 자리가 비어서 자동으로 채웠어요 · \"+(KO[c]||c)"
+  },
+  {
+   "pattern": "^2026 season · (\\d+) matches · avg ([\\d.]+)\\/8$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"2026 시즌 · \"+a+\"경기 · 평균 \"+b+\"/8\""
+  },
+  {
+   "pattern": "^★ (.+) · (called it|missed)$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"★ \"+(KO[a]||a)+\" · \"+(b===\"called it\"?\"적중\":\"빗나감\")"
   }
  ]
 }

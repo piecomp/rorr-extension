@@ -60,7 +60,8 @@
 - C(참여만 하면 소량 Spark)는 베타 참여율이 낮을 때만 대조군 실험으로 검토
 - 미결: 밴픽 이벤트의 실시간 수신 가능 여부(VG-7) — 불가하면 팬 드래프트 마감 = 경기 시작 예정 시각, 비교는 경기 시작 직후 / 픽 공개는 개인 지연 기준(스포일러)
 - 미리 채움·섞기 도입(v49): 기본 예상을 그대로 맞히는 것은 실력이 아니므로 2점, 남과 다르게 바꿔 맞힌 것이 자랑의 중심(★·희소 적중을 공유 카드 중심에). 섞기는 무료, **Energy·Spark 사용 불가**(유료로 적중 확률을 높이는 구조 = 페이투윈·사행성, G-12)
-- 화면: `02` §19, 캡처 36·40~46
+- 최종 자랑물(v53): 경기 종료 시 **팬 드래프트 카드**(공유 이미지) — 포인트·Spark 미표기, 모먼트 카드와 분리해 '내 기록 › 팬 드래프트'에 시즌 누적(2026-10-20 결정)
+- 화면: `02` §19·§19-3, 캡처 36·40~53
 
 ## 4. 효과 측정과 기준선(Baseline)
 
@@ -180,5 +181,8 @@
 | `draft_star` | `match_id`, `slot` |
 | `draft_step` | `match_id`, `step(edit/star)`, `direction(next/back)` — 단계 이탈률 확인 |
 | `draft_result_shown` | `match_id`, `matches(0~8)`, `submitted(bool)` |
-| `draft_share` | `matches`, `star_hit(bool)`, `rare_pct` |
+| `draft_share` | `matches`, `star_hit(bool)`, `rare_pct`, `from(review/card)` |
+| `draft_card_view` | `match_id`, `trigger(auto/recap/record)` |
+| `draft_card_save` | `match_id` |
+| `draft_record_open` | `season`, `matches_n` |
 | `watch_point_hit` | `match_id`, `point_index` |

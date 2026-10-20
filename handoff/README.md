@@ -2,7 +2,7 @@
 
 > **2026-10-17 통합 안내** — 이 패키지 중 **API·DB(09·10·13, `api/`, `schema/`)만** 웹·확장 공용 단일 기준 `rorr-hero/handoff/api/openapi.yaml`·`db/schema.sql`(be35b45)로 대체되었습니다(차이·채택 근거와 확장 쪽 변경 E-1~E-6: `rorr-hero/handoff/18-canonical-merge.md`). 화면 명세·컴포넌트·토큰·상태 로직·QA 등 나머지는 그대로 확장 구현 기준입니다. 결정 사항 목록은 `rorr-hero/handoff/09-open-items.md` §0(BE-1 '첫 경기 0' 결정).
 
-- 작성일: 2026-10-17 · 기준 목업: **v47** (`mockup/index.html`) · 기준 태그: `handoff-ext-2026-10-17`(v45) → `-v46` → `handoff-ext-2026-10-19-v47` → `-v47b` → `-v47c` → `-v47d`
+- 작성일: 2026-10-17 · 기준 목업: **v47** (`mockup/index.html`) · 기준 태그: `handoff-ext-2026-10-17`(v45) → `-v46` → `handoff-ext-2026-10-19-v47` → `-v47b` → `-v47c` → `-v47d` → `-v48`
 - 대상: 확장 프로그램 구현 개발(Jun·Kazel), QA, 디자인 리뷰
 - 배포본(목업): https://yhc-pie.github.io/rorr-extension/mockup/ (push 후 반영)
 - 상태: 화면·동작 **확정본**, 시스템·API·스키마는 **초안**(2026-10-17, 웹·백엔드 검토 전). 단, 표시된 '논의 중' 항목(행운 박스·브랜드 모먼트, 파트너 에디션, 응원 롤 전달)은 콘셉트 테스트·법률 검토 결과에 따라 바뀔 수 있음
@@ -21,7 +21,7 @@
 | 6 | [css/components.css](css/components.css) | 목업 CSS를 컴포넌트별로 묶은 참조본(키프레임 포함) | 개발 |
 | 7 | [i18n-ko.json](i18n-ko.json) | 한국어 문구 원본(정확 일치 536개 + 패턴 59개) | 개발·카피 |
 | 8 | [06-qa-checklist.md](06-qa-checklist.md) | 수용 기준·테스트 시나리오·회귀 항목 | QA |
-| 9 | [screens/](screens/) | 주요 상태 캡처 35장(한국어, 380px 패널) | 전원 |
+| 9 | [screens/](screens/) | 주요 상태 캡처 41장(한국어, 380px 패널) | 전원 |
 | 10 | [policy/boost-economy-policy-v1.3.md](policy/boost-economy-policy-v1.3.md) | 정책 사본(원본은 사업 담당 관리) | 전원 |
 
 ### 1-1. 시스템·구현 설계 (2026-10-17 추가)
@@ -69,6 +69,7 @@
 | 29 · 30 | 시청 상태 — 다른 방송 · 다시보기(v46) |
 | 31 · 32 | 중계 맞춤 — 스코어 상세 · 메뉴(v46) |
 | 33 · 34 | 큰 순간 상단 우선순위 — 시청 상태 칩 접힘 · 펼침(v47) |
+| 36~41 | 팬 드래프트 초대 · 선택 중 · 완성 · 밴픽 리뷰 · 지켜볼 포인트 패널 · 경기 요약(v48) |
 
 ## 4. 목업 실행 방법
 

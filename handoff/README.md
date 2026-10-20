@@ -38,6 +38,7 @@
 | 18 | [14-analytics-events.md](14-analytics-events.md) | 클라이언트·서버 측정 이벤트와 핵심 지표 | 데이터·기획 |
 | 19 | [15-web-handoff-crosscheck.md](15-web-handoff-crosscheck.md) | 웹 핸드오프와 교차 점검 — 범위 비교, 불일치 X-1~X-6, 설정 이름 추가 제안, 미결 | 전원 |
 | 20 | [16-watch-state-delay.md](16-watch-state-delay.md) | **v46** 시청 상태 안내(탭 없음·다른 방송·다시보기)·공식 채널 목록·방송 지연 3단계 관리 + 공용 API·DB 변경 요청 C-1~C-10 | 전원 |
+| 21 | [17-viewing-growth.md](17-viewing-growth.md) | **2026-10-20** 시청 확장 — 비전·KPI(동반 시청 시간)·v2.0/v2.1 기능·3층 기준선·측정 이벤트·리포팅·정책 변경 | 전원 |
 
 - 참조 구현 실행: 빈 PostgreSQL 16에 `schema.sql` → `boost_tx.sql` → `boost_tx_test.sql` 순서로 적용, 마지막에 `boost_tx: 9 scenarios passed` 출력
 

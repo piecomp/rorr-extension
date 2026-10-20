@@ -223,7 +223,7 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 
 | ID | 요구 | 원본 |
 |---|---|---|
-| REQ-SET-01 | **반드시** 경기 시작 알림: 응원 팀 경기만, 옵트인, 시작 10분 전 1회, 한 사용자 한 채널(`PUT /v1/me/match-alerts`), `chrome.alarms`로 일정 동기화 1시간 | F-09 |
+| REQ-SET-01 | **반드시** 경기 시작 알림: 응원 팀 경기만(v2.1에서 별도 옵트인 '리그 전체 일정 알림' 추가 예정 — REQ-VIEW-11), 옵트인, 시작 10분 전 1회, 한 사용자 한 채널(`PUT /v1/me/match-alerts`), `chrome.alarms`로 일정 동기화 1시간 | F-09 |
 | REQ-SET-02 | **반드시** 확장 알림 채널은 경기 시작 알림 전용(광고·소식 금지) | F-22 |
 | REQ-SET-03 | **반드시** 메뉴: 계정(잔액·계정·로그아웃 ↗) · 설정(언어·알림 수준·내 선수·중계 맞춤·경기 시작 알림 ↗) · rorr.club(카드·응원 팀·충전·Spark·결제·환불·도움말·알림함 ↗ + 미읽음 수) · 고지 'An independent fan companion. Not endorsed by Riot Games.' | `handoff/02` §13 |
 | REQ-SET-04 | **반드시** 메뉴 항목이 패널을 넘으면 스크롤(항목 압축 금지) | W-10 |
@@ -251,6 +251,31 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 
 ---
 
+### 4-13. 시청 확장 v2.0 (2026-10-20, `handoff/17`)
+
+| ID | 요구 | 원본 |
+|---|---|---|
+| REQ-VIEW-01 | **반드시** 동반 시청 1분 = 패널 열림 + 매칭 + 시청 상태 공식 채널 + 재생 중 + 중계 탭 보임. 다른 상태는 별도 분으로 집계 | `handoff/17` §2-1 |
+| REQ-VIEW-02 | **반드시** `watch_session_start` · `watch_heartbeat`(재생 중 60초마다) · `watch_session_end` 전송, `phase`(pre/live/between/post)·`is_cheer_team` 포함 | §5 |
+| REQ-VIEW-03 | **반드시** 패널 닫힘 상태 시청 측정은 별도 동의자만(동의 철회 즉시 중단) | §5, G-6 |
+| REQ-VIEW-04 | **반드시** 경기 요약 상단 '이어서 보기': 다음 경기까지 남은 시간 + 공식 채널 버튼 + '시작하면 알려 줘'(이 경기 1회). 다음 경기가 없으면 다음 일정 | §3 |
+| REQ-VIEW-05 | **반드시** 순위 맥락 한 줄(경기 전·세트 사이·다른 경기 카드): 서버 문구 키 + 변수. '내 팀에 미치는 영향'만, 팀 간 비교 게이지·상대 팬덤 언급 금지 | §3, 정책 §5-2 |
+| REQ-VIEW-06 | **반드시** 세트 사이(S4): 그 세트의 큰 순간 3개(카드 축약) + 다음 세트 첫 퀴즈 예고. 하이라이트 영상은 플랫폼 링크만 | §3 |
+| REQ-VIEW-07 | **반드시** 실험 배정(사용자 단위 무작위, 기능별 대조군 5~10%)을 `GET /v1/config` 또는 별도 배정 응답으로 받아 기능 노출을 끔. 대조군에 불이익 없음 | §4-2 |
+| REQ-VIEW-08 | **반드시** 첫 실행·월 1회 설문 1문항('지난 4주 LCK 몇 경기를 봤나요', 생방송·다시보기), 건너뛰기 가능 | §4-2 L3 |
+| REQ-VIEW-09 | **반드시** 리포팅: 내부 주간 대시보드 + 파트너 월간 리포트, 집계 최소 50명, 기준선 층·표본·신뢰 구간 표기, 배분 비율·개인 Boost 금액 제외 | §7 |
+
+- AC: 동반 시청 분이 수동 측정(녹화 대조) 대비 ±5% 이내 / 대조군 사용자에게 해당 기능 노출 0 / 50명 미만 집계 셀 노출 0 / 미동의자의 패널 닫힘 측정 0
+
+### 4-14. 시청 확장 v2.1 (개막 후 4~8주 — **권장**, 정책 개정 후)
+
+| ID | 요구 | 원본 |
+|---|---|---|
+| REQ-VIEW-10 | 경기 전 진입: 시작 카운트다운, 서하 매치업 한 줄(수치는 스트립·펼침), 라인업 발표 시 퀴즈 1문항, '시작하면 이 채널 열기' 예약 | §3 |
+| REQ-VIEW-11 | 리그 전체 일정 알림: 별도 옵트인(기본 끔), 하루 상한 `LEAGUE_ALERT_DAILY_CAP`, 한 사용자 한 채널 — **정책 §5-5 개정 전 구현 금지** | §6 |
+| REQ-VIEW-12 | 서하 리그 모드: 응원 팀이 아닌 경기에서 중립 말투, 양 팀 플레이, 순위 맥락 연결 | §3 |
+| REQ-VIEW-13 | 다른 경기 순간 칩: 동시간대·다음 경기의 홀로그램 순간만 패널 안 1줄, 결과·스코어 숨김, 푸시 금지 | §3·§6 |
+
 ## 5. 설정값 (`GET /v1/config` — 하드코딩 금지)
 
 | 이름 | 값 | 상태 |
@@ -269,7 +294,10 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 | `MESSAGE_MAX_CHARS` | 80 | 결정 대기(D-9) |
 | `WATCH_REPLAY_BEHIND_S` / `WATCH_STATE_HOLD_MS` / `OFFSET_STEP_MS` | 60 / 3000 / 2000 | 제안(C-8) |
 | `BONUS_ENERGY_SCOPE` | `rorr_deco` | 확정 |
-| 플래그 | `sponsor_moment_enabled` · `partner_official_label` · `min_ext_version` | 출시 기본 끔 |
+| `WATCH_HEARTBEAT_S` / `NEXT_MATCH_CTA_WINDOW_MIN` | 60 / 30(경기 종료 후 이어보기 판정 창) | 제안(`handoff/17`) |
+| `EXPERIMENTS` | 기능별 대조군 비율(5~10%)·기간(4~6주) | 결정 대기(VG-2) |
+| `LEAGUE_ALERT_DAILY_CAP` | 2 | v2.1, 정책 개정 후 |
+| 플래그 | `sponsor_moment_enabled` · `partner_official_label` · `min_ext_version` · `league_alerts_enabled`(v2.1) | 출시 기본 끔 |
 
 ## 6. API·실시간 계약
 
@@ -348,6 +376,7 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 
 - 원본: `handoff/14-analytics-events.md`. 서버가 아는 사실(Boost 성공·카드·포인트)은 클라이언트가 보내지 않음
 - 필수 클라이언트 이벤트: `panel_open/close` · `match_resolved` · `watch_state` · `offset_adjust` · `stream_state` · `headsup_shown/dismiss` · `boost_sheet_open` · `boost_arm` · `boost_arm_timeout` · `boost_confirm` · `boost_insufficient` · `topup_click/return` · `fav_ask_shown`·`fav_set` · `quiz_shown/answer` · `card_flip/share` · `watch_chip_open` · `box_*`(플래그) · `client_error` · `i18n_missing`
+- **North Star(2026-10-20): 팬 1인당 주간 동반 시청 시간** — 정의·기준선·리포트는 `handoff/17` §2·§4·§7, 시청 이벤트는 REQ-VIEW-02
 - 핵심 지표: 확인 완료율(`boost_confirm ÷ boost_arm` 85% 이상) · 알림 → Boost 전환 · 알림 피로 · 내 선수 일치율 · 공식 채널 전환율 · 후원 효과(대조군 비교)
 
 ## 10. 시험·수용
@@ -377,9 +406,13 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 | OI-18 | REQ-LIVE-04 | 집계 미공개 |
 | OI-27 | REQ-QUIZ-03 | 마감 여유 0 |
 | C-1~C-10 | REQ-WATCH-09 | 통합본 반영 전 |
+| C-11 | REQ-VIEW-02·07·09 | 시청 집계·실험 배정·외부 시청 집계 테이블 — 통합본 변경 요청(`handoff/17` §5) |
+| VG-1~VG-6 | REQ-VIEW 전체 | `handoff/17` §9 |
+| 정책 §5-5 | REQ-VIEW-11 | 개정 전 구현 금지 |
 
 ## 12. 변경 이력
 
 | 날짜 | 기준 | 내용 |
 |---|---|---|
+| 2026-10-20 | 목업 v47d | 시청 확장 반영: §4-13 v2.0(REQ-VIEW-01~09)·§4-14 v2.1(REQ-VIEW-10~13), North Star 변경, 설정값 4종, REQ-SET-01 주석, 미결 3건 |
 | 2026-10-19 | 목업 v47c | 최초 작성 — 요구 ID 체계, 기능 12개 영역·설정값·API·실시간·비기능·측정·시험·미결 |

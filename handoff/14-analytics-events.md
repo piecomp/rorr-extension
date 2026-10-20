@@ -76,3 +76,14 @@
 | 고지 확인 | `boost_info_open(deduct)` ÷ 첫 Energy Boost 사용자 | 참고 지표(고지는 펼침 없이도 차감 줄에 표시) |
 | 공식 채널 전환율(v46) | 탭 없음·다른 방송 띠 노출 후 5분 안 `official` 전환 비율 | 코스트리밍 확장(2단계) 판단 근거 |
 | 지연 보정 빈도 | 시청 세션당 `offset_adjust` 수 | 높으면 채널 기본값 측정 주기·자동 보정 재검토 |
+
+## 5. 시청 확장 이벤트 (2026-10-20, 상세 `17` §5)
+
+| 이름 | 시점 | 주요 속성 |
+|---|---|---|
+| `watch_session_start` / `watch_heartbeat`(60초) / `watch_session_end` | 매칭된 경기 시청 | `match_id`, `game_no`, `host`, `watch_state`, `panel_open`, `is_cheer_team`, `phase`, `playing` |
+| `next_match_cta_shown` / `_click` | 이어서 보기 | `next_match_id`, `minutes_to_start` |
+| `standings_context_shown` | 순위 맥락 | `context_key` |
+| `between_recap_shown` / `_card_open` | 세트 사이 다시 보기 | `game_no` |
+| `survey_answer` | 설문 | `matches_4w_live`, `matches_4w_vod` |
+

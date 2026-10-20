@@ -178,6 +178,7 @@
 | `draft_slot_change` | `match_id`, `slot`, `from`, `to`, `via(tray/search/move)`, `rank_in_pool(1~6, 검색은 0)` |
 | `draft_shuffle` / `draft_reset` | `match_id`, `kept_n` |
 | `draft_star` | `match_id`, `slot` |
+| `draft_step` | `match_id`, `step(edit/star)`, `direction(next/back)` — 단계 이탈률 확인 |
 | `draft_result_shown` | `match_id`, `matches(0~8)`, `submitted(bool)` |
 | `draft_share` | `matches`, `star_hit(bool)`, `rare_pct` |
 | `watch_point_hit` | `match_id`, `point_index` |

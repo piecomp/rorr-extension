@@ -1,5 +1,5 @@
 {
- "_note": "목업 v54 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
+ "_note": "목업 v55 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
  "exact": {
   "The lucky box opens with the turning-point heads-up": "행운 박스는 승부처 미리 알림에서 열려요",
   "Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box": "확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요",
@@ -91,6 +91,24 @@
   "Game 2": "2세트",
   "T1 team page": "T1 팀 페이지",
   "Your team": "응원 팀",
+  "How often GEN played each one in their last 10 games. Teams usually ban what the other side plays well.": "상대 GEN 팀이 최근 10경기에서 이 챔피언을 쓴 횟수예요. 보통 상대가 잘 쓰는 챔피언을 막아요.",
+  "the champion each T1 player will play": "T1 선수마다 쓸 챔피언",
+  "3 champions GEN can't use": "GEN이 못 쓰게 막을 챔피언 3개",
+  "Back to my draft": "내 드래프트로 돌아가기",
+  "Let's start": "시작하기",
+  "When the match starts, I compare it with the coach's real draft. Every match earns quiz points.": "경기가 시작되면 감독의 실제 밴픽과 비교해요. 맞힌 만큼 퀴즈 포인트를 받아요.",
+  "Star the one pick you're surest of": "가장 자신 있는 픽 하나에 ★를 달아요",
+  "Change only what you think will be different": "다르게 될 것 같은 칸만 바꿔요",
+  "Seoha has filled in a likely draft": "서하가 감독이 고를 만한 걸로 미리 채워 둬요",
+  "One champion for each of the 5 T1 players": "T1 선수 5명이 각자 쓸 챔피언 1개씩",
+  "5 champions": "5개",
+  "Pick": "픽",
+  "Champions the other team isn't allowed to use": "상대 팀이 이번 경기에서 못 쓰게 막는 챔피언",
+  "3 champions": "3개",
+  "Before a LoL match starts, each coach picks which champions (in-game characters) the team will play. That's the ban and pick.": "LoL 경기는 시작 전에 감독이 이번 경기에 쓸 챔피언(게임 캐릭터)을 정해요. 이걸 '밴픽'이라고 해요.",
+  "How fan draft works": "팬 드래프트는 이렇게 해요",
+  "I guessed the coach's picks from T1's recent games. Tap only what you think will be different.": "최근 T1 경기를 보고 감독이 고를 만한 걸로 채워 뒀어. 다르게 될 것 같은 칸만 눌러서 바꿔 봐.",
+  "What is a ban and pick?": "밴픽 설명 보기",
   "Quiz calendar": "퀴즈 기록",
   "T1 matches": "T1 경기",
   "Previous month": "이전 달",
@@ -157,7 +175,7 @@
   "Lock in": "제출하기",
   "Lock in without ★": "★ 없이 제출하기",
   "Your surest pick": "가장 자신 있는 픽",
-  "If you were T1's coach on Saturday, what would you change? I filled a draft from T1's recent games. Swap what you disagree with and star your surest call.": "토요일 T1 밴픽, 네가 감독이면 어떻게 할래? 최근 경기로 미리 채워 뒀으니 다르게 하고 싶은 곳만 바꿔 줘.",
+  "If you were T1's coach on Saturday, what would you change? I filled a draft from T1's recent games. Swap what you disagree with and star your surest call.": "토요일 T1 경기 전에 감독이 어떤 챔피언을 고를지 맞혀 볼래? 몰라도 괜찮아, 내가 미리 채워 둔 걸 보고 바꾸고 싶은 것만 바꾸면 돼.",
   "Ban": "밴",
   "Shuffle": "랜덤 채우기",
   "Filled from T1's recent drafts. Tap what you'd change, then star your surest pick.": "T1 최근 밴픽으로 채워 뒀어요. 바꾸고 싶은 칸만 누르고, 가장 자신 있는 픽에 ★를 달아 주세요.",
@@ -1228,6 +1246,16 @@
    "pattern": "^(\\d{4}-\\d\\d-\\d\\d), (.+?), (upcoming|live|not played)$",
    "flags": "",
    "ko": "(m,a,v,s)=>a+\", \"+v+\", \"+(s===\"upcoming\"?\"예정\":s===\"live\"?\"경기 중\":\"참여 안 함\")"
+  },
+  {
+   "pattern": "^How often (\\w+) played each one in the last 10 games\\. The more often, the likelier again\\.$",
+   "flags": "",
+   "ko": "(m,a)=>a+\" 선수가 최근 10경기에서 이 챔피언을 쓴 횟수예요. 많이 쓴 챔피언일수록 또 고를 가능성이 높아요.\""
+  },
+  {
+   "pattern": "^(\\d+) of last 10$",
+   "flags": "",
+   "ko": "(m,a)=>\"10경기 중 \"+a+\"번\""
   }
  ]
 }

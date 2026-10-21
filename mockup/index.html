@@ -1251,7 +1251,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
       <!-- overlays -->
       <div id="menuWrap" hidden><div class="sheet-bg" data-close-menu></div>
         <nav class="menu-panel" aria-label="Menu"><button type="button" class="mclose" aria-label="Close menu" data-close-menu><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-          <div class="m-me"><span class="av" aria-hidden="true">Y</span><div><b>yuna.gg</b><span class="k">⚡ <span id="mE">120</span> Energy · ✦ <span id="mS">35</span> Spark</span><a class="m-acct" href="https://yhc-pie.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Account &amp; sign out ↗</a></div></div>
+          <div class="m-me"><span class="av" aria-hidden="true">C</span><div><b>charles</b><span class="k">⚡ <span id="mE">120</span> Energy · ✦ <span id="mS">35</span> Spark</span><a class="m-acct" href="https://yhc-pie.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Account &amp; sign out ↗</a></div></div>
           <span class="lbl">MY RECORD</span>
           <button type="button" data-open-qcal>Quiz calendar<small id="mQcal"></small></button>
           <button type="button" data-open-dlog>Fan drafts<small id="mDlog"></small></button>
@@ -1658,7 +1658,7 @@ function showDraftRes(){ const el=$('#draftRes'), d=S.dr; let h='<div class="dr-
   h+='<div class="wp" id="wpCard">'+wpHTML()+'</div><div class="dr-acts">'+(d.sent?'<button class="pill s" type="button" data-share-dres>Share</button>':'<span></span>')+'<button class="pill p" type="button" data-close-dres>Got it</button></div>';
   el.innerHTML=h; unclose(el); el.hidden=false }
 /* v53 fan draft card: the final brag piece. Lives in My record › Fan drafts, never in the moment-card collection, never shows points or Spark */
-const DMATCH={title:'T1 vs GEN',date:'2026-10-24',league:'LCK'}, DME='yuna.gg';
+const DMATCH={title:'T1 vs GEN',date:'2026-10-24',league:'LCK'}, DME='charles';
 const DLOG=[{date:'2026-10-03',vs:'T1 vs KT',n:4,star:['Mid','Azir'],hit:false},{date:'2026-10-10',vs:'T1 vs DK',n:6,star:['Bot','Varus'],hit:true},{date:'2026-10-17',vs:'T1 vs BRO',n:5,star:['Jungle','Lee Sin'],hit:false}];
 function dLogAll(){ const L=DLOG.slice(); if(S.dr.sent&&S.dr.done) L.push({date:DMATCH.date,vs:DMATCH.title,n:dScore(),star:S.dr.star?[S.dr.star,S.dr.v[S.dr.star]]:null,hit:S.dr.star?dHit(S.dr.star):false,cur:true}); return L }
 function dAvg(){ const L=dLogAll(); return (L.reduce((a,x)=>a+x.n,0)/L.length).toFixed(1) }
@@ -1891,11 +1891,11 @@ $('#teamRecent').innerHTML=[['vs GEN','Live · today','1-0','var(--live)'],['vs 
 /* cheers (web panel v3: team = team + player messages with filter; player = that player only) */
 const CHEERS=[
  {u:'midgap',p:null,ctx:'G2 16:42 · Dragon secure',t:'Clean objective control today',n:35,ago:'2m'},
- {u:'yuna.gg',p:'Peyz',ctx:'G1 17:13 · Late-game carry',t:'Peyz, best form of the season',n:3,ago:'7m'},
+ {u:'charles',p:'Peyz',ctx:'G1 17:13 · Late-game carry',t:'Peyz, best form of the season',n:3,ago:'7m'},
  {u:'lanephase',p:'Faker',ctx:'G2 12:05 · Mid roam',t:'Reading the map two steps ahead again',n:21,ago:'9m'},
  {u:'Anonymous supporter',p:'Doran',ctx:'G2 31:58 · Teleport flank',t:'Always believing in Doran',n:3,ago:'12m'},
  {u:'bluebuff',p:'Keria',ctx:'G2 30:28 · Vision control',t:'Keria, that play was unreal',n:14,ago:'19m'},
- {u:'yuna.gg',p:'Oner',ctx:'G1 15:13 · Dragon secure',t:'Oner stays calm in every fight',n:17,ago:'24m'},
+ {u:'charles',p:'Oner',ctx:'G1 15:13 · Dragon secure',t:'Oner stays calm in every fight',n:17,ago:'24m'},
  {u:'quietward',p:'Faker',ctx:'G1 24:40 · Baron fight',t:'That flank. I stood up.',n:9,ago:'31m'},
  {u:'Anonymous supporter',p:null,ctx:'G1 22:10 · Teamfight win',t:'To the end, together',n:12,ago:'38m'}];
 function cheerHTML(c){ return '<div class="cm"><div class="who"><b>'+c.u+'</b>'+(c.p?' · for '+c.p:' · T1')+'</div><div class="ctx">'+c.ctx+'</div><p>'+c.t+'</p><div class="row"><button class="metoo" type="button" aria-pressed="false" data-n="'+c.n+'">Me too <span>'+c.n+'</span></button><span class="ago">'+c.ago+' ago</span></div></div>' }

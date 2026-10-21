@@ -1,5 +1,5 @@
 {
- "_note": "목업 v53 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
+ "_note": "목업 v54 문구 원본. 키 = 영문 원문(화면 소스 텍스트), 값 = 한국어. 구현은 i18n 키 체계로 재작성하고 이 파일은 문구 원본으로만 참조. 같은 키가 여러 번 나오면 마지막 값이 유효.",
  "exact": {
   "The lucky box opens with the turning-point heads-up": "행운 박스는 승부처 미리 알림에서 열려요",
   "Odds: no prize 75% · 5 Spark 20% · 10 Spark 5% · free · same for every box": "확률: 꽝 75% · Spark 5개 20% · Spark 10개 5% · 무료 · 어느 박스든 같아요",
@@ -91,6 +91,39 @@
   "Game 2": "2세트",
   "T1 team page": "T1 팀 페이지",
   "Your team": "응원 팀",
+  "Quiz calendar": "퀴즈 기록",
+  "T1 matches": "T1 경기",
+  "Previous month": "이전 달",
+  "Next month": "다음 달",
+  "matches played": "경기 참여",
+  "correct": "정답률",
+  "streak now": "현재 연속",
+  "Played (correct count)": "참여(맞힌 수)",
+  "Not played": "참여 안 함",
+  "Upcoming": "예정",
+  "Tap a match day": "경기가 있는 날을 눌러 보세요",
+  "No T1 match this day": "이날은 T1 경기가 없어요",
+  "Live now · quiz is open": "지금 경기 중 · 퀴즈 진행 중",
+  "quiz correct": "퀴즈 정답",
+  "quiz points": "퀴즈 포인트",
+  "fan draft": "팬 드래프트",
+  "Fan draft card ›": "팬 드래프트 카드 ›",
+  "You didn't play this one": "이 경기는 참여하지 않았어요",
+  "Remind me": "알림 받기",
+  "✓ Reminder set": "✓ 알림 설정됨",
+  "I'll remind you 10 minutes before": "경기 10분 전에 알려 드릴게요",
+  "Reminder off": "알림을 껐어요",
+  "Mon": "월",
+  "Tue": "화",
+  "Wed": "수",
+  "Thu": "목",
+  "Fri": "금",
+  "Sat": "토",
+  "Sun": "일",
+  "T1 vs NS": "T1 vs NS",
+  "T1 vs FOX": "T1 vs FOX",
+  "T1 vs HLE": "T1 vs HLE",
+  "T1 vs DRX": "T1 vs DRX",
   "Changed by me": "내가 바꾼 칸",
   "FAN DRAFT CARD": "팬 드래프트 카드",
   "Kept in My record › Fan drafts. It's not a moment card.": "내 기록 › 팬 드래프트에 남아요. 모먼트 카드와는 따로 보관돼요.",
@@ -645,7 +678,6 @@
   "streak": "연속",
   "Quiz streak, open ranking": "연속 정답, 순위 보기",
   "Here we go. Dragon quiz in a minute, so keep that streak alive.": "시작이다. 1분 뒤 드래곤 퀴즈야. 연속 기록 이어 가자.",
-  "Remind me": "알림 받기",
   "10 minutes before, only for teams you cheer for.": "경기 10분 전, 응원하는 팀만 알려 드려요.",
   "Close menu": "메뉴 닫기",
   "No match live right now": "지금 진행 중인 경기 없음",
@@ -1166,6 +1198,36 @@
    "pattern": "^★ (.+) · (called it|missed)$",
    "flags": "",
    "ko": "(m,a,b)=>\"★ \"+(KO[a]||a)+\" · \"+(b===\"called it\"?\"적중\":\"빗나감\")"
+  },
+  {
+   "pattern": "^(\\d{4}-\\d\\d-\\d\\d) · (Mon|Tue|Wed|Thu|Fri|Sat|Sun) · (.+)$",
+   "flags": "",
+   "ko": "(m,a,w,v)=>a+\" (\"+{Mon:\"월\",Tue:\"화\",Wed:\"수\",Thu:\"목\",Fri:\"금\",Sat:\"토\",Sun:\"일\"}[w]+\") · \"+v"
+  },
+  {
+   "pattern": "^(\\d{4}-\\d\\d-\\d\\d) · (Mon|Tue|Wed|Thu|Fri|Sat|Sun)$",
+   "flags": "",
+   "ko": "(m,a,w)=>a+\" (\"+{Mon:\"월\",Tue:\"화\",Wed:\"수\",Thu:\"목\",Fri:\"금\",Sat:\"토\",Sun:\"일\"}[w]+\")\""
+  },
+  {
+   "pattern": "^(\\d\\d:\\d\\d) your time · quiz opens at the first dragon$",
+   "flags": "",
+   "ko": "(m,a)=>a+\" · 첫 드래곤 때 퀴즈가 열려요\""
+  },
+  {
+   "pattern": "^October · (\\d+) matches · (\\d+)% correct$",
+   "flags": "",
+   "ko": "(m,a,b)=>\"10월 · \"+a+\"경기 참여 · 정답률 \"+b+\"%\""
+  },
+  {
+   "pattern": "^(\\d{4}-\\d\\d-\\d\\d), (.+?), quiz (\\d+) of (\\d+)$",
+   "flags": "",
+   "ko": "(m,a,v,c,t)=>a+\", \"+v+\", 퀴즈 \"+t+\"문제 중 \"+c+\"개 정답\""
+  },
+  {
+   "pattern": "^(\\d{4}-\\d\\d-\\d\\d), (.+?), (upcoming|live|not played)$",
+   "flags": "",
+   "ko": "(m,a,v,s)=>a+\", \"+v+\", \"+(s===\"upcoming\"?\"예정\":s===\"live\"?\"경기 중\":\"참여 안 함\")"
   }
  ]
 }

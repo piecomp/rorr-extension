@@ -284,3 +284,27 @@
 | 기본 예상 | 각 칸 1순위(밴은 1~3순위), 중복 시 다음 순위 |
 | 갱신 | 패치 적용·경기 전날 18:00 KST 확정, 확정 후 드래프트 마감까지 고정 |
 | 기록 | 기본 예상 자체의 적중률을 경기마다 저장 → 팬 실력 비교 기준선(`17` §3-1) |
+
+## 20. 퀴즈 기록 캘린더 (v54)
+
+- 요청: 개발팀(2026-10-21) — 퀴즈 참여 일정을 캘린더로 보는 화면. 개발팀은 '이미 구현된 기능'으로 전달했으나 **통합본 API(`rorr-hero/handoff/api/openapi.yaml`)·DB에는 사용자별 퀴즈 이력 조회 API가 없음**(원천 데이터 `quiz_answers`·`quiz_questions.game_id`와 일정 `GET /v1/matches`만 있음) → 개발팀 구현분의 경로·필드를 받아 아래 C-12와 대조 필요
+- 진입: 메뉴 'MY RECORD' › '퀴즈 기록'(부제 '10월 · 5경기 참여 · 정답률 73%'). '팬 드래프트' 위
+- 시트 구성
+  - 머리: '퀴즈 기록' + 'T1 경기'(응원 팀 경기만) / 월 이동 ‹ 2026-10 ›(시즌 범위 밖은 비활성)
+  - 요약 칩 3개: 'n 경기 참여' · '정답률 n%' · '현재 연속 n'
+  - 월 격자(월요일 시작, 칸 44px): 경기 없는 날 = 숫자만(눌러지지 않음) / **참여** = 보라 칸 + 맞힌 수 / **참여 안 함** = 회색 칸 + 빈 원 / **예정** = 점선 칸 + 점 / 오늘 경기 중 = 라이브 색 / 오늘 날짜 밑줄 / 선택 = 흰 테두리
+  - 범례: 참여(맞힌 수) · 참여 안 함 · 예정
+  - 날짜를 누르면 아래 상세: 지난 경기 = '퀴즈 정답 9/12 · 퀴즈 포인트 +270 · 팬 드래프트 5/8' + '팬 드래프트 카드 ›' / 참여 안 함 = '이 경기는 참여하지 않았어요' / 예정 = '19:00 · 첫 드래곤 때 퀴즈가 열려요' + '알림 받기'(경기 시작 알림과 같은 설정) / 경기 중 = '지금 경기 중 · 퀴즈 진행 중'
+- 원칙: 놓친 경기를 탓하지 않음 — '연속 끊김'·빨간색·경고 문구 없음(정책 §3 결핍 강조 금지). 상금·Spark 금액 표기 없음. 날짜는 `YYYY-MM-DD (요일)`, 시간은 개인 시간대
+- 접근성: 경기 있는 날만 버튼, 낭독 '2026-10-24, T1 vs GEN, 퀴즈 12문제 중 9개 정답', 열면 오늘(또는 선택) 칸에 포커스, 월 이동 버튼 이름 '이전 달'/'다음 달', 월 표시는 `aria-live`
+- 캡처: `screens/54-quiz-calendar` · `55-quiz-calendar-upcoming`
+
+### 20-1. API 변경 요청 C-12 (통합본 반영 필요 — 개발팀 구현분과 대조)
+
+| 항목 | 내용 |
+|---|---|
+| 경로 | `GET /v1/me/quiz/history?from=YYYY-MM-DD&to=YYYY-MM-DD&team_id=t1` (로그인 필수, `x-clients: both`) |
+| 응답 | `items[{date, match_id, title, starts_at, status(finished/live/scheduled), answered(int), correct(int), total(int), quiz_points(int), draft_matches(int\|null), draft_card_id(\|null)}]`, `summary{matches_played, correct_rate, current_streak}` |
+| 계산 | 경기 = `quiz_questions.game_id → games.match_id`로 묶음. 예정 경기는 `GET /v1/matches`와 같은 원천. 참여 = 해당 경기 답 1개 이상 |
+| 캐시 | 지난 달은 1일, 이번 달은 경기 종료 이벤트 시 무효화 |
+| 측정 | `quiz_calendar_open{source}`, `quiz_calendar_day{state}`, `quiz_calendar_remind{match_id}` |

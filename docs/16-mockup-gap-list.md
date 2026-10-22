@@ -40,7 +40,7 @@
 - 근거: 확장 F-22(`02-feature-spec.md`) — 알림함은 웹 전용, 메뉴 'rorr.club에서'에 "알림함 ↗" + 미읽음 수
 - 현재: 메뉴 웹 링크(1065~1072줄)에 알림함 없음
 - 요구
-  - 메뉴 웹 링크 묶음 맨 위에 `알림함 ↗` → `https://yhc-pie.github.io/rorr-hero/#account/inbox`
+  - 메뉴 웹 링크 묶음 맨 위에 `알림함 ↗` → `https://piecomp.github.io/rorr-hero/#account/inbox`
   - 미읽음 수 배지(기존 `.dicon .badge` 스타일 재사용, 0이면 숨김)
   - 확장 안에 알림함 화면은 만들지 않음
 - 완료 기준
@@ -60,7 +60,7 @@
 - 근거: 정책 §5-6 고지 — 영문 Official Rules를 웹에 게시하고 **익스텐션 Ranking 탭에서 링크**, 게시 전 상금 지급 개시 금지
 - 현재: 퀴즈 랭킹 하단(913줄) `<a href="#" onclick="return false">Official rules</a>` — 연결 없음
 - 요구
-  - 링크 대상: `https://yhc-pie.github.io/rorr-hero/#rules/quiz` — **경로 확정(2026-10-17)**, 페이지는 웹 W-1에서 신설
+  - 링크 대상: `https://piecomp.github.io/rorr-hero/#rules/quiz` — **경로 확정(2026-10-17)**, 페이지는 웹 W-1에서 신설
   - 새 탭 열기(`target="_blank" rel="noopener"`, 다른 웹 링크와 동일) + `↗` 표시
 - 완료 기준: 링크가 웹 규칙 페이지로 열림. 웹 페이지 게시 전에는 목업에 "준비 중" 표시
 

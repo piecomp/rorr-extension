@@ -317,7 +317,7 @@
   - 누른 뒤: 'rorr.club에서 행운 박스를 열었어요 · 당첨 Spark는 바로 내 지갑에 들어와요'(같은 알림에서 다시 노출 안 함)
 - Boost 창: 기존 'Spark 5개 받기'(드롭) 제거 → 안내만 '행운 박스는 큰 순간 알림에서 rorr.club으로 열려요' + 확률(정책: 다른 경로에서는 받지 않음, 안내만)
 - 당첨 Spark는 같은 계정 지갑에 적립되므로 확장 잔액에도 반영(실제 구현 시 동기화)
-- 연결 주소(안): `https://rorr.club/?sponsor=1#lucky/<momentId>` — 목업은 `yhc-pie.github.io/rorr-hero/?sponsor=1#lucky/baron`
+- 연결 주소(안): `https://rorr.club/?sponsor=1#lucky/<momentId>` — 목업은 `piecomp.github.io/rorr-hero/?sponsor=1#lucky/baron`
   - **웹 측 필요 작업**: `#lucky/<momentId>` 진입 시 해당 순간의 박스 무대를 바로 열기(로그인 필요 시 로그인 후 이어서), 이미 연 박스면 결과 화면, 알림 기회 소진·풀 소진 시 안내. 현재 웹에는 이 딥링크가 없어 홈으로만 이동
 - 트레이드오프: 큰 순간에 중계 화면을 떠나 새 탭으로 이동 → 순간 시청을 끊을 수 있음. 측정 항목에 '박스 탭 후 확장 복귀율·같은 순간 Boost율' 추가 권장
 - 정책 확인: §6 '확장 내 광고는 순간 영역 노출 금지'와 후원 메시지·외부 링크 노출의 관계(§6-1 개정 항목에 포함 필요)

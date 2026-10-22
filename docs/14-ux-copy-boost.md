@@ -98,7 +98,7 @@
 - 근거: 파트너 측 비공개 선호 가능성, 팀별 조건 비교 방지
 - 확인 필요(법무): 비율 미표기 시 '팀에 전달' 표시의 고지 충분성. 웹사이트 FAQ의 70% 표기도 동일 기준으로 정리 필요
 ### 3. 충전 연동
-- Energy 충전 → https://yhc-pie.github.io/rorr-hero/#account/energy, Spark 받기 → https://yhc-pie.github.io/rorr-hero/#spark (새 탭)
+- Energy 충전 → https://piecomp.github.io/rorr-hero/#account/energy, Spark 받기 → https://piecomp.github.io/rorr-hero/#spark (새 탭)
 - 적용 위치: Boost 시트 하단 링크, 메뉴 'ON RORR.CLUB' 항목(외부 이동 ↗ 표시)
 ### 4. 카드 등장 연출
 - 변경 전: 배경과 카드가 함께 확대(scale .85 → 1)

@@ -56,11 +56,11 @@
 ## 5. 저장소
 
 - 로컬: `~/Documents/20_RORR/01_제품/rorr-extension`
-- 원격(예정): `github.com/yhc-pie/rorr-extension` (private) — 생성·푸시 절차는 아래
+- 원격: `github.com/piecomp/rorr-extension` (private) — 2026-10-22 yhc-pie에서 piecomp 조직으로 이전
+- 목업 배포본: https://piecomp.github.io/rorr-extension/mockup/
 
 ```bash
-# GitHub 웹에서 yhc-pie/rorr-extension 을 Private, 빈 저장소(README 없이)로 생성한 뒤
 cd ~/Documents/20_RORR/01_제품/rorr-extension
-git remote add origin git@github.com:yhc-pie/rorr-extension.git
-git push -u origin main
+git remote -v   # origin = git@github.com:piecomp/rorr-extension.git
+git push
 ```

@@ -942,6 +942,9 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .aff-bar{height:6px;border-radius:9999px;background:var(--panel-2);overflow:hidden}.aff-bar i{display:block;height:100%;border-radius:inherit;background:var(--brand)}
 .aff-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.aff-list li{display:flex;gap:8px;align-items:baseline;color:var(--ink)}.aff-list li.lock{color:var(--mute)}.aff-list li span:first-child{width:16px;flex:none;text-align:center}
 .aff-note{margin:0;font-size:12px;color:var(--mute);line-height:1.5}
+/* v59 quiz calendar day detail: what you did, never what you missed */
+.qc-did{display:flex;flex-wrap:wrap;gap:6px 14px;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}.qc-did span{display:inline-flex;align-items:center;gap:6px}.qc-did i{font-style:normal;color:var(--spark);font-size:12px}
+.qc-web{justify-self:start;font-size:12px;color:var(--link);text-decoration:none;padding:6px 0}.qc-web:hover{text-decoration:underline}
 /* v55 beginner guidance */
 .dh-r{display:flex;align-items:center;gap:8px}
 .dhelp{position:relative;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.dhelp::after{content:"";position:absolute;inset:-8px}
@@ -1730,12 +1733,13 @@ document.addEventListener('click',e=>{ const t=e.target;
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#dcardWrap').hidden){ closeDCard(); e.stopPropagation() } },true);
 /* v54 quiz calendar: match days you played the quiz, fed by GET /v1/me/quiz/history + /v1/matches. Neutral on missed days (no streak guilt) */
 const QTODAY='2026-10-24';
-const QCAL={'2026-09-26':{vs:'T1 vs NS',q:[7,12]},'2026-09-30':{vs:'T1 vs DRX',q:null},
- '2026-10-03':{vs:'T1 vs KT',q:[8,12],draft:4},'2026-10-07':{vs:'T1 vs NS',q:null},'2026-10-10':{vs:'T1 vs DK',q:[10,12],draft:6},'2026-10-17':{vs:'T1 vs BRO',q:[6,12],draft:5},'2026-10-21':{vs:'T1 vs FOX',q:[11,12]},
+/* v59: day detail also lists what you did that day (cards earned, big moments watched with Seoha). Never what you missed: no missed-moment counts or rates (season record lives on the web, My fandom) */
+const QCAL={'2026-09-26':{vs:'T1 vs NS',q:[7,12],c:1,bm:3},'2026-09-30':{vs:'T1 vs DRX',q:null},
+ '2026-10-03':{vs:'T1 vs KT',q:[8,12],draft:4,c:2,bm:4},'2026-10-07':{vs:'T1 vs NS',q:null,bm:2},'2026-10-10':{vs:'T1 vs DK',q:[10,12],draft:6,c:1,bm:5},'2026-10-17':{vs:'T1 vs BRO',q:[6,12],draft:5,bm:3},'2026-10-21':{vs:'T1 vs FOX',q:[11,12],c:3,bm:4},
  '2026-10-24':{vs:'T1 vs GEN',today:true},'2026-10-28':{vs:'T1 vs HLE',time:'19:00',up:true},'2026-10-31':{vs:'T1 vs DRX',time:'17:00',up:true},'2026-11-04':{vs:'T1 vs DK',time:'19:00',up:true}};
 S.qc={ym:'2026-10',sel:QTODAY};
 const pad=n=>String(n).padStart(2,'0');
-function qEntry(k){ const e=QCAL[k]; if(!e) return null; if(e.today){ const done=S.view==='recap'||(S.dr&&S.dr.done); return Object.assign({},e,done?{q:[9,12],draft:S.dr&&S.dr.sent?dScore():null,dpts:S.dr&&S.dr.sent?dPts():0}:{live:true}) } return e }
+function qEntry(k){ const e=QCAL[k]; if(!e) return null; if(e.today){ const done=S.view==='recap'||(S.dr&&S.dr.done); return Object.assign({},e,done?{q:[9,12],c:S.cards||0,bm:S.affMo||0,draft:S.dr&&S.dr.sent?dScore():null,dpts:S.dr&&S.dr.sent?dPts():0}:{live:true}) } return e }
 function qState(e){ return !e?'':e.live?'today':e.up?'up':e.q?'played':'skip' }
 function qMonthStats(ym){ const ks=Object.keys(QCAL).filter(k=>k.startsWith(ym)).map(k=>qEntry(k)).filter(e=>e&&e.q); const c=ks.reduce((a,e)=>a+e.q[0],0), t=ks.reduce((a,e)=>a+e.q[1],0); return {n:ks.length,rate:t?Math.round(c/t*100):0} }
 const WD=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -1746,7 +1750,10 @@ function qDetail(k){ const e=qEntry(k); const d=new Date(k+'T12:00:00Z'), wd=WD[
   else if(e.up) body='<span>'+e.time+' your time · quiz opens at the first dragon</span><button type="button" class="pill s qc-alert" data-qc-alert="'+k+'" aria-pressed="false">Remind me</button>';
   else if(e.q) body='<div class="qc-stats"><div><b>'+e.q[0]+'/'+e.q[1]+'</b><small>quiz correct</small></div><div><b>+'+e.q[0]*30+'</b><small>quiz points</small></div>'+(e.draft!=null?'<div><b>'+e.draft+'/8</b><small>fan draft</small></div>':'')+'</div>'+(k===QTODAY&&e.draft!=null?'<button type="button" class="dlink qc-card" data-open-dcard>Fan draft card ›</button>':'');
   else body='<span>You didn\'t play this one</span>';
-  return '<div class="qc-det"><b>'+k+' · '+wd+' · '+e.vs+'</b>'+body+'</div>' }
+  const did=[]; if(e.bm) did.push('<span><i aria-hidden="true">♡</i>'+e.bm+(e.bm===1?' big moment':' big moments')+' with Seoha</span>'); if(e.c) did.push('<span><i aria-hidden="true">◆</i>'+e.c+(e.c===1?' card':' cards')+' earned</span>');
+  const extra=(!e.up&&!e.live&&did.length)?'<div class="qc-did">'+did.join('')+'</div>':'';
+  const web=(!e.up&&!e.live)?'<a class="qc-web" href="https://piecomp.github.io/rorr-hero/" target="_blank" rel="noopener">Season record in My fandom ↗</a>':'';
+  return '<div class="qc-det"><b>'+k+' · '+wd+' · '+e.vs+'</b>'+body+extra+web+'</div>' }
 function renderQcal(focusSel){ const el=$('#qcalSheet'), [Y,M]=S.qc.ym.split('-').map(Number), first=new Date(Date.UTC(Y,M-1,1)), days=new Date(Date.UTC(Y,M,0)).getUTCDate(), lead=(first.getUTCDay()+6)%7, st=qMonthStats(S.qc.ym);
   let cells=''; for(let i=0;i<lead;i++) cells+='<span class="qc-c pad" aria-hidden="true"></span>';
   for(let d=1;d<=days;d++){ const k=S.qc.ym+'-'+pad(d), e=qEntry(k), stt=qState(e), sel=S.qc.sel===k, tod=k===QTODAY;
@@ -2264,6 +2271,8 @@ Object.assign(KO,{"We saw that big moment together":"그 큰 순간, 같이 봤�
 RX.push([/^Watched together (\d+) min$/,(m,a)=>"함께 본 지 "+a+"분"],[/^Watched together (\d+) min\. Open Seoha & you$/,(m,a)=>"함께 본 지 "+a+"분. 서하와 나 열기"],[/^We saw that big moment together\. Open Seoha & you$/,()=>"그 큰 순간, 같이 봤어. 서하와 나 열기"],
 [/^Seoha & you · Level (\d+)$/,(m,a)=>"서하와 나 · "+a+"단계"],[/^(\d+) min together today · (\d+) big moments$/,(m,a,b)=>"오늘 함께 "+a+"분 · 큰 순간 "+b+"번"],[/^Seoha & you\. (\d+) min together today$/,(m,a)=>"서하와 나. 오늘 함께 "+a+"분"]);
 Object.assign(KO,{"Watched with Seoha":"서하와 함께 봤어요"});
+Object.assign(KO,{"Season record in My fandom ↗":"내 팬심에서 시즌 기록 보기 ↗"});
+RX.push([/^(\d+) big moments? with Seoha$/,(m,a)=>"서하와 함께 본 큰 순간 "+a+"번"],[/^(\d+) cards? earned$/,(m,a)=>"받은 카드 "+a+"장"]);
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];

@@ -942,6 +942,16 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .aff-bar{height:6px;border-radius:9999px;background:var(--panel-2);overflow:hidden}.aff-bar i{display:block;height:100%;border-radius:inherit;background:var(--brand)}
 .aff-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.aff-list li{display:flex;gap:8px;align-items:baseline;color:var(--ink)}.aff-list li.lock{color:var(--mute)}.aff-list li span:first-child{width:16px;flex:none;text-align:center}
 .aff-note{margin:0;font-size:12px;color:var(--mute);line-height:1.5}
+/* v60 menu tidy: wallet chips are the top-up links, records as 3 tiles, settings collapse to one row each, web links as a 2x2 grid */
+.m-me>div{display:flex;flex-direction:column}
+.m-wal{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 2px 4px}
+.m-wal .mw{display:flex;flex-direction:column;gap:1px;min-height:48px;justify-content:center;padding:6px 10px;border-radius:12px;background:var(--panel-2);color:var(--ink);text-decoration:none;font-size:13px}.m-wal .mw b{font-variant-numeric:tabular-nums}.m-wal .mw.e span{color:var(--energy-ink)}.m-wal .mw.s span{color:var(--spark)}.m-wal .mw b{color:var(--ink)}.m-wal small{font-size:11px;color:var(--mute)}
+.m-rec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:2px 2px 4px}
+.menu-panel .m-rec button{height:auto;min-height:58px;padding:8px 10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;background:var(--panel);border:1px solid var(--line)}.menu-panel .m-rec button small{margin:0;font-size:11px;line-height:1.3}.m-rec b{font-size:14px;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.menu-panel .m-row{display:flex;align-items:center;gap:8px;width:100%}.m-row>span:first-child{flex:1;min-width:0}.m-row .mv{font-size:13px;color:var(--mute);white-space:nowrap}.m-row .mv b{font-weight:500}.m-row .chev{color:var(--mute);transition:transform .2s}.m-row[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.m-acc{padding:0 12px 10px;display:flex;flex-direction:column;gap:4px}.m-acc[hidden]{display:none}.m-acc .m-help{margin:0 0 4px}
+.m-web{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:2px 2px 0}.m-web a{display:flex;justify-content:space-between;align-items:center;gap:6px;min-height:44px;padding:0 10px;border-radius:10px;background:var(--panel);color:var(--ink);text-decoration:none;font-size:13px}.m-web a span{color:var(--mute)}
+@media (hover:hover) and (pointer:fine){.m-wal .mw:hover,.m-web a:hover{background:var(--field)}}
 /* v59 quiz calendar day detail: what you did, never what you missed */
 .qc-did{display:flex;flex-wrap:wrap;gap:6px 14px;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}.qc-did span{display:inline-flex;align-items:center;gap:6px}.qc-did i{font-style:normal;color:var(--spark);font-size:12px}
 .qc-web{justify-self:start;font-size:12px;color:var(--link);text-decoration:none;padding:6px 0}.qc-web:hover{text-decoration:underline}
@@ -1281,24 +1291,21 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
       <!-- overlays -->
       <div id="menuWrap" hidden><div class="sheet-bg" data-close-menu></div>
         <nav class="menu-panel" aria-label="Menu"><button type="button" class="mclose" aria-label="Close menu" data-close-menu><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-          <div class="m-me"><span class="av" aria-hidden="true">C</span><div><b>charles</b><span class="k">⚡ <span id="mE">120</span> Energy · ✦ <span id="mS">35</span> Spark</span><a class="m-acct" href="https://piecomp.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Account &amp; sign out ↗</a></div></div>
+          <div class="m-me"><span class="av" aria-hidden="true">C</span><div><b>charles</b><a class="m-acct" href="https://piecomp.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Account &amp; sign out ↗</a></div></div>
+          <div class="m-wal"><a class="mw e" href="https://piecomp.github.io/rorr-hero/#account/energy" target="_blank" rel="noopener"><span>⚡ <b id="mE">120</b> Energy</span><small>Top up ↗</small></a><a class="mw s" href="https://piecomp.github.io/rorr-hero/#spark" target="_blank" rel="noopener"><span>✦ <b id="mS">35</b> Spark</span><small>Get more ↗</small></a></div>
           <span class="lbl">MY RECORD</span>
-          <button type="button" data-open-qcal>Quiz calendar<small id="mQcal"></small></button>
-          <button type="button" data-open-dlog>Fan drafts<small id="mDlog"></small></button>
-          <button type="button" data-open-aff>Seoha &amp; you<small id="mAff"></small></button>
+          <div class="m-rec"><button type="button" data-open-qcal><small>Quiz calendar</small><b id="mQcal"></b></button><button type="button" data-open-dlog><small>Fan drafts</small><b id="mDlog"></b></button><button type="button" data-open-aff><small>Seoha &amp; you</small><b id="mAff"></b></button></div>
           <span class="lbl">SETTINGS</span>
           <div class="m-set"><span>Language</span><span class="mseg" role="group" aria-label="Language" data-i18n-skip><button type="button" data-lang="ko" aria-pressed="false" lang="ko">한국어</button><button type="button" data-lang="en" aria-pressed="true" lang="en">English</button></span></div>
-          <div class="m-set col"><span>Turning-point heads-up</span><small class="m-help">Seoha tells you just before plays that can swing the game, like a Baron fight.</small><span class="mseg" role="group" aria-label="Turning-point heads-up"><button type="button" data-alert="all" aria-pressed="true">All</button><button type="button" data-alert="holo" aria-pressed="false">Decisive only</button><button type="button" data-alert="off" aria-pressed="false">Off</button></span></div>
-          <div class="m-set col"><span>My player</span><small class="m-help">Goes on your moment card first whenever they're in the fight.</small><span class="bh-pick" id="mFav"></span></div>
-          <div class="m-set col m-sync"><span>Stream sync <b class="offTxt" style="font-weight:600;color:var(--mute)">auto</b></span><small class="m-help">Matched to where your video is. Nudge it if Seoha reacts too early or too late.</small><span class="syncb"><button type="button" data-off="2">Screen is behind</button><button type="button" data-off="-2">Screen is ahead</button></span></div>
+          <button type="button" class="m-row" data-macc="msAlert" aria-expanded="false" aria-controls="msAlert"><span>Turning-point heads-up</span><span class="mv" id="mvAlert">All</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="m-acc" id="msAlert" hidden><small class="m-help">Seoha tells you just before plays that can swing the game, like a Baron fight.</small><span class="mseg" role="group" aria-label="Turning-point heads-up"><button type="button" data-alert="all" aria-pressed="true">All</button><button type="button" data-alert="holo" aria-pressed="false">Decisive only</button><button type="button" data-alert="off" aria-pressed="false">Off</button></span></div>
+          <button type="button" class="m-row" data-macc="msFav" aria-expanded="false" aria-controls="msFav"><span>My player</span><span class="mv" id="mvFav">Auto</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="m-acc" id="msFav" hidden><small class="m-help">Goes on your moment card first whenever they're in the fight.</small><span class="bh-pick" id="mFav"></span></div>
+          <button type="button" class="m-row" data-macc="msSync" aria-expanded="false" aria-controls="msSync"><span>Stream sync</span><span class="mv"><b class="offTxt">auto</b></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="m-acc m-sync" id="msSync" hidden><small class="m-help">Matched to where your video is. Nudge it if Seoha reacts too early or too late.</small><span class="syncb"><button type="button" data-off="2">Screen is behind</button><button type="button" data-off="-2">Screen is ahead</button></span></div>
           <a class="mlink" href="https://piecomp.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Match start alerts<span aria-hidden="true">↗</span></a>
           <span class="lbl">ON RORR.CLUB</span>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#account/collection" target="_blank" rel="noopener">My cards<span aria-hidden="true">↗</span></a>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Manage my teams<span aria-hidden="true">↗</span></a>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#account/energy" target="_blank" rel="noopener">Top up Energy<span aria-hidden="true">↗</span></a>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#spark" target="_blank" rel="noopener">Get Spark<span aria-hidden="true">↗</span></a>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#account/billing" target="_blank" rel="noopener">Payments &amp; refunds<span aria-hidden="true">↗</span></a>
-          <a class="mlink" href="https://piecomp.github.io/rorr-hero/#blog/how-boost-works" target="_blank" rel="noopener">Help &amp; policies<span aria-hidden="true">↗</span></a>
+          <div class="m-web"><a href="https://piecomp.github.io/rorr-hero/#account/collection" target="_blank" rel="noopener">My cards<span aria-hidden="true">↗</span></a><a href="https://piecomp.github.io/rorr-hero/#account/settings" target="_blank" rel="noopener">Manage my teams<span aria-hidden="true">↗</span></a><a href="https://piecomp.github.io/rorr-hero/#account/billing" target="_blank" rel="noopener">Payments &amp; refunds<span aria-hidden="true">↗</span></a><a href="https://piecomp.github.io/rorr-hero/#blog/how-boost-works" target="_blank" rel="noopener">Help &amp; policies<span aria-hidden="true">↗</span></a></div>
           <p class="m-foot">An independent fan companion. Not endorsed by Riot Games. · v2.0</p>
         </nav>
       </div>
@@ -1721,7 +1728,7 @@ function renderDLog(){ const L=dLogAll(), el=$('#dlogSheet');
   +'<div class="dl-list">'+L.slice().reverse().map(x=>'<'+(x.cur?'button type="button" data-open-dcard':'div')+' class="dl-row'+(x.cur?' cur':'')+'"><span class="dl-d">'+x.date+'</span><span class="dl-m"><b>'+x.vs+'</b><small>'+(x.star?'★ '+x.star[1]+' · '+(x.hit?'called it':'missed'):'No ★')+'</small></span><span class="dl-n">'+x.n+'/8</span>'+(x.cur?'<span class="chev" aria-hidden="true">›</span>':'<span></span>')+'</'+(x.cur?'button':'div')+'>').join('')+'</div>'
   +'<p class="dnote">Fan draft cards stay here, apart from moment cards. Quiz points from drafts go to the weekly quiz ranking.</p>' }
 function openDLog(){ renderDLog(); const w=$('#dlogWrap'); unclose(w); w.hidden=false; const f=$('#dlogSheet .dl-row.cur')||$('#dlogSheet h2'); if(f&&f.focus) f.focus({preventScroll:true}) }
-function renderMDlog(){ const m=$('#mDlog'); if(m){ const L=dLogAll(); m.textContent='2026 season · '+L.length+' matches · avg '+dAvg()+'/8' } }
+function renderMDlog(){ const m=$('#mDlog'); if(m){ const L=dLogAll(); m.textContent='avg '+dAvg()+'/8' } }
 document.addEventListener('click',e=>{ const t=e.target;
   if(t.closest('#dRecap')||t.closest('[data-open-dcard]')){ openDCard(); return }
   if(t.closest('[data-dcard-close]')||t===$('#dcardWrap')){ closeDCard(); return }
@@ -1769,7 +1776,7 @@ function renderQcal(focusSel){ const el=$('#qcalSheet'), [Y,M]=S.qc.ym.split('-'
   +'<div id="qcDet">'+(S.qc.sel&&S.qc.sel.startsWith(S.qc.ym)?qDetail(S.qc.sel):'<div class="qc-det empty"><span>Tap a match day</span></div>')+'</div>';
   const f=focusSel&&el.querySelector(focusSel); if(f) f.focus({preventScroll:true}) }
 function openQcal(){ S.qc.ym=QTODAY.slice(0,7); S.qc.sel=QTODAY; renderQcal(); const w=$('#qcalWrap'); unclose(w); w.hidden=false; const f=$('#qcalSheet .qc-c.sel'); if(f) f.focus({preventScroll:true}) }
-function renderMQcal(){ const m=$('#mQcal'); if(m){ const st=qMonthStats(QTODAY.slice(0,7)); m.textContent='October · '+st.n+' matches · '+st.rate+'% correct' } }
+function renderMQcal(){ const m=$('#mQcal'); if(m){ const st=qMonthStats(QTODAY.slice(0,7)); m.textContent=st.rate+'% correct' } }
 document.addEventListener('click',e=>{ const t=e.target;
   if(t.closest('[data-open-qcal]')){ closeMenu(); openQcal(); return }
   if(t.closest('[data-open-aff]')){ closeMenu(); openAff(); return }
@@ -1820,7 +1827,7 @@ function affRecap(){ const b=$('#affRecap'); if(!b) return; const before=AFF.min
   b.setAttribute('aria-label','Seoha & you. '+S.affM+' min together today'); renderMAff() }
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') affFlush() });
 function hm(m){ return Math.floor(m/60)+'h '+pad(m%60)+'m' }
-function renderMAff(){ const m=$('#mAff'); if(m) m.textContent='Level '+AFF.lv+' · '+hm(AFF.min)+' together' }
+function renderMAff(){ const m=$('#mAff'); if(m) m.textContent='Level '+AFF.lv }
 function openAff(){ const el=$('#affSheet'), pct=Math.round(AFF.min/AFF.next*100);
   el.innerHTML='<span class="handle" style="align-self:center"></span><div class="dh"><h2 id="affTitle">Seoha &amp; you</h2><span class="dstep">Level '+AFF.lv+'</span></div>'
   +'<div class="aff-lv"><div class="t"><span>Watched together</span><b>'+hm(AFF.min)+'</b></div><div class="aff-bar" role="progressbar" aria-label="Progress to the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><i style="width:'+pct+'%"></i></div><div class="t"><span>'+AFF.matches+' matches · '+AFF.moments+' big moments together</span><span>Next level at '+hm(AFF.next)+'</span></div></div>'
@@ -1863,7 +1870,12 @@ function renderHero(){ const h=$('#bsHero'), bm=S.boosted?baron():null, p=bm?bm.
   const txt=bm?'Card star · '+bm.player+(bm.player===S.fav?' · your player':''):S.fav?'Card star · ★ '+S.fav+' first':'Card star · Auto';
   h.innerHTML='<div class="bh-line">'+(p?'<img src="'+PHOTO[p]+'" alt="">':'')+'<span>'+txt+'</span>'+(bm?'':'<button type="button" class="bh-i" data-bhi aria-expanded="false" aria-label="How the card star is chosen">i</button>')+'</div><p class="bh-help" hidden>Your player goes on the card when they\'re in the fight; otherwise the top performer does. Change it in the menu.</p>' }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-bhi]'); if(!b) return; const h=$('#bsHero .bh-help'); h.hidden=!h.hidden; b.setAttribute('aria-expanded',String(!h.hidden)) });
-function renderMFav(){ $('#mFav').innerHTML=favPick(true) }
+function renderMFav(){ $('#mFav').innerHTML=favPick(true); if(typeof renderMVals==='function') renderMVals() }
+/* v60 menu accordion: one setting open at a time; rows show the current value */
+function renderMVals(){ const ALERT_LBL={all:'All',holo:'Decisive only',off:'Off'}; const a=document.querySelector('[data-alert][aria-pressed="true"]'), va=$('#mvAlert'), vf=$('#mvFav'); if(va) va.textContent=ALERT_LBL[a?a.dataset.alert:'all']; if(vf) vf.textContent=S.fav?S.fav:'Auto' }
+document.addEventListener('click',e=>{ const r=e.target.closest('[data-macc]'); if(r){ const open=r.getAttribute('aria-expanded')!=='true'; $$('[data-macc]').forEach(b=>{ const on=b===r&&open; b.setAttribute('aria-expanded',String(on)); $('#'+b.dataset.macc).hidden=!on }); return }
+  if(e.target.closest('.menu-panel [data-alert], .menu-panel [data-fav]')) setTimeout(renderMVals,0) });
+
 document.addEventListener('click',e=>{ const f=e.target.closest('[data-fav]'); if(!f) return; S.fav=f.dataset.fav||null; renderHero(); renderMFav();
   if(f.closest('#favAsk')){ $('#favAsk').hidden=true; setTimeout(showDraftRes,1200); if($('#quiz').hidden) $('#v-live').classList.remove('has-quiz'); say(S.fav?'Nice, '+S.fav+'! If '+S.fav+' is in a big fight, that card is yours.':"Got it. I'll put whoever shines in the fight on your card.",'happy') }
   else if(f.closest('#mFav')) toast(S.fav?'Your player: '+S.fav:'Card star: top performer') });
@@ -1931,7 +1943,7 @@ $$('[data-bgpick]').forEach(b=>b.addEventListener('click',()=>{ $('#card').datas
 (function(){ const c=$('#card'), FX=[...document.querySelectorAll('.bgfx .fx')]; if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; let raf=0; c.addEventListener('pointermove',e=>{ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const r=c.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; FX.forEach(f=>f.style.transform='translate3d('+(x*-10).toFixed(2)+'px,'+(y*-8).toFixed(2)+'px,0)') }) }); c.addEventListener('pointerleave',()=>FX.forEach(f=>f.style.transform='')) })();
 document.addEventListener('visibilitychange',()=>document.querySelector('.side').classList.toggle('bg-paused',document.hidden));
 /* menu & pages */
-function openMenu(){ renderMDlog(); renderMQcal(); renderMAff(); $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; unclose($('#menuWrap')); $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); } function closeMenu(){ hideAnim($('#menuWrap'),[['.menu-panel','menu'],['.sheet-bg','fade']]) }
+function openMenu(){ renderMDlog(); renderMQcal(); renderMAff(); renderMVals(); $$('[data-macc]').forEach(b=>{ b.setAttribute('aria-expanded','false'); $('#'+b.dataset.macc).hidden=true }); $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; unclose($('#menuWrap')); $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); } function closeMenu(){ hideAnim($('#menuWrap'),[['.menu-panel','menu'],['.sheet-bg','fade']]) }
 $$('[data-open-menu]').forEach(b=>b.addEventListener('click',openMenu));
 $$('[data-close-menu]').forEach(b=>b.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{ const p=e.target.closest('[data-page]'); if(p){show(p.dataset.page,true)} const g=e.target.closest('[data-go]'); if(g){goStep(g.dataset.go)} const t=e.target.closest('[data-toast]'); if(t){closeMenu();toast(t.dataset.toast)} if(e.target.closest('[data-back]'))back() });
@@ -2273,6 +2285,8 @@ RX.push([/^Watched together (\d+) min$/,(m,a)=>"함께 본 지 "+a+"분"],[/^Wat
 Object.assign(KO,{"Watched with Seoha":"서하와 함께 봤어요"});
 Object.assign(KO,{"Season record in My fandom ↗":"내 팬심에서 시즌 기록 보기 ↗"});
 RX.push([/^(\d+) big moments? with Seoha$/,(m,a)=>"서하와 함께 본 큰 순간 "+a+"번"],[/^(\d+) cards? earned$/,(m,a)=>"받은 카드 "+a+"장"]);
+Object.assign(KO,{"Top up ↗":"충전 ↗","Get more ↗":"받기 ↗"});
+RX.push([/^avg ([\d.]+)\/8$/,(m,a)=>"평균 "+a+"/8"],[/^(\d+)% correct$/,(m,a)=>"정답률 "+a+"%"]);
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];

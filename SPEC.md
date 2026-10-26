@@ -1,7 +1,7 @@
 # SPEC.md — RORR 확장 프로그램 v2.0 프로덕션 명세
 
 - 작성일: 2026-10-19 · 상태: v1.0 초안(팀 리뷰 전) · 짝 문서: [intent.md](intent.md)(왜·범위·원칙·게이트)
-- 기준 시점: 목업 v47c(`0efdb84`) · 정책 v1.3(2026-10-17) · 공용 API·DB 통합본 `rorr-hero/handoff`(`api/openapi.yaml`·`db/schema.sql`·`api/realtime-events.md`)
+- 기준 시점: 목업 v47c(`0efdb84`) · 정책 v1.4(2026-10-26) · 공용 API·DB 통합본 `rorr-hero/handoff`(`api/openapi.yaml`·`db/schema.sql`·`api/realtime-events.md`)
 - 이 문서의 역할: **구현·검수가 따르는 단일 요구사항 목록**. 각 요구에 ID·수용 기준(AC)·원본 링크를 둠. 화면 치수·문구·애니메이션 값의 상세는 `handoff/`가 원본이며, 이 문서와 다르면 아래 우선순위를 따름
 
 ---
@@ -10,7 +10,7 @@
 
 ### 0-1. 우선순위 (충돌 시 위가 이김)
 
-1. 정책 v1.3(`handoff/policy/`) → 2. 통합 결정 목록(`rorr-hero/handoff/09-open-items.md` §0, `docs/07-decision-log.md`) → 3. 공용 API·DB 통합본 → 4. **이 문서** → 5. `handoff/` 화면·상호작용 명세 → 6. 목업 → 7. `docs/02-feature-spec.md`
+1. 정책 v1.4(`handoff/policy/`) → 2. 통합 결정 목록(`rorr-hero/handoff/09-open-items.md` §0, `docs/07-decision-log.md`) → 3. 공용 API·DB 통합본 → 4. **이 문서** → 5. `handoff/` 화면·상호작용 명세 → 6. 목업 → 7. `docs/02-feature-spec.md`
 
 ### 0-2. 표기
 
@@ -134,6 +134,7 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 | REQ-MUSE-03 | **반드시** 대사에 수치 없음, 선수 판정·상대 비하 금지, 스폰서 문구를 서하가 말하지 않음 | F-02, 정책 §6-1 |
 | REQ-MUSE-04 | **반드시** 순간 대사는 `GET /v1/ext/muse/lines` 세그먼트 캐시(버전 단위) | 통합본 |
 | REQ-MUSE-05 | **반드시** 말풍선 `aria-live="polite"`, 7초 후 숨김, 보이는 중 교체 시 150ms 흐림 교차 | `handoff/11` §1 |
+| REQ-MUSE-07 | **권장**(P1) 서하 친밀도: 재생 중·탭 표시·지연 보정값 있을 때만 로컬 집계, 서버에는 결과값만(`POST /v1/ext/affinity/sessions` 제안), 경기당 상한, 감소 없음, 지갑·포인트·순위와 분리, 독촉 대사 금지 | 정책 v1.4 §5-8, F-24 |
 | REQ-MUSE-06 | **권장**(P1) 관계 기억은 로컬 IndexedDB에만 저장, 다음 경기 첫 인사에 1회 회상 | F-15 |
 
 - AC: 레드팀 문장 세트(선수 판정·상대 비하·수치 낭독·스폰서 언급) 위반 0건
@@ -234,7 +235,8 @@ sending --오류·8초 초과--> failed --> idle (차감 표시 없음)
 
 | ID | 요구 | 원본 |
 |---|---|---|
-| REQ-ASK-01 | **권장** 추천 질문 칩(무료·캐시) + 직접 입력(`POST /v1/ext/muse/chat`, 로그인 필요, **Energy 차감 없음**, 분당 10회 제한), 경기·세트·게임 시각 자동 첨부 | 정책 v1.3 §1, EXT-2 |
+| REQ-ASK-01 | **권장** 추천 질문 칩(무료·캐시) + 직접 입력(`POST /v1/ext/muse/chat`, 로그인 필요, 분당 10회 제한), 경기·세트·게임 시각 자동 첨부. **주간 무료 횟수(`AI_FREE_WEEKLY`) 이후 Spark 또는 Energy 중 선택 차감**(합산 없음), 보내기 전 남은 무료 횟수·차감 재화·수량 표시, 답변 실패 시 미차감, 질문 Energy 환불 불가·팀 배분 제외, 결제 유도 문구 금지 | 정책 v1.4 §1, F-11, EXT-2 |
+| REQ-ASK-03 | **반드시** 추천 질문 칩은 무료·가격 미표시. 잔액 부족 시 웹 링크(충전·Spark 받기)만, 경기 중 광고 시청 유도 금지 | 정책 v1.4 §1·§6 |
 | REQ-ASK-02 | **권장** 답변 = 서하 1문장 + 펼침(근거·지표 칩·타임스탬프). '누가 못했는지' 답하지 않음 | F-11 |
 
 ### 4-12. 스폰서 행운 박스 [플래그 `sponsor_moment_enabled`] (F-23)

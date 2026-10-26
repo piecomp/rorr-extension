@@ -36,7 +36,7 @@
 
 ## 3. 기준 문서 (충돌 시 우선순위)
 
-1. **정책**: `RORR/policy/boost-economy-policy.md` (v1.3, 2026-10-17 · 사본 `handoff/policy/`) — 화면·문구·데이터 모델이 충돌하면 **정책 우선**
+1. **정책**: `RORR/policy/boost-economy-policy.md` (v1.4, 2026-10-26 · 사본 `handoff/policy/`) — 화면·문구·데이터 모델이 충돌하면 **정책 우선**
 2. **홈페이지 기획**: `20_RORR/00_노트/2026-10-01-rorr.club-홈페이지-심플화-제안.md` + 웹 현행 `20_RORR/02_디자인브랜드/rorr-hero` (`index.html`, `docs/HANDOFF.md`, 블로그 "Meet Muse") — **익스텐션 기획의 1차 근거**
 3. **디자인 시스템**: RORR Design System (2026-06, Pretendard·Primary #6F4CFF, Companion 토큰군)
 4. **Muse 말투**: `20_RORR/00_노트/마케팅/2026-07-30-Muse-말투가이드-팀모드-응원.md`

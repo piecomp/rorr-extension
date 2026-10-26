@@ -371,7 +371,7 @@ paths:
   /ext/muse/chat:
     post:
       tags: [ext]
-      summary: '서하 1:1 대화(스트리밍). Energy 차감 없음(정책 v1.3 §1). 로그인 필수'
+      summary: '서하 1:1 대화(스트리밍). 로그인 필수. 주간 무료 횟수 이후 Spark 또는 Energy 선택 차감, 실패 시 미차감(정책 v1.4 §1)'
       parameters: [ { $ref: '#/components/parameters/IdemKey' } ]
       requestBody:
         required: true

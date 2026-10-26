@@ -162,7 +162,8 @@
 | POST | `/ext/match/resolve` | `{ host, url, title, channel_id? }` → `{ status: matched\|ambiguous\|none, match_id?, candidates?[], offset_ms }` |
 | GET | `/ext/stream` | SSE. `?match_id` (+ 로그인 시 사용자 채널 자동 합류). §5 |
 | GET | `/ext/muse/lines` | `?segment=pre\|live\|between\|post&lang&since_version` 서하 대사 묶음(캐시용) |
-| POST | `/ext/muse/chat` | 1:1 대화(LLM) `{ text, context: { match_id, moment_id? } }` → 스트리밍 응답. **Energy 차감 없음**(정책 v1.3 §1: AI 질문은 Energy 사용처 아님). 로그인 필수, 무료 횟수 등 과금 방식은 별도 결정(15 EXT-2) |
+| POST | `/ext/muse/chat` | 1:1 대화(LLM) `{ text, context: { match_id, moment_id? } }` → 스트리밍 응답. 로그인 필수. 주간 무료 횟수(`AI_FREE_WEEKLY`) 이후 요청에 `pay: { currency: spark\|energy, qty }`(서버 가격과 불일치 시 `price_changed`), 응답 헤더에 `free_left`·차감 결과. 답변 생성 실패·타임아웃 시 차감 취소. Energy는 유료만(`BONUS_ENERGY_AI` false), 팀 배분 제외(정책 v1.4 §1) — 공용 경로·필드는 통합본 기준으로 확정 필요(C-13) |
+| POST | `/ext/affinity/sessions` | 서하 친밀도 결과값 `{ match_id, watched_min, moments_together }` → `{ level, gained, capped }`. 로컬 판정 결과만 전송, 지갑·포인트와 분리(정책 v1.4 §5-8) — 신규 제안(C-14) |
 | POST | `/ext/offset-reports` | 익명 지연 보정값 `{ host, match_id, delta_ms }` — 호스트별 기본 지연 산출용 |
 
 ### 2-10. 측정

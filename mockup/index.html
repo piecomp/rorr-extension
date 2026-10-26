@@ -918,6 +918,19 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .qc-alert{height:40px;justify-self:start;padding:0 16px;font-size:13px}.qc-card{justify-self:start}
 @media (hover:hover) and (pointer:fine){button.qc-c:hover{border-color:var(--ink-2)}.qc-arw:not(:disabled):hover{background:var(--panel-2)}}
 
+/* v56 policy v1.4: paid questions after the weekly free quota (Spark or Energy, user picks), Seoha affinity */
+.askbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px 0;background:var(--sheet);font-size:12px;color:var(--mute);min-height:32px}
+.askbar b{color:var(--ink);font-variant-numeric:tabular-nums}
+.askbar>span:first-child{min-width:0}.askbar .aseg{display:flex;gap:4px;flex:none}.askbar .aseg button{height:32px;padding:0 10px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;position:relative}.askbar .aseg button::after{content:"";position:absolute;inset:-6px -2px}
+.askbar .aseg button[aria-pressed="true"]{border-color:transparent;background:var(--field);color:var(--ink)}.askbar .aseg button[data-cur="s"][aria-pressed="true"]{color:var(--spark)}.askbar .aseg button[data-cur="e"][aria-pressed="true"]{color:var(--energy-ink)}
+.asknote{padding:4px 14px 0;background:var(--sheet);font-size:12px;color:var(--mute);line-height:1.4}.asknote a{color:var(--link)}
+.msg.sys{align-self:center;max-width:280px;background:transparent;border:1px solid var(--line);color:var(--ink-2);font-size:13px;text-align:center;border-radius:12px}
+#affWrap{position:absolute;inset:0;z-index:9}#affWrap[hidden]{display:none}#affWrap:not([hidden]) .sheet{animation:sheetin .26s cubic-bezier(.32,.72,0,1)}#affWrap:not([hidden]) .sheet-bg{animation:fadein .2s ease-out}
+.aff{gap:12px;padding:10px 18px 16px;max-height:calc(100% - 48px);overflow-y:auto}.aff .dh{display:flex;justify-content:space-between;align-items:baseline}.aff h2{margin:0}
+.aff-lv{display:grid;gap:6px;padding:12px;border-radius:14px;background:var(--panel)}.aff-lv .t{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink-2)}.aff-lv .t b{font-size:17px;color:var(--ink)}
+.aff-bar{height:6px;border-radius:9999px;background:var(--panel-2);overflow:hidden}.aff-bar i{display:block;height:100%;border-radius:inherit;background:var(--brand)}
+.aff-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.aff-list li{display:flex;gap:8px;align-items:baseline;color:var(--ink)}.aff-list li.lock{color:var(--mute)}.aff-list li span:first-child{width:16px;flex:none;text-align:center}
+.aff-note{margin:0;font-size:12px;color:var(--mute);line-height:1.5}
 /* v55 beginner guidance */
 .dh-r{display:flex;align-items:center;gap:8px}
 .dhelp{position:relative;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.dhelp::after{content:"";position:absolute;inset:-8px}
@@ -1020,6 +1033,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
               <span class="lbl">Drag the handle down or tap it to close.</span>
             </div>
           </div>
+          <div class="askbar" id="askBar" aria-live="polite"></div><div class="asknote" id="askNote" hidden></div>
           <form class="inputbar" id="chatForm"><label class="sr" for="chatIn">Message Seoha</label><input id="chatIn" type="text" placeholder="Type a message..." autocomplete="off"><button class="send" type="submit" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg></button></form>
         </div>
       </div>
@@ -1255,6 +1269,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
           <span class="lbl">MY RECORD</span>
           <button type="button" data-open-qcal>Quiz calendar<small id="mQcal"></small></button>
           <button type="button" data-open-dlog>Fan drafts<small id="mDlog"></small></button>
+          <button type="button" data-open-aff>Seoha &amp; you<small id="mAff"></small></button>
           <span class="lbl">SETTINGS</span>
           <div class="m-set"><span>Language</span><span class="mseg" role="group" aria-label="Language" data-i18n-skip><button type="button" data-lang="ko" aria-pressed="false" lang="ko">한국어</button><button type="button" data-lang="en" aria-pressed="true" lang="en">English</button></span></div>
           <div class="m-set col"><span>Turning-point heads-up</span><small class="m-help">Seoha tells you just before plays that can swing the game, like a Baron fight.</small><span class="mseg" role="group" aria-label="Turning-point heads-up"><button type="button" data-alert="all" aria-pressed="true">All</button><button type="button" data-alert="holo" aria-pressed="false">Decisive only</button><button type="button" data-alert="off" aria-pressed="false">Off</button></span></div>
@@ -1311,6 +1326,9 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
       </div>
       <div id="dlogWrap" hidden><div class="sheet-bg" data-close-dlog></div>
         <div class="sheet dlog" role="dialog" aria-labelledby="dlogTitle" id="dlogSheet"></div>
+      </div>
+      <div id="affWrap" hidden><div class="sheet-bg" data-close-aff></div>
+        <div class="sheet aff" role="dialog" aria-labelledby="affTitle" id="affSheet"></div>
       </div>
       <div id="rewardWrap" class="cardview" hidden role="dialog" aria-label="Moment card">
         <span class="cv-new" id="cvNew">NEW CARD</span>
@@ -1733,6 +1751,8 @@ function openQcal(){ S.qc.ym=QTODAY.slice(0,7); S.qc.sel=QTODAY; renderQcal(); c
 function renderMQcal(){ const m=$('#mQcal'); if(m){ const st=qMonthStats(QTODAY.slice(0,7)); m.textContent='October · '+st.n+' matches · '+st.rate+'% correct' } }
 document.addEventListener('click',e=>{ const t=e.target;
   if(t.closest('[data-open-qcal]')){ closeMenu(); openQcal(); return }
+  if(t.closest('[data-open-aff]')){ closeMenu(); openAff(); return }
+  if(t.closest('[data-close-aff]')){ hideAnim($('#affWrap'),[['.sheet','sheet'],['.sheet-bg','fade']]); return }
   if(t.closest('[data-close-qcal]')){ hideAnim($('#qcalWrap'),[['.sheet','sheet'],['.sheet-bg','fade']]); return }
   const dy=t.closest('[data-qc-day]'); if(dy){ const k=dy.dataset.qcDay; S.qc.sel=k; $$('#qcalSheet [data-qc-day]').forEach(b=>{ const on=b.dataset.qcDay===k; b.classList.toggle('sel',on); b.setAttribute('aria-pressed',String(on)) }); $('#qcDet').innerHTML=qDetail(k); return }
   const mv=t.closest('[data-qc-m]'); if(mv){ const ms=['2026-09','2026-10','2026-11'], i=ms.indexOf(S.qc.ym)+Number(mv.dataset.qcM); if(i<0||i>2) return; S.qc.ym=ms[i]; renderQcal('[data-qc-m="'+mv.dataset.qcM+'"]:not(:disabled)'); if(!document.activeElement||document.activeElement===document.body){ const o=$('#qcalSheet .qc-arw:not(:disabled)'); if(o) o.focus({preventScroll:true}) } return }
@@ -1740,7 +1760,32 @@ document.addEventListener('click',e=>{ const t=e.target;
 });
 function markWP(i){ if(S.wp[i]) return; S.wp[i]=true; renderWP(); const c=$('#wpCard'); if(c) c.innerHTML=wpHTML(); toast('Watch point '+S.wp.filter(Boolean).length+'/3 · '+WPS[i]) }
 function initChat(){ $('#msgs').innerHTML=''; msg("You're back! Still thinking about Thursday's Baron steal? I kind of am."); msg('honestly yes. was that just luck?',true); msg("Not all luck. Their jungler was already in the pit's blind spot twenty seconds before."); msg("we're playing GEN saturday right?",true); msg("Saturday, 17:00 your time. I'll call you ten minutes before, and I'm keeping your quiz streak warm."); draftInvite() }
-$('#chatForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#chatIn').value.trim();if(!v)return;msg(v,true);$('#chatIn').value='';seohaReply(v)});
+/* v56 policy v1.4 §1: suggested chips are free. Typed questions use the weekly free quota, then cost Spark or Energy (the fan picks one, never both).
+   Sample values only: AI_FREE_WEEKLY=3 (2 left in the demo), AI_PRICE_SPARK=2, AI_PRICE_ENERGY=1. Failed answers are not charged. */
+const ASK={free:2,price:{s:2,e:1},cur:'s'};
+function renderAsk(){ const b=$('#askBar'), n=$('#askNote'); if(!b) return;
+  if(ASK.free>0){ b.innerHTML='<span>Free questions this week</span><span><b>'+ASK.free+'</b> <span>left</span></span>'; n.hidden=true; return }
+  const sp=ASK.cur==='s';
+  b.innerHTML='<span>Free ones used · pay with</span><span class="aseg" role="group" aria-label="Pay with"><button type="button" data-cur="s" data-askcur="s" aria-pressed="'+sp+'">✦ '+ASK.price.s+' Spark</button><button type="button" data-cur="e" data-askcur="e" aria-pressed="'+!sp+'">⚡ '+ASK.price.e+' Energy</button></span>';
+  n.hidden=false; n.innerHTML=sp?'<span>Suggested questions stay free.</span>':'<span>Energy for questions is non-refundable and not shared with teams.</span>' }
+function askCharge(){ if(ASK.free>0){ ASK.free--; return true }
+  const k=ASK.cur, q=ASK.price[k], bal=k==='s'?S.sBal:S.eBal;
+  if(bal<q){ const d=msg('',false); d.classList.add('sys'); d.innerHTML=k==='s'?'<span>Not enough Spark for this question.</span> <a href="https://piecomp.github.io/rorr-hero/#spark" target="_blank" rel="noopener">Get Spark ↗</a>':'<span>Not enough Energy for this question.</span> <a href="https://piecomp.github.io/rorr-hero/#account/energy" target="_blank" rel="noopener">Top up Energy ↗</a>'; return false }
+  if(k==='s') S.sBal-=q; else S.eBal-=q; return true }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-askcur]'); if(!b) return; ASK.cur=b.dataset.askcur; renderAsk(); const f=$('#askBar [data-askcur="'+ASK.cur+'"]'); if(f) f.focus({preventScroll:true}) });
+$('#chatForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#chatIn').value.trim();if(!v)return;const paid=ASK.free<=0, k=ASK.cur;if(!askCharge())return;msg(v,true);$('#chatIn').value='';seohaReply(v);if(paid)toast(k==='s'?'Used '+ASK.price.s+' Spark · '+S.sBal+' left':'Used '+ASK.price.e+' Energy · '+S.eBal+' left');renderAsk()});
+renderAsk();
+/* v56 policy v1.4 §5-8: Seoha affinity. A relationship record from watching in the extension. Not a currency, not in points, rankings or cards. Never decays, can't be bought. Sample data. */
+const AFF={lv:2,min:400,next:600,moments:31,matches:9};
+function hm(m){ return Math.floor(m/60)+'h '+pad(m%60)+'m' }
+function renderMAff(){ const m=$('#mAff'); if(m) m.textContent='Level '+AFF.lv+' · '+hm(AFF.min)+' together' }
+function openAff(){ const el=$('#affSheet'), pct=Math.round(AFF.min/AFF.next*100);
+  el.innerHTML='<span class="handle" style="align-self:center"></span><div class="dh"><h2 id="affTitle">Seoha &amp; you</h2><span class="dstep">Level '+AFF.lv+'</span></div>'
+  +'<div class="aff-lv"><div class="t"><span>Watched together</span><b>'+hm(AFF.min)+'</b></div><div class="aff-bar" role="progressbar" aria-label="Progress to the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><i style="width:'+pct+'%"></i></div><div class="t"><span>'+AFF.matches+' matches · '+AFF.moments+' big moments together</span><span>Next level at '+hm(AFF.next)+'</span></div></div>'
+  +'<ul class="aff-list"><li><span aria-hidden="true">✓</span><span>Seoha calls you by name</span></li><li><span aria-hidden="true">✓</span><span>A word from Seoha after each match</span></li><li class="lock"><span aria-hidden="true">·</span><span>New expressions at Level 3</span></li></ul>'
+  +'<p class="aff-note">Grows only while you watch a live match with Seoha here, with the video playing. It never goes down, even if you skip matches, and it can\'t be bought. It doesn\'t count toward points, rankings or cards.</p>';
+  const w=$('#affWrap'); unclose(w); w.hidden=false }
+
 $$('[data-say]').forEach(b=>b.addEventListener('click',()=>{setDrawer(false);msg(b.dataset.say,true);seohaReply(b.dataset.say)}));
 function setDrawer(open){ const d=$('#v-chat .drawer'); d.classList.toggle('open',open); $('#drawerMore').hidden=!open; $$('[data-more]').forEach(c=>c.hidden=!open); $('#grab').setAttribute('aria-expanded',String(open)); $('#grab').setAttribute('aria-label',open?'Hide shortcuts':'Show more shortcuts') }
 (function(){ const g=$('#grab'); let y0=null,moved=false,t0=0,yLast=0;
@@ -1844,7 +1889,7 @@ $$('[data-bgpick]').forEach(b=>b.addEventListener('click',()=>{ $('#card').datas
 (function(){ const c=$('#card'), FX=[...document.querySelectorAll('.bgfx .fx')]; if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; let raf=0; c.addEventListener('pointermove',e=>{ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const r=c.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; FX.forEach(f=>f.style.transform='translate3d('+(x*-10).toFixed(2)+'px,'+(y*-8).toFixed(2)+'px,0)') }) }); c.addEventListener('pointerleave',()=>FX.forEach(f=>f.style.transform='')) })();
 document.addEventListener('visibilitychange',()=>document.querySelector('.side').classList.toggle('bg-paused',document.hidden));
 /* menu & pages */
-function openMenu(){ renderMDlog(); renderMQcal(); $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; unclose($('#menuWrap')); $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); } function closeMenu(){ hideAnim($('#menuWrap'),[['.menu-panel','menu'],['.sheet-bg','fade']]) }
+function openMenu(){ renderMDlog(); renderMQcal(); renderMAff(); $('#mE').textContent=S.eBal; $('#mS').textContent=S.sBal; unclose($('#menuWrap')); $('#menuWrap').hidden=false; $$('.menu-panel [data-v]').forEach(b=>{ if(b.dataset.v===S.view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') }); } function closeMenu(){ hideAnim($('#menuWrap'),[['.menu-panel','menu'],['.sheet-bg','fade']]) }
 $$('[data-open-menu]').forEach(b=>b.addEventListener('click',openMenu));
 $$('[data-close-menu]').forEach(b=>b.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{ const p=e.target.closest('[data-page]'); if(p){show(p.dataset.page,true)} const g=e.target.closest('[data-go]'); if(g){goStep(g.dataset.go)} const t=e.target.closest('[data-toast]'); if(t){closeMenu();toast(t.dataset.toast)} if(e.target.closest('[data-back]'))back() });
@@ -1975,7 +2020,7 @@ $('#autoBtn').addEventListener('click',()=>{ autoOn=!autoOn; $('#autoBtn').textC
 
 /* keyboard */
 document.addEventListener('keydown',e=>{ if(e.target.matches('input'))return;
-  if(e.key==='1')pickAns('T1'); else if(e.key==='2')pickAns('GEN'); else if((e.key==='b'||e.key==='B')&&S.view==='live')openSheet(true); else if(e.key==='Escape'){closeSheet();closeDraft();closeMenu();setMo(false);setReact(false);setDrawer(false);$('#rewardWrap').hidden=true} });
+  if(e.key==='1')pickAns('T1'); else if(e.key==='2')pickAns('GEN'); else if((e.key==='b'||e.key==='B')&&S.view==='live')openSheet(true); else if(e.key==='Escape'){closeSheet();closeDraft();closeMenu();setMo(false);setReact(false);hideAnim($('#affWrap'),[['.sheet','sheet'],['.sheet-bg','fade']]);setDrawer(false);$('#rewardWrap').hidden=true} });
 
 initChat(); resetLive(); renderWP(); renderScore(); syncStream(false); applyBg();
 })();
@@ -2171,6 +2216,15 @@ const RX=[[/^(Energy|Spark) Lv\.(\d) · total (\d+) this moment · (\d+) more to
 [/^How often (\w+) played each one in the last 10 games\. The more often, the likelier again\.$/,(m,a)=>a+" 선수가 최근 10경기에서 이 챔피언을 쓴 횟수예요. 많이 쓴 챔피언일수록 또 고를 가능성이 높아요."],
 [/^(\d+) of last 10$/,(m,a)=>"10경기 중 "+a+"번"]
 ];
+Object.assign(KO,{"Free questions this week":"이번 주 무료 질문","Free ones used · pay with":"무료 소진 · 결제 재화","Pay with":"결제 수단",
+"Suggested questions stay free.":"추천 질문은 계속 무료예요.",
+"Energy for questions is non-refundable and not shared with teams.":"질문에 쓴 Energy는 환불되지 않고 팀 배분 대상이 아니에요.",
+"Not enough Spark for this question.":"이 질문에 쓸 Spark가 부족해요.","Not enough Energy for this question.":"이 질문에 쓸 Energy가 부족해요.","Get Spark ↗":"Spark 받기 ↗","Top up Energy ↗":"Energy 충전 ↗",
+"Seoha & you":"서하와 나","Watched together":"함께 본 시간","Progress to the next level":"다음 단계까지 진행도","Seoha calls you by name":"서하가 닉네임으로 불러 줘요","A word from Seoha after each match":"경기 후 서하의 한마디","New expressions at Level 3":"3단계에서 새 표정",
+"Grows only while you watch a live match with Seoha here, with the video playing. It never goes down, even if you skip matches, and it can't be bought. It doesn't count toward points, rankings or cards.":"여기서 영상을 재생하며 서하와 라이브 경기를 볼 때만 쌓여요. 경기를 걸러도 줄지 않고, 살 수도 없어요. 포인트·순위·카드에는 반영되지 않아요."});
+RX.push([/^Level (\d+) · (\d+)h (\d+)m together$/,(m,a,h,mi)=>a+"단계 · 함께 "+h+"시간 "+mi+"분"],[/^Level (\d+)$/,(m,a)=>a+"단계"],[/^(\d+)h (\d+)m$/,(m,h,mi)=>h+"시간 "+mi+"분"],
+[/^(\d+) matches · (\d+) big moments together$/,(m,a,b)=>"경기 "+a+" · 함께 본 큰 순간 "+b],[/^Next level at (\d+)h (\d+)m$/,(m,h,mi)=>"다음 단계 "+h+"시간 "+mi+"분"],
+[/^Used (\d+) (Spark|Energy) · (\d+) left$/,(m,a,c,b)=>c+" "+a+" 사용 · "+b+" 남음"]);
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];

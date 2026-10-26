@@ -322,3 +322,18 @@
 | 계산 | 경기 = `quiz_questions.game_id → games.match_id`로 묶음. 예정 경기는 `GET /v1/matches`와 같은 원천. 참여 = 해당 경기 답 1개 이상 |
 | 캐시 | 지난 달은 1일, 이번 달은 경기 종료 이벤트 시 무효화 |
 | 측정 | `quiz_calendar_open{source}`, `quiz_calendar_day{state}`, `quiz_calendar_remind{match_id}` |
+
+## 21. 질문 과금 줄·서하와 나 (v56, 정책 v1.4)
+
+| 요소 | 상태 | 표시 | 비고 |
+|---|---|---|---|
+| `#askBar` | 무료 횟수 남음 | 이번 주 무료 질문 · N 남음 | 추천 칩은 대상 아님 |
+| `#askBar` | 무료 소진 | 무료 소진 · 결제 재화 [✦ N Spark][⚡ N Energy] (`aria-pressed`) | 합산 차감 없음, 마지막 선택 유지 |
+| `#askNote` | Energy 선택 | 질문에 쓴 Energy는 환불되지 않고 팀 배분 대상이 아니에요 | 정책 v1.4 §1 |
+| 대화 안내 줄 `.msg.sys` | 잔액 부족 | 부족 안내 + 웹 링크(충전·Spark 받기) | 결제 유도·독촉 금지 |
+| 메뉴 `[data-open-aff]` | 상시 | 서하와 나 · N단계 · 함께 N시간 N분 | 내 기록 그룹 |
+| `#affSheet` | 열림 | 단계·함께 본 시간·진행 막대(`role=progressbar`)·해금 목록·고지 | 친밀도는 지갑·포인트·순위 API와 분리(§5-8) |
+
+- 실패 처리: 답변 생성 실패·타임아웃 시 차감하지 않는다(정책 v1.4 §1). 무료 횟수 차감 여부는 같은 기준으로 확정 필요
+- 값: `AI_FREE_WEEKLY`·`AI_PRICE_SPARK`·`AI_PRICE_ENERGY`·`AFFINITY_MATCH_CAP` 미정 — 목업 값은 임시
+

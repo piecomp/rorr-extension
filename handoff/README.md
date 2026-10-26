@@ -22,7 +22,7 @@
 | 7 | [i18n-ko.json](i18n-ko.json) | 한국어 문구 원본(정확 일치 536개 + 패턴 59개) | 개발·카피 |
 | 8 | [06-qa-checklist.md](06-qa-checklist.md) | 수용 기준·테스트 시나리오·회귀 항목 | QA |
 | 9 | [screens/](screens/) | 주요 상태 캡처 41장(한국어, 380px 패널) | 전원 |
-| 10 | [policy/boost-economy-policy-v1.3.md](policy/boost-economy-policy-v1.3.md) | 정책 사본(원본은 사업 담당 관리) | 전원 |
+| 10 | [policy/boost-economy-policy-v1.4.md](policy/boost-economy-policy-v1.4.md) | 정책 사본 v1.4(2026-10-26, 원본은 사업 담당 관리 · 직전 v1.3 사본 보관) | 전원 |
 
 ### 1-1. 시스템·구현 설계 (2026-10-17 추가)
 
@@ -45,7 +45,7 @@
 ## 2. 기존 기획 문서와의 관계
 
 - `docs/01~15`는 **왜·무엇**(기획·결정·정책 매핑), 이 패키지는 **어떻게 보이고 움직이는가**(구현 기준)
-- 충돌 시 우선순위: 정책 v1.3 → `docs/07-decision-log.md`·`docs/13-design-review.md`(최신 결정) → **이 패키지** → `docs/02-feature-spec.md`(일부 문구는 v45 이전 기준, 차이는 02-screen-spec §0에 정리)
+- 충돌 시 우선순위: 정책 v1.4 → `docs/07-decision-log.md`·`docs/13-design-review.md`(최신 결정) → **이 패키지** → `docs/02-feature-spec.md`(일부 문구는 v45 이전 기준, 차이는 02-screen-spec §0에 정리)
 - 결정 경위는 `docs/13-design-review.md` §8~24, 웹과의 의도된 차이는 `docs/15-web-ext-gap.md`
 
 ## 3. 화면 캡처 목록

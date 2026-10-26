@@ -918,6 +918,12 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .qc-alert{height:40px;justify-self:start;padding:0 16px;font-size:13px}.qc-card{justify-self:start}
 @media (hover:hover) and (pointer:fine){button.qc-c:hover{border-color:var(--ink-2)}.qc-arw:not(:disabled):hover{background:var(--panel-2)}}
 
+/* v57 watch drop: affinity only (policy v1.4 §5-8). Not a currency, no claim button, never over the moment area */
+.adrop{align-self:center;display:flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 10px;border-radius:9999px;border:1px solid rgba(201,205,250,.35);background:rgba(20,22,40,.82);color:var(--ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer;backdrop-filter:blur(8px);animation:viewin .26s cubic-bezier(.16,1,.3,1);position:relative}.adrop::after{content:"";position:absolute;inset:-4px 0}
+.adrop[hidden]{display:none}.adrop .hz{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 45%,transparent);color:#fff;font-size:12px}.adrop small{font-size:12px;font-weight:500;color:var(--mute)}
+.adrop.up{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 25%,transparent)}
+@media (prefers-reduced-motion:no-preference){.adrop .hz{animation:hzpop .6s cubic-bezier(.34,1.56,.64,1)}@keyframes hzpop{0%{transform:scale(.4)}100%{transform:none}}}
+.aff-recap{display:grid;grid-template-columns:auto minmax(0,1fr) 14px;gap:12px;align-items:center;width:100%;min-height:52px;padding:8px 14px;border-radius:14px;border:1px solid var(--line-2);background:#1F2433;color:var(--ink);font:inherit;font-size:13px;text-align:left;cursor:pointer}.aff-recap small{display:block;color:var(--mute);font-size:12px}.aff-recap .hz{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 45%,transparent)}
 /* v56 policy v1.4: paid questions after the weekly free quota (Spark or Energy, user picks), Seoha affinity */
 .askbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px 0;background:var(--sheet);font-size:12px;color:var(--mute);min-height:32px}
 .askbar b{color:var(--ink);font-variant-numeric:tabular-nums}
@@ -1055,6 +1061,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
           <div class="coach" id="goldCoach" hidden role="note"><span class="ca" aria-hidden="true"></span><span class="ct"><b>Gold gap</b><span>The bar fills toward the team that's ahead. Tap a team for the exact number.</span></span><button type="button" id="coachOk">Got it</button></div>
           <div class="watch" id="watch" hidden role="status"><span class="w-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="w-t"><b id="wTitle"></b><small id="wSub"></small></span><button type="button" class="w-go" id="wGo" aria-expanded="false" aria-controls="chList"></button></div>
           <div class="chlist" id="chList" hidden role="group" aria-label="Official channels"><span class="ch-h">Official channels · T1 vs GEN</span><button type="button" class="ch" data-ch="CHZZK"><span class="pf cz" aria-hidden="true">C</span><span>CHZZK · LCK<br><small>Korean</small></span><span class="go">Open ↗</span></button><button type="button" class="ch" data-ch="SOOP"><span class="pf sp" aria-hidden="true">S</span><span>SOOP · LCK<br><small>Korean</small></span><span class="go">Open ↗</span></button><button type="button" class="ch" data-ch="YouTube"><span class="pf yt" aria-hidden="true">Y</span><span>YouTube · LCK Global<br><small>English</small></span><span class="go">Open ↗</span></button></div>
+          <button type="button" class="adrop" id="aDrop" hidden data-open-aff aria-live="polite"></button>
           <div class="heads glass" id="heads" hidden><span class="t">Baron fight incoming</span><span class="cd" id="headsCd">0:40</span></div>
           <div class="heads-sp" role="group" aria-label="Sponsor"><span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>NOVA Gear</b></span><span class="hsp-box" id="hspBox"></span></div>
           <div class="scoredetail glass" id="scoreDetail" hidden>
@@ -1104,6 +1111,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
           
           <button type="button" class="dr-recap" id="dRecap" hidden></button>
           <div class="wp-recap" id="wpRecap"></div>
+          <button type="button" class="aff-recap" id="affRecap" data-open-aff></button>
           <a class="sp-week" id="spWeek" href="https://piecomp.github.io/rorr-hero/#concept/branded-moment" target="_blank" rel="noopener" hidden></a>
           <div class="note-box"><div><div class="k">Next match</div><b>T1 vs HLE · Wed 19:00 your time</b></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="pill p" type="button" id="alertYes">Remind me</button><button class="pill s" type="button" data-go="chat">Not now</button></div>
@@ -1406,8 +1414,8 @@ function renderScore(){ AUR.style.setProperty('--gt',String(Math.max(0,Math.min(
   renderSD(); $$('.tl-gold-gen').forEach(e=>e.textContent=S.gold===0?'Gold even':'Gold '+(S.gold<0?'+':'−')+(Math.abs(S.gold)/1000).toFixed(1)+'k'); $$('.tl-gold').forEach(e=>e.textContent=gt.replace('Gold · T1 ','Gold ').replace('Gold · GEN ','GEN ')); $$('.tl-clock').forEach(e=>e.textContent=Math.floor(S.clock/60)+'′'); $$('.tl-clock2').forEach(e=>e.textContent=fmt(S.clock)); }
 let tick=null;
 const AUR=document.querySelector('.fx.aurora');
-function startClock(){ if(tick) return; tick=setInterval(()=>{S.clock++;S.gold+=Math.round((Math.random()-.4)*60);renderScore()},1000) }
-function stopClock(){ clearInterval(tick); tick=null }
+function startClock(){ affStart(); if(tick) return; tick=setInterval(()=>{S.clock++;S.gold+=Math.round((Math.random()-.4)*60);renderScore()},1000) }
+function stopClock(){ clearInterval(tick); tick=null; affStop() }
 
 /* Seoha */
 let bubT=null;
@@ -1763,6 +1771,7 @@ function initChat(){ $('#msgs').innerHTML=''; msg("You're back! Still thinking a
 /* v56 policy v1.4 §1: suggested chips are free. Typed questions use the weekly free quota, then cost Spark or Energy (the fan picks one, never both).
    Sample values only: AI_FREE_WEEKLY=3 (2 left in the demo), AI_PRICE_SPARK=2, AI_PRICE_ENERGY=1. Failed answers are not charged. */
 const ASK={free:2,price:{s:2,e:1},cur:'s'};
+S.affM=0; S.affMo=0; S.affQ=[]; S.affDone=false; S.affUp=false;
 function renderAsk(){ const b=$('#askBar'), n=$('#askNote'); if(!b) return;
   if(ASK.free>0){ b.innerHTML='<span>Free questions this week</span><span><b>'+ASK.free+'</b> <span>left</span></span>'; n.hidden=true; return }
   const sp=ASK.cur==='s';
@@ -1776,13 +1785,33 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-askcur]')
 $('#chatForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#chatIn').value.trim();if(!v)return;const paid=ASK.free<=0, k=ASK.cur;if(!askCharge())return;msg(v,true);$('#chatIn').value='';seohaReply(v);if(paid)toast(k==='s'?'Used '+ASK.price.s+' Spark · '+S.sBal+' left':'Used '+ASK.price.e+' Energy · '+S.eBal+' left');renderAsk()});
 renderAsk();
 /* v56 policy v1.4 §5-8: Seoha affinity. A relationship record from watching in the extension. Not a currency, not in points, rankings or cards. Never decays, can't be bought. Sample data. */
-const AFF={lv:2,min:400,next:600,moments:31,matches:9};
+const AFF={lv:2,min:560,next:600,moments:31,matches:9};
+/* v57 watch drop (policy v1.4 §5-8): counts only while the synced official stream is playing and the panel is visible.
+   Sample values: a drop every 10 watched minutes (demo: 1 min = 2 s), cap 120 min per match (AFFINITY_MATCH_CAP).
+   Big moments count by watching them, not by Boosting. Drops wait while the moment, quiz or Boost sheet is on screen. */
+const AFFD={every:10,cap:120,ms:2000}; let affT=null, dropT=null;
+function affOk(){ return S.live && S.watch==='official' && document.visibilityState!=='hidden' }
+function affStart(){ if(affT) return; affT=setInterval(()=>{ if(!affOk()||S.affM>=AFFD.cap) return; S.affM++; if(S.affM%AFFD.every===0) affDrop('time') },AFFD.ms) }
+function affStop(){ clearInterval(affT); affT=null }
+function affBusy(){ return $('#card').classList.contains('gold-moment') || !$('#sheetWrap').hidden || $('#v-live').classList.contains('has-quiz') || !$('#affWrap').hidden }
+function affDrop(kind){ S.affQ.push({k:kind,m:S.affM}); affFlush() }
+function affFlush(){ const d=$('#aDrop'); if(!d||!S.affQ.length||!d.hidden) return; if(!S.live) { S.affQ=[]; return } if(affBusy()){ clearTimeout(dropT); dropT=setTimeout(affFlush,1000); return }
+  const q=S.affQ.shift(), k=q.k;
+  d.innerHTML=k==='time'?'<span class="hz" aria-hidden="true">♡</span><span>Watched together '+q.m+' min</span><small>Seoha</small>':'<span class="hz" aria-hidden="true">♡</span><span>We saw that big moment together</span><small>Seoha</small>';
+  d.setAttribute('aria-label',(k==='time'?'Watched together '+q.m+' min':'We saw that big moment together')+'. Open Seoha & you');
+  d.hidden=false; clearTimeout(dropT); dropT=setTimeout(()=>{ d.hidden=true; if(S.affQ.length) setTimeout(affFlush,600) },4200) }
+function affReset(){ S.affM=0; S.affMo=0; S.affQ=[]; const d=$('#aDrop'); if(d) d.hidden=true }
+function affRecap(){ const b=$('#affRecap'); if(!b) return; const before=AFF.min, lvUp=before<AFF.next&&before+S.affM>=AFF.next;
+  if(!S.affDone){ S.affDone=true; AFF.min+=S.affM; AFF.moments+=S.affMo; AFF.matches++; if(lvUp){ AFF.lv++; AFF.next=900 } S.affUp=lvUp }
+  b.innerHTML='<span class="hz" aria-hidden="true">♡</span><span>'+(S.affUp?'Seoha &amp; you · Level '+AFF.lv:'Watched with Seoha')+'<small>'+S.affM+' min together today · '+S.affMo+' big moments</small></span><span aria-hidden="true">›</span>';
+  b.setAttribute('aria-label','Seoha & you. '+S.affM+' min together today'); renderMAff() }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') affFlush() });
 function hm(m){ return Math.floor(m/60)+'h '+pad(m%60)+'m' }
 function renderMAff(){ const m=$('#mAff'); if(m) m.textContent='Level '+AFF.lv+' · '+hm(AFF.min)+' together' }
 function openAff(){ const el=$('#affSheet'), pct=Math.round(AFF.min/AFF.next*100);
   el.innerHTML='<span class="handle" style="align-self:center"></span><div class="dh"><h2 id="affTitle">Seoha &amp; you</h2><span class="dstep">Level '+AFF.lv+'</span></div>'
   +'<div class="aff-lv"><div class="t"><span>Watched together</span><b>'+hm(AFF.min)+'</b></div><div class="aff-bar" role="progressbar" aria-label="Progress to the next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><i style="width:'+pct+'%"></i></div><div class="t"><span>'+AFF.matches+' matches · '+AFF.moments+' big moments together</span><span>Next level at '+hm(AFF.next)+'</span></div></div>'
-  +'<ul class="aff-list"><li><span aria-hidden="true">✓</span><span>Seoha calls you by name</span></li><li><span aria-hidden="true">✓</span><span>A word from Seoha after each match</span></li><li class="lock"><span aria-hidden="true">·</span><span>New expressions at Level 3</span></li></ul>'
+  +'<ul class="aff-list"><li><span aria-hidden="true">✓</span><span>Seoha calls you by name</span></li><li><span aria-hidden="true">✓</span><span>A word from Seoha after each match</span></li>'+(AFF.lv>=3?'<li><span aria-hidden="true">✓</span><span>New expressions</span></li><li class="lock"><span aria-hidden="true">·</span><span>More to come at Level 4</span></li>':'<li class="lock"><span aria-hidden="true">·</span><span>New expressions at Level 3</span></li>')+'</ul>'
   +'<p class="aff-note">Grows only while you watch a live match with Seoha here, with the video playing. It never goes down, even if you skip matches, and it can\'t be bought. It doesn\'t count toward points, rankings or cards.</p>';
   const w=$('#affWrap'); unclose(w); w.hidden=false }
 
@@ -1812,7 +1841,7 @@ $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 
 /* moment + boost */
 let hInt=null;
-function headsUp(){ $('#card').classList.add('gold-moment'); unclose($('#heads')); $('#heads').hidden=false; S.boxRes=null; renderHsp(); let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost();hideAnim($('#heads'),[[null,'up']])}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW'); setTimeout(()=>markWP(0),1600) }
+function headsUp(){ const ad=$('#aDrop'); if(ad&&!ad.hidden){ ad.hidden=true; clearTimeout(dropT) } $('#card').classList.add('gold-moment'); unclose($('#heads')); $('#heads').hidden=false; S.boxRes=null; renderHsp(); let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost();hideAnim($('#heads'),[[null,'up']]); if(affOk()){ S.affMo++; affDrop('moment') }}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW'); setTimeout(()=>markWP(0),1600) }
 function coolBoost(){ $('#card').classList.remove('gold-moment','watch-open'); $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
 const LINEUP=['Doran','Oner','Faker','Peyz','Keria'], FIGHT={players:['Oner','Faker','Keria'],top:'Faker'}, SUBS={Faker:'Faker flank',Oner:'Oner smite',Keria:'Keria engage'};
 const starOf=()=>S.fav&&FIGHT.players.includes(S.fav)?S.fav:FIGHT.top;
@@ -2000,9 +2029,9 @@ document.addEventListener('click',e=>{
 function resetLive(){ coolBoost(); S.clock=1100;S.k1=6;S.k2=5;S.gold=900;S.boosted=false; S.spGot=false; S.boxRes=null; S.moms=[]; $('#moList').innerHTML=''; addMoment('Bot lane 2-for-0','14:10 · Peyz & Keria, win chance 52% → 61%','Card',true,'Peyz'); $('#heads').hidden=true; setMo(false); const q=$('#quiz'); q.hidden=true; $('#v-live').classList.remove('has-quiz'); setReact(false); sdTeam=null; renderSD(); q.className='glass quiz idle'; $('#qText').textContent='Next question soon'; $('#answers').hidden=true; $('#qResult').hidden=true; $('#qTimer').hidden=true; $('#qNote').textContent='Seoha asks about what\'s coming next. Free to play.'; renderScore() }
 function setStepUI(s){ $$('.step').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.step===s))) }
 function goStep(s){ const fa=$('#favAsk'); if(fa) fa.hidden=true; clearTimers(); clearInterval(qInt); clearInterval(hInt); closeSheet(); $('#rewardWrap').hidden=true; S.prev=[]; setStepUI(s);
-  S.live=!(s==='chat'||s==='recap'); syncLiveOnly();
+  if(s==='live'){ affReset(); S.affDone=false } S.live=!(s==='chat'||s==='recap'); syncLiveOnly();
   if(s==='chat'){stopClock();syncStream(false);show('chat');return}
-  if(s==='recap'){stopClock();syncStream(false); S.wp[0]=true; S.wp[1]=true; renderWP(); if(S.dr.sent){ S.dr.done=true; renderDRecap(); renderMDlog(); if(!S.dr.revealed){ S.dr.revealed=true; later(900,()=>{ if(S.view==='recap') openDCard() }) } } else renderDRecap();$('#rStreak').textContent='Streak '+S.streak;show('recap');return}
+  if(s==='recap'){stopClock();syncStream(false); S.wp[0]=true; S.wp[1]=true; renderWP(); if(S.dr.sent){ S.dr.done=true; renderDRecap(); renderMDlog(); if(!S.dr.revealed){ S.dr.revealed=true; later(900,()=>{ if(S.view==='recap') openDCard() }) } } else renderDRecap();$('#rStreak').textContent='Streak '+S.streak; if(!S.affM){ S.affM=52; S.affMo=Math.max(S.affMo||0,3) } affRecap(); show('recap');return}
   syncStream(true); show('live'); startClock();
   if(s==='live'){resetLive(); S.wp=[false,false,false]; renderWP(); if(S.fav!==undefined) later(600,showDraftRes); if(S.fav===undefined){ $('#faPick').innerHTML=favPick(false); $('#favAsk').hidden=false; $('#v-live').classList.add('has-quiz'); say("Before it starts: who are you cheering for today?",'happy') } else say("Here we go. Dragon quiz in a minute, so keep that streak alive.",'happy');later(S.dr.sent?9000:5000,()=>{setStepUI('quiz');openQuiz()})}
   if(s==='quiz'){ if(S.quizState==='idle')resetLive(); openQuiz() }
@@ -2220,11 +2249,15 @@ Object.assign(KO,{"Free questions this week":"이번 주 무료 질문","Free on
 "Suggested questions stay free.":"추천 질문은 계속 무료예요.",
 "Energy for questions is non-refundable and not shared with teams.":"질문에 쓴 Energy는 환불되지 않고 팀 배분 대상이 아니에요.",
 "Not enough Spark for this question.":"이 질문에 쓸 Spark가 부족해요.","Not enough Energy for this question.":"이 질문에 쓸 Energy가 부족해요.","Get Spark ↗":"Spark 받기 ↗","Top up Energy ↗":"Energy 충전 ↗",
-"Seoha & you":"서하와 나","Watched together":"함께 본 시간","Progress to the next level":"다음 단계까지 진행도","Seoha calls you by name":"서하가 닉네임으로 불러 줘요","A word from Seoha after each match":"경기 후 서하의 한마디","New expressions at Level 3":"3단계에서 새 표정",
+"Seoha & you":"서하와 나","Watched together":"함께 본 시간","Progress to the next level":"다음 단계까지 진행도","Seoha calls you by name":"서하가 닉네임으로 불러 줘요","A word from Seoha after each match":"경기 후 서하의 한마디","New expressions at Level 3":"3단계에서 새 표정","New expressions":"새 표정","More to come at Level 4":"4단계에서 더 열려요",
 "Grows only while you watch a live match with Seoha here, with the video playing. It never goes down, even if you skip matches, and it can't be bought. It doesn't count toward points, rankings or cards.":"여기서 영상을 재생하며 서하와 라이브 경기를 볼 때만 쌓여요. 경기를 걸러도 줄지 않고, 살 수도 없어요. 포인트·순위·카드에는 반영되지 않아요."});
 RX.push([/^Level (\d+) · (\d+)h (\d+)m together$/,(m,a,h,mi)=>a+"단계 · 함께 "+h+"시간 "+mi+"분"],[/^Level (\d+)$/,(m,a)=>a+"단계"],[/^(\d+)h (\d+)m$/,(m,h,mi)=>h+"시간 "+mi+"분"],
 [/^(\d+) matches · (\d+) big moments together$/,(m,a,b)=>"경기 "+a+" · 함께 본 큰 순간 "+b],[/^Next level at (\d+)h (\d+)m$/,(m,h,mi)=>"다음 단계 "+h+"시간 "+mi+"분"],
 [/^Used (\d+) (Spark|Energy) · (\d+) left$/,(m,a,c,b)=>c+" "+a+" 사용 · "+b+" 남음"]);
+Object.assign(KO,{"We saw that big moment together":"그 큰 순간, 같이 봤어"});
+RX.push([/^Watched together (\d+) min$/,(m,a)=>"함께 본 지 "+a+"분"],[/^Watched together (\d+) min\. Open Seoha & you$/,(m,a)=>"함께 본 지 "+a+"분. 서하와 나 열기"],[/^We saw that big moment together\. Open Seoha & you$/,()=>"그 큰 순간, 같이 봤어. 서하와 나 열기"],
+[/^Seoha & you · Level (\d+)$/,(m,a)=>"서하와 나 · "+a+"단계"],[/^(\d+) min together today · (\d+) big moments$/,(m,a,b)=>"오늘 함께 "+a+"분 · 큰 순간 "+b+"번"],[/^Seoha & you\. (\d+) min together today$/,(m,a)=>"서하와 나. 오늘 함께 "+a+"분"]);
+Object.assign(KO,{"Watched with Seoha":"서하와 함께 봤어요"});
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];

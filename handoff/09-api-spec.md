@@ -152,7 +152,8 @@
 | 메서드 | 경로 | 설명 |
 |---|---|---|
 | GET | `/matches/{match_id}/messages` | `?filter=my_teams\|all&cursor` |
-| POST | `/messages` | `{ match_id, moment_id?, body }` 최대 60자. 금칙어 `422 message_rejected` |
+| POST | `/messages` | `{ match_id, moment_id?, boost_id, body }` — (v1.5) 등급은 서버가 `boost_id`의 수량으로 판정(클라이언트 값 불신), 등급별 글자 수 초과 `422 message_too_long`, 20 미만 `422 message_not_allowed`, 금칙어 `422 message_rejected`. 응답 `{ id, tier, pinned_until? }` (고정 전 자동 검수 탈락 시 `pinned_until` 없음) |
+| GET | `/matches/{match_id}/ticker` | (v1.5 제안, C-15) 고정 중 메시지 `[{ id, tier, display_name, body, created_at, pinned_until }]` — 수량·금액 필드 없음. 실시간 갱신은 스트림 이벤트 `message.pinned`·`message.unpinned` |
 | POST | `/messages/{id}/reports` | `{ reason }` |
 
 ### 2-9. 확장 전용 (`/v1/ext/*`)
@@ -240,8 +241,9 @@
   "min_ext_version": "2.0.0",
   "flags": { "sponsor_moment_enabled": false, "partner_official_label": false, "fav_player_star": true },
   "BOOST_SETTLE_MODE": "immediate",
-  "STEP_ENERGY": [10, 50, 100, 500], "STEP_SPARK": [5, 10, 20, 50],
-  "BADGE_ENERGY_L2": 50, "BADGE_ENERGY_L3": 100, "BADGE_SPARK_L2": 20, "BADGE_SPARK_L3": 50,
+  "STEP_ENERGY": [5, 10, 20, 50, 100, 300, 1000], "STEP_SPARK": [5, 10, 20, 50, 100, 300, 1000],
+  "BADGE_ENERGY_L2": 20, "BADGE_ENERGY_L3": 50, "BADGE_SPARK_L2": 20, "BADGE_SPARK_L3": 50,
+  "MSG_TIER_TABLE": [{"min":20,"chars":50,"pin_s":0},{"min":50,"chars":100,"pin_s":30},{"min":100,"chars":150,"pin_s":60},{"min":300,"chars":200,"pin_s":120},{"min":1000,"chars":200,"pin_s":300}],
   "BOOST_CONFIRM_WINDOW_MS": 5000,
   "HEADSUP_COUNTDOWN_S": 40, "EXT_HEADSUP_MIN_GAP": 90, "HEADSUP_GOLD_MIN_GAP": 180,
   "QUIZ_WINDOW_S": 12, "QUIZ_GRACE_MS": 0,

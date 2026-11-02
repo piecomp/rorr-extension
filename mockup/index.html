@@ -942,6 +942,20 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .aff-bar{height:6px;border-radius:9999px;background:var(--panel-2);overflow:hidden}.aff-bar i{display:block;height:100%;border-radius:inherit;background:var(--brand)}
 .aff-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.aff-list li{display:flex;gap:8px;align-items:baseline;color:var(--ink)}.aff-list li.lock{color:var(--mute)}.aff-list li span:first-child{width:16px;flex:none;text-align:center}
 .aff-note{margin:0;font-size:12px;color:var(--mute);line-height:1.5}
+/* v61 policy v1.5 §5-1: cheer message tiers by the amount of one Boost (same numbers for Energy and Spark). Tier colors avoid moment gold, Energy green and Spark lavender. No amounts shown on messages */
+:root{--mt1:#5B8DEF;--mt2:#26B5C4;--mt3:#9277FF;--mt4:#E35D9C;--mt5:#F2803A}
+.cmsg{display:grid;gap:6px}.cm-off{margin:0;font-size:13px;color:var(--mute)}
+.cm-f{position:relative}.cm-f input{padding-right:58px!important}.cm-cnt{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+.cm-tier{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}.cm-tier b{font-weight:700;color:var(--ink)}.cm-tier small{color:var(--mute);font-size:12px}
+.sw{width:12px;height:12px;border-radius:4px;flex:none}.sw.t1{background:var(--mt1)}.sw.t2{background:var(--mt2)}.sw.t3{background:var(--mt3)}.sw.t4{background:var(--mt4)}.sw.t5{background:var(--mt5)}
+.tick{display:grid;gap:6px;padding-bottom:8px;border-bottom:1px solid var(--line)}.tick[hidden]{display:none}
+.tk-h{display:flex;justify-content:space-between;align-items:baseline}.tk-h b{font-size:13px}.tk-h a{font-size:12px;color:var(--link);text-decoration:none}
+.tk-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:1px}.tk-row::-webkit-scrollbar{display:none}
+.tk{position:relative;flex:none;max-width:200px;display:flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:9999px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 22%,var(--panel));color:var(--ink);font:inherit;font-size:12px;cursor:pointer;overflow:hidden}
+.tk .nm{font-weight:700;flex:none}.tk .tx{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}.tk .bar{position:absolute;left:0;bottom:0;height:2px;background:var(--c);transition:width 1s linear}
+.tk[aria-expanded="true"]{box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 70%,transparent)}.tk.me{border-style:dashed}
+.tk.t1{--c:var(--mt1)}.tk.t2{--c:var(--mt2)}.tk.t3{--c:var(--mt3)}.tk.t4{--c:var(--mt4)}.tk.t5{--c:var(--mt5)}
+.tk-det{margin:0;padding:8px 10px;border-radius:10px;background:var(--panel);font-size:13px;line-height:1.45;border-left:3px solid var(--c,var(--line-2))}.tk-det b{display:block;font-size:12px;margin-bottom:2px}
 /* v60 menu tidy: wallet chips are the top-up links, records as 3 tiles, settings collapse to one row each, web links as a 2x2 grid */
 .m-me>div{display:flex;flex-direction:column}
 .m-wal{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 2px 4px}
@@ -1102,7 +1116,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
             <div class="qresult" id="qResult" hidden></div>
             <div class="qnote" id="qNote">Seoha asks about what's coming next. Free to play.</div>
           </div>
-        <div class="pop glass" id="moPanel" hidden><div class="phead"><b>Today's moments</b><span id="moSum">1 card</span></div><div class="cstrip" id="moList" role="list"></div><div class="wp" id="wpPanel"></div><span class="sr" id="moLatest"></span><span class="sr" id="moLatestSub"></span></div>
+        <div class="pop glass" id="moPanel" hidden><div class="tick" id="cheerTick" hidden><div class="tk-h"><b>Pinned cheers</b><a href="https://piecomp.github.io/rorr-hero/#match/live" target="_blank" rel="noopener">All messages ↗</a></div><div class="tk-row" id="tkRow" role="list"></div><p class="tk-det" id="tkDet" hidden></p></div><div class="phead"><b>Today's moments</b><span id="moSum">1 card</span></div><div class="cstrip" id="moList" role="list"></div><div class="wp" id="wpPanel"></div><span class="sr" id="moLatest"></span><span class="sr" id="moLatestSub"></span></div>
         <div class="pop glass reactpop" id="reactPop" hidden aria-label="React with Seoha"><button class="react" type="button" data-react="Cheer!">Cheer!</button><button class="react" type="button" data-react="Ugh…">Ugh…</button><button class="react" type="button" data-react="LET'S GO">Let's go</button></div>
         <form class="dock glass" id="askForm"><label class="sr" for="askIn">Ask Seoha</label>
           <button class="dicon" type="button" id="moBar" aria-expanded="false" aria-controls="moPanel" aria-label="Moments so far"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6"/></svg><span class="badge" id="moCount">1</span></button>
@@ -1323,8 +1337,8 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
             <button type="button" class="e" data-cur="e" aria-pressed="false"><b style="color:var(--energy-ink)">⚡ Energy</b><small><span id="eBal">120</span></small></button>
             <button type="button" class="s" data-cur="s" aria-pressed="true"><b style="color:var(--spark)">✦ Spark</b><small><span id="sBal">35</span></small></button>
           </div>
-          <button type="button" class="addmsg" id="addMsg" aria-expanded="false" aria-controls="msgField">+ Add a cheer message</button>
-          <div class="field" id="msgField" hidden><label class="sr" for="cheerMsg">Cheer message</label><input id="cheerMsg" type="text" placeholder="Take it, T1!" maxlength="80" autocomplete="off"></div>
+          <div class="cmsg" id="cmsg"><p class="cm-off" id="cmOff">From 20, you can add a cheer message.</p>
+            <div class="cm-on" id="cmOn" hidden><div class="field cm-f"><label class="sr" for="cheerMsg">Cheer message</label><input id="cheerMsg" type="text" placeholder="Take it, T1!" maxlength="50" autocomplete="off"><span class="cm-cnt" id="cmCnt" aria-live="off">0/50</span></div><div class="cm-tier" id="cmTier"></div></div></div>
           <div class="bs-cta">
             <div class="stepper"><button type="button" class="stp" id="amtDown" aria-label="Less"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button class="boostbtn sp" type="button" id="boostGo">Boost with 10 Spark</button><button type="button" class="stp" id="amtUp" aria-label="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
             <span class="amt-note"><span id="amtNote">Lv.1 badge</span><span class="bs-gift" id="bsGift">Gold moment card included</span><a id="amtTop" href="https://piecomp.github.io/rorr-hero/#spark" target="_blank" rel="noopener" hidden>Get Spark ↗</a></span>
@@ -1890,7 +1904,7 @@ let SH0=null;
 function msSheet(){ if(!SH0) SH0={e:$('#sheetEyebrow').innerHTML,t:$('#sheetTitle').textContent};
   if(S.ms){ $('#sheetEyebrow').innerHTML='<span class="gm">Commemorative edition</span>'; $('#sheetTitle').textContent=S.ms.title; $('#bsHero').innerHTML=''; $('#spDrop').hidden=true; $('#bsGift').textContent='Commemorative edition card included' }
   else { $('#sheetEyebrow').innerHTML=SH0.e; $('#sheetTitle').textContent=SH0.t } }
-function openSheet(kbd){ const sw=$('#sheetWrap'); unclose(sw); sw.classList.toggle('instant',kbd===true); renderAmt(); renderSpDrop(); renderHero(); msSheet(); $('#msgField').hidden=true; $('#addMsg').hidden=false; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus({preventScroll:true}) }
+function openSheet(kbd){ const sw=$('#sheetWrap'); unclose(sw); sw.classList.toggle('instant',kbd===true); renderAmt(); renderSpDrop(); renderHero(); msSheet(); $('#cheerMsg').value=''; $('#shareTxt').hidden=true; $('#shareInfo').setAttribute('aria-expanded','false'); $('#sheetWrap').hidden=false; $('#boostGo').focus({preventScroll:true}) }
 var cfT=null;
 function closeSheet(){ hideAnim($('#sheetWrap'),[['.sheet','sheet'],['.sheet-bg','fade']]); if(S.ms){ S.ms=null; msSheet() } const b=$('#boostGo'); if(b&&b.dataset.cf) renderAmt() }
 /* first tap arms (nothing spent), second tap within 5s sends */
@@ -1901,8 +1915,9 @@ function armTap(b,amt,cur,onEnd){ if(b.dataset.cf){ clearTimeout(b._cf); delete 
   b._cf=setTimeout(()=>{ delete b.dataset.cf; b.classList.remove('cf'); b.removeAttribute('aria-label'); onEnd() },5000); return false }
 $('#boostOpen').addEventListener('click',openSheet);
 $$('[data-close-sheet]').forEach(b=>b.addEventListener('click',closeSheet));
-const AMT={e:[10,50,100,500],s:[5,10,20,50]}; S.amt={e:10,s:10};
-const LV={e:[10,50,100],s:[5,20,50]};
+/* v61 policy v1.5 §1·§4: same steps and badge thresholds for Energy and Spark (min 5, badge 20·50). Steps include every message-tier threshold */
+const AMT={e:[5,10,20,50,100,300,1000],s:[5,10,20,50,100,300,1000]}; S.amt={e:10,s:10};
+const LV={e:[5,20,50],s:[5,20,50]};
 const lvOf=(c,a)=>{const t=LV[c]; return a>=t[2]?3:a>=t[1]?2:a>=t[0]?1:0};
 const baron=()=>S.moms.find(x=>x.card&&x.title==='Baron fight');
 function renderAmt(){ const c=S.cur,a=S.amt[c],L=AMT[c],i=L.indexOf(a),b=c==='e'?S.eBal:S.sBal,nx=L[i+1]; const g=$('#boostGo'); clearTimeout(g._cf); delete g.dataset.cf; g.classList.remove('cf'); g.removeAttribute('aria-label'); $('#amtNote').classList.remove('cf-hint');
@@ -1915,17 +1930,18 @@ function renderAmt(){ const c=S.cur,a=S.amt[c],L=AMT[c],i=L.indexOf(a),b=c==='e'
   $('#legalLine').textContent=c==='e'?'Used right away · no refund · partner revenue sharing':'Free · not shared with the team';
   $('#shareCur').textContent=c==='e'?'Only paid Energy can be used for Boosts, and it is spent right away with no refund. RORR shares part of its Boost revenue with partner teams like T1 under its agreement with each team, and pays card fees from its own share. Unused Energy can be refunded on the web: in full within 7 days of purchase, with a fee after that.':'Spark comes from the rorr.club ad wall. It has no cash value, can only be used for Boosts and is never shared with a team.';
   if(S.ms) $('#bsGift').textContent='Commemorative edition card included';
+  renderMsgTier();
   $$('[data-cur]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.cur===c))) }
 $$('[data-cur]').forEach(b=>b.addEventListener('click',()=>{S.cur=b.dataset.cur; renderAmt()}));
 $('#amtUp').addEventListener('click',()=>{const L=AMT[S.cur],i=L.indexOf(S.amt[S.cur]); if(L[i+1]) S.amt[S.cur]=L[i+1]; renderAmt()});
 $('#amtDown').addEventListener('click',()=>{const L=AMT[S.cur],i=L.indexOf(S.amt[S.cur]); if(i>0) S.amt[S.cur]=L[i-1]; renderAmt()});
-$('#addMsg').addEventListener('click',e=>{const f=$('#msgField'); f.hidden=false; e.currentTarget.hidden=true; $('#cheerMsg').focus({preventScroll:true})});
 $('#shareInfo').addEventListener('click',e=>{const t=$('#shareTxt');t.hidden=!t.hidden;e.currentTarget.setAttribute('aria-expanded',String(!t.hidden))});
 $('#boostGo').addEventListener('click',()=>{ const amt=S.amt[S.cur];
   if(!$('#boostGo').dataset.cf&&(S.cur==='e'?S.eBal:S.sBal)>=amt){ armTap($('#boostGo'),amt,S.cur==='e'?'Energy':'Spark',renderAmt); const n=$('#amtNote'); n.textContent='Tap again within 5 seconds to send. Nothing is spent yet.'; n.classList.add('cf-hint'); return }
   if($('#boostGo').dataset.cf) armTap($('#boostGo'),amt,'',()=>{});
   if(S.cur==='e'){if(S.eBal<amt)return toast('Not enough Energy. Top up on rorr.club.');S.eBal-=amt}else{if(S.sBal<amt)return toast('Not enough Spark. Get more on rorr.club.');S.sBal-=amt}
   $('#eBal').textContent=S.eBal;$('#sBal').textContent=S.sBal;
+  { const tx=$('#cheerMsg').value.trim(), mt=msgTier(amt); if(mt&&tx) postCheer(tx,mt); $('#cheerMsg').value='' }
   if(S.ms){ const x=S.ms; S.msDone[x.id]=true; renderAmt(); closeSheet(); S.pts+=20; celebrate({tier:'gold',cur:S.cur==='e'?'energy':'spark'},amt,()=>{ renderMs(S.player); toast('Commemorative edition added · see it in My cards on rorr.club') },'ms'); return }
   renderAmt(); closeSheet(); $('#card').classList.add('sp-busy');
   if(!S.boosted){S.boosted=true;S.pts+=50;S.cards++; if(S.fav===undefined) S.fav=null; S.pick=false; const star=starOf(); const nm=addMoment('Baron fight',fmt(S.clock)+' · '+SUBS[star]+', win chance 58% → 83%','Card',true,star); nm.cur=S.cur==='e'?'energy':'spark'; nm.sp=spOk(nm); if(nm.sp) spTag(); nm.sum={e:0,s:0}; nm.sum[S.cur]=amt; nm.lv={}; nm.lv[S.cur]=lvOf(S.cur,amt); nm.deco=nm.lv[S.cur]; celebrate(nm,amt,()=>{ openCard(nm.id,true); $('#cvNew').textContent='NEW CARD · +50 P' }); later(600,()=>{S.k1+=2;S.gold+=1500;renderScore();flash('Baron to T1');say('WE GOT IT! I am actually screaming right now!','hype');$('#heads').hidden=true;coolBoost();clearInterval(hInt)})}
@@ -1935,6 +1951,30 @@ $('#boostGo').addEventListener('click',()=>{ const amt=S.amt[S.cur];
     else { const t=LV[c], nx=t.find(x=>x>m.sum[c]); celebrate({tier:m.tier,cur},amt,()=>{ openCard(m.id,false); $('#cvNew').hidden=false; $('#cvNew').textContent=nx?nmC+' total '+m.sum[c]+' · '+(nx-m.sum[c])+' more to Lv.'+(now+1):nmC+' total '+m.sum[c]+' · top badge reached' },true) } } });
 $$('[data-close-reward]').forEach(b=>b.addEventListener('click',()=>{hideAnim($('#rewardWrap'),[[null,'card']]); $('#card').classList.remove('sp-busy')}));
 
+/* v61 cheer message tiers (policy v1.5 §5-1). Tier = amount of the one Boost the message goes with. Under 20: no message.
+   Ticker: tier 2+ pinned at the top of Today's moments only (never on the main view), newest first, one live pin per person, a bigger Boost never pushes others out */
+const MSGT=[{min:20,len:50,pin:0},{min:50,len:100,pin:30},{min:100,len:150,pin:60},{min:300,len:200,pin:120},{min:1000,len:200,pin:300}];
+function msgTier(a){ let t=0; MSGT.forEach((d,i)=>{ if(a>=d.min) t=i+1 }); return t }
+function pinTxt(sec){ return sec>=60?(sec/60)+' min':sec+' s' }
+function renderMsgTier(){ const a=S.amt[S.cur], t=msgTier(a), inp=$('#cheerMsg'); if(!inp) return; $('#cmOff').hidden=t>0; $('#cmOn').hidden=t===0; if(!t) return;
+  const d=MSGT[t-1]; inp.maxLength=d.len; if(inp.value.length>d.len) inp.value=inp.value.slice(0,d.len); $('#cmCnt').textContent=inp.value.length+'/'+d.len;
+  $('#cmTier').innerHTML='<i class="sw t'+t+'" aria-hidden="true"></i><b>Message tier '+t+'</b><small>'+(d.pin?'Pinned '+pinTxt(d.pin)+' in Today\'s moments':'Highlighted in the message list')+'</small>' }
+$('#cheerMsg').addEventListener('input',()=>{ const t=msgTier(S.amt[S.cur]); if(t) $('#cmCnt').textContent=$('#cheerMsg').value.length+'/'+MSGT[t-1].len });
+S.tick=[]; let tkT=null, tkSeq=0;
+function seedTick(){ const n=Date.now(); S.tick=[
+  {id:++tkSeq,who:'minji',t:5,tx:'Faker, 300 LCK games. Thank you for every single one. We are with you to the end!',at:n-60e3,until:n+240e3,dur:300},
+  {id:++tkSeq,who:'Kai',t:3,tx:'That bot lane 2-for-0 was so clean. Peyz and Keria, best duo.',at:n-15e3,until:n+45e3,dur:60},
+  {id:++tkSeq,who:'haru',t:2,tx:'Baron next. Let\'s go T1!',at:n-8e3,until:n+22e3,dur:30}]; S.tkOpen=null; renderTick(); tkRun() }
+function postCheer(tx,t){ const d=MSGT[t-1];
+  if(d.pin){ S.tick=S.tick.filter(x=>!x.me); const n=Date.now(); S.tick.push({id:++tkSeq,who:'You',me:true,t,tx,at:n,until:n+d.pin*1000,dur:d.pin}); renderTick(); tkRun() }
+  setTimeout(()=>toast(d.pin?'Cheer message pinned for '+pinTxt(d.pin)+' in Today\'s moments':'Cheer message posted'),400) }
+function tkLive(){ const n=Date.now(); return S.tick.filter(x=>x.until>n).sort((a,b)=>b.at-a.at) }
+function renderTick(){ const box=$('#cheerTick'); if(!box) return; const L=tkLive(), n=Date.now(); box.hidden=!L.length; if(!L.length){ $('#tkDet').hidden=true; return }
+  if(S.tkOpen&&!L.find(x=>x.id===S.tkOpen)) S.tkOpen=null;
+  $('#tkRow').innerHTML=L.map(x=>'<button type="button" role="listitem" class="tk t'+x.t+(x.me?' me':'')+'" data-tk="'+x.id+'" aria-expanded="'+(S.tkOpen===x.id)+'" aria-controls="tkDet"><span class="nm">'+esc(x.who)+'</span><span class="tx">'+esc(x.tx)+'</span><i class="bar" style="width:'+Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%"></i></button>').join('');
+  const o=L.find(x=>x.id===S.tkOpen), det=$('#tkDet'); det.hidden=!o; if(o){ det.style.setProperty('--c','var(--mt'+o.t+')'); det.innerHTML='<b>'+esc(o.who)+'</b><span>'+esc(o.tx)+'</span>' } }
+function tkRun(){ if(tkT) return; tkT=setInterval(()=>{ const n=Date.now(); $$('#tkRow .tk').forEach(b=>{ const x=S.tick.find(y=>y.id===+b.dataset.tk); if(x) b.querySelector('.bar').style.width=Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%' }); if(S.tick.some(x=>x.until<=n&&!x.gone)){ S.tick.forEach(x=>{ if(x.until<=n) x.gone=true }); renderTick() } if(!tkLive().length){ clearInterval(tkT); tkT=null } },1000) }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-tk]'); if(!b) return; const id=+b.dataset.tk; S.tkOpen=S.tkOpen===id?null:id; renderTick() });
 function toast(t){const w=$('#toastWrap');w.innerHTML='';const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;w.append(d);setTimeout(()=>{ const a=d.animate(RM.matches?[{opacity:1},{opacity:0}]:[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-8px)'}],{duration:150,easing:'ease-in-out',fill:'forwards'}); a.finished.then(()=>d.remove()).catch(()=>d.remove()) },2450)}
 $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);const r=b.dataset.react; say(r==='Ugh…'?"I know. Breathe. It's not over.":r==='Cheer!'?"Louder! They can feel it.":"LET'S GO!",r==='Ugh…'?'calm':'hype')}));
 
@@ -2051,7 +2091,7 @@ document.addEventListener('click',e=>{
 });
 
 /* steps */
-function resetLive(){ coolBoost(); S.clock=1100;S.k1=6;S.k2=5;S.gold=900;S.boosted=false; S.spGot=false; S.boxRes=null; S.moms=[]; $('#moList').innerHTML=''; addMoment('Bot lane 2-for-0','14:10 · Peyz & Keria, win chance 52% → 61%','Card',true,'Peyz'); $('#heads').hidden=true; setMo(false); const q=$('#quiz'); q.hidden=true; $('#v-live').classList.remove('has-quiz'); setReact(false); sdTeam=null; renderSD(); q.className='glass quiz idle'; $('#qText').textContent='Next question soon'; $('#answers').hidden=true; $('#qResult').hidden=true; $('#qTimer').hidden=true; $('#qNote').textContent='Seoha asks about what\'s coming next. Free to play.'; renderScore() }
+function resetLive(){ seedTick(); coolBoost(); S.clock=1100;S.k1=6;S.k2=5;S.gold=900;S.boosted=false; S.spGot=false; S.boxRes=null; S.moms=[]; $('#moList').innerHTML=''; addMoment('Bot lane 2-for-0','14:10 · Peyz & Keria, win chance 52% → 61%','Card',true,'Peyz'); $('#heads').hidden=true; setMo(false); const q=$('#quiz'); q.hidden=true; $('#v-live').classList.remove('has-quiz'); setReact(false); sdTeam=null; renderSD(); q.className='glass quiz idle'; $('#qText').textContent='Next question soon'; $('#answers').hidden=true; $('#qResult').hidden=true; $('#qTimer').hidden=true; $('#qNote').textContent='Seoha asks about what\'s coming next. Free to play.'; renderScore() }
 function setStepUI(s){ $$('.step').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.step===s))) }
 function goStep(s){ const fa=$('#favAsk'); if(fa) fa.hidden=true; clearTimers(); clearInterval(qInt); clearInterval(hInt); closeSheet(); $('#rewardWrap').hidden=true; S.prev=[]; setStepUI(s);
   if(s==='live'){ affReset(); S.affDone=false } S.live=!(s==='chat'||s==='recap'); syncLiveOnly();
@@ -2287,6 +2327,11 @@ Object.assign(KO,{"Season record in My fandom ↗":"내 팬심에서 시즌 기�
 RX.push([/^(\d+) big moments? with Seoha$/,(m,a)=>"서하와 함께 본 큰 순간 "+a+"번"],[/^(\d+) cards? earned$/,(m,a)=>"받은 카드 "+a+"장"]);
 Object.assign(KO,{"Top up ↗":"충전 ↗","Get more ↗":"받기 ↗"});
 RX.push([/^avg ([\d.]+)\/8$/,(m,a)=>"평균 "+a+"/8"],[/^(\d+)% correct$/,(m,a)=>"정답률 "+a+"%"]);
+Object.assign(KO,{"From 20, you can add a cheer message.":"20부터 응원 메시지를 남길 수 있어요.","Highlighted in the message list":"메시지 목록에서 강조돼요","Pinned cheers":"상단 고정 응원","All messages ↗":"전체 메시지 ↗","Cheer message posted":"응원 메시지를 남겼어요","You":"나",
+"Faker, 300 LCK games. Thank you for every single one. We are with you to the end!":"Faker LCK 300경기. 한 경기 한 경기 고마워요. 끝까지 함께해요!",
+"That bot lane 2-for-0 was so clean. Peyz and Keria, best duo.":"방금 바텀 2대0 너무 깔끔했다. 페이즈 케리아 최고의 듀오.",
+"Baron next. Let's go T1!":"다음은 바론. 가자 T1!"});
+RX.push([/^Message tier (\d)$/,(m,a)=>"메시지 "+a+"등급"],[/^Pinned (\d+) (s|min) in Today's moments$/,(m,a,u)=>"오늘의 모먼트 상단에 "+a+(u==='s'?"초":"분")+" 고정"],[/^Cheer message pinned for (\d+) (s|min) in Today's moments$/,(m,a,u)=>"오늘의 모먼트 상단에 "+a+(u==='s'?"초":"분")+" 고정됐어요"]);
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];

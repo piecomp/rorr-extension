@@ -1,7 +1,7 @@
 # intent.md — RORR 확장 프로그램 v2.0 프로덕션 개발 의도서
 
 - 작성일: 2026-10-19 · 상태: 초안 v0.1(팀 리뷰 전) · 대상: 구현 개발(사람·코딩 에이전트), 리뷰어, 사업 담당
-- 기준 시점: 기획·목업 `rorr-extension` 0efdb84(목업 v47c) · 웹·공용 설계 `rorr-hero` handoff(be35b45 이후) · 정책 v1.4(2026-10-26)
+- 기준 시점: 기획·목업 `rorr-extension` 0efdb84(목업 v47c) · 웹·공용 설계 `rorr-hero` handoff(be35b45 이후) · 정책 v1.5(2026-11-02)
 - 이 문서의 역할: **무엇을 왜 만드는지, 어디까지가 범위인지, 무엇을 지켜야 하는지**를 한 곳에 고정. 화면·API·데이터의 상세는 링크된 원본이 기준이며, 이 문서는 그 원본을 대체하지 않음
 
 ---
@@ -79,7 +79,7 @@
 
 | 순위 | 대상 | 기준 |
 |---|---|---|
-| 1 | 규칙(재화·카드·포인트·배분·알림·후원) | 정책 `boost-economy-policy.md` v1.4(2026-10-26) (사본 `handoff/policy/`, 원본은 사업 담당) |
+| 1 | 규칙(재화·카드·포인트·배분·알림·후원) | 정책 `boost-economy-policy.md` v1.5(2026-11-02) (사본 `handoff/policy/`, 원본은 사업 담당) |
 | 2 | 결정 | 통합 결정 목록 `rorr-hero/handoff/09-open-items.md` §0 · `docs/07-decision-log.md` |
 | 3 | 공용 API·DB | `rorr-hero/handoff/api/openapi.yaml` · `db/schema.sql` · `api/realtime-events.md` (확장 `handoff/09`·`10`·`13`·`api/`·`schema/`는 참고용) |
 | 4 | 확장 화면·동작·상태 | 확장 `handoff/` 01~08·11·12·14·16 + `mockup/index.html`(v47c) |
@@ -179,4 +179,4 @@
 - **요구사항 명세: [SPEC.md](SPEC.md)** — 요구 ID·수용 기준·설정값·API·비기능·시험
 - 기획: `docs/00`~`16` · 핸드오프: `handoff/README.md` · 목업: `mockup/index.html`
 - 웹·공용: `rorr-hero/handoff/README.md`, `09-open-items.md` §0, `18-canonical-merge.md`, `api/`, `db/`
-- 정책: `handoff/policy/boost-economy-policy-v1.3.md`
+- 정책: `handoff/policy/boost-economy-policy-v1.5.md` (직전 `-v1.4.md`·`-v1.3.md` 보관)

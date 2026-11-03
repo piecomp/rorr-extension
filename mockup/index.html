@@ -942,6 +942,13 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
 .aff-bar{height:6px;border-radius:9999px;background:var(--panel-2);overflow:hidden}.aff-bar i{display:block;height:100%;border-radius:inherit;background:var(--brand)}
 .aff-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.aff-list li{display:flex;gap:8px;align-items:baseline;color:var(--ink)}.aff-list li.lock{color:var(--mute)}.aff-list li span:first-child{width:16px;flex:none;text-align:center}
 .aff-note{margin:0;font-size:12px;color:var(--mute);line-height:1.5}
+/* v62 pinned cheer on the main view (policy v1.5 §5-1, 2026-11-03): one line under the score, newest only + "+N", no auto-rotation, yields to big moments, quiz and Boost */
+.tkm{align-self:stretch;display:flex;align-items:center;gap:8px;min-height:36px;padding:4px 6px 4px 10px;border-radius:12px;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);border-left:4px solid var(--c);background:rgba(16,19,32,.84);color:var(--ink);font:inherit;font-size:13px;text-align:left;cursor:pointer;backdrop-filter:blur(8px);animation:viewin .26s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}.tkm[hidden]{display:none}
+.tkm .nm{font-weight:700;flex:none}.tkm .tx{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}.tkm .more{flex:none;font-size:12px;font-weight:700;color:var(--ink-2);padding:2px 8px;border-radius:9999px;background:var(--panel-2)}.tkm .bar{position:absolute;left:0;bottom:0;height:2px;background:var(--c);transition:width 1s linear}
+.tkm.t1{--c:var(--mt1)}.tkm.t2{--c:var(--mt2)}.tkm.t3{--c:var(--mt3)}.tkm.t4{--c:var(--mt4)}.tkm.t5{--c:var(--mt5)}
+.tk-act{display:flex;align-items:center;gap:6px;margin-top:6px;position:relative}.tk-act button{height:32px;padding:0 12px;border-radius:9999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.tk-act button[aria-pressed="true"]{border-color:var(--c);color:var(--ink)}.tk-act .tk-more{width:32px;padding:0;margin-left:auto}.tk-menu{position:absolute;right:0;bottom:38px;padding:4px;border-radius:10px;background:var(--sheet);border:1px solid var(--line-2);box-shadow:var(--sh-float)}.tk-menu[hidden]{display:none}.tk-menu button{border:none;height:36px}
+.tk-det span{display:block}
 /* v61 policy v1.5 §5-1: cheer message tiers by the amount of one Boost (same numbers for Energy and Spark). Tier colors avoid moment gold, Energy green and Spark lavender. No amounts shown on messages */
 :root{--mt1:#5B8DEF;--mt2:#26B5C4;--mt3:#9277FF;--mt4:#E35D9C;--mt5:#F2803A}
 .cmsg{display:grid;gap:6px}.cm-off{margin:0;font-size:13px;color:var(--mute)}
@@ -1093,6 +1100,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
           <div class="coach" id="goldCoach" hidden role="note"><span class="ca" aria-hidden="true"></span><span class="ct"><b>Gold gap</b><span>The bar fills toward the team that's ahead. Tap a team for the exact number.</span></span><button type="button" id="coachOk">Got it</button></div>
           <div class="watch" id="watch" hidden role="status"><span class="w-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="w-t"><b id="wTitle"></b><small id="wSub"></small></span><button type="button" class="w-go" id="wGo" aria-expanded="false" aria-controls="chList"></button></div>
           <div class="chlist" id="chList" hidden role="group" aria-label="Official channels"><span class="ch-h">Official channels · T1 vs GEN</span><button type="button" class="ch" data-ch="CHZZK"><span class="pf cz" aria-hidden="true">C</span><span>CHZZK · LCK<br><small>Korean</small></span><span class="go">Open ↗</span></button><button type="button" class="ch" data-ch="SOOP"><span class="pf sp" aria-hidden="true">S</span><span>SOOP · LCK<br><small>Korean</small></span><span class="go">Open ↗</span></button><button type="button" class="ch" data-ch="YouTube"><span class="pf yt" aria-hidden="true">Y</span><span>YouTube · LCK Global<br><small>English</small></span><span class="go">Open ↗</span></button></div>
+          <button type="button" class="tkm" id="tkMain" hidden aria-label="Pinned cheer"></button>
           <button type="button" class="adrop" id="aDrop" hidden data-open-aff aria-live="polite"></button>
           <div class="heads glass" id="heads" hidden><span class="t">Baron fight incoming</span><span class="cd" id="headsCd">0:40</span></div>
           <div class="heads-sp" role="group" aria-label="Sponsor"><span class="sp-lock"><span class="sp-ad">Sponsored</span><span class="sp-by">presented by</span><span class="sp-mk" aria-hidden="true">N</span><b>NOVA Gear</b></span><span class="hsp-box" id="hspBox"></span></div>
@@ -1311,6 +1319,7 @@ button.qc-c{cursor:pointer;color:var(--ink);transition:background-color .15s eas
           <div class="m-rec"><button type="button" data-open-qcal><small>Quiz calendar</small><b id="mQcal"></b></button><button type="button" data-open-dlog><small>Fan drafts</small><b id="mDlog"></b></button><button type="button" data-open-aff><small>Seoha &amp; you</small><b id="mAff"></b></button></div>
           <span class="lbl">SETTINGS</span>
           <div class="m-set"><span>Language</span><span class="mseg" role="group" aria-label="Language" data-i18n-skip><button type="button" data-lang="ko" aria-pressed="false" lang="ko">한국어</button><button type="button" data-lang="en" aria-pressed="true" lang="en">English</button></span></div>
+          <div class="m-set"><span>Pinned cheers on screen</span><span class="mseg" role="group" aria-label="Pinned cheers on screen"><button type="button" data-tkshow="1" aria-pressed="true">On</button><button type="button" data-tkshow="0" aria-pressed="false">Off</button></span></div>
           <button type="button" class="m-row" data-macc="msAlert" aria-expanded="false" aria-controls="msAlert"><span>Turning-point heads-up</span><span class="mv" id="mvAlert">All</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="m-acc" id="msAlert" hidden><small class="m-help">Seoha tells you just before plays that can swing the game, like a Baron fight.</small><span class="mseg" role="group" aria-label="Turning-point heads-up"><button type="button" data-alert="all" aria-pressed="true">All</button><button type="button" data-alert="holo" aria-pressed="false">Decisive only</button><button type="button" data-alert="off" aria-pressed="false">Off</button></span></div>
           <button type="button" class="m-row" data-macc="msFav" aria-expanded="false" aria-controls="msFav"><span>My player</span><span class="mv" id="mvFav">Auto</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1561,7 +1570,7 @@ document.addEventListener('click',e=>{ const c=e.target.closest('[data-card]'); 
   const f=e.target.closest('[data-flip]'); if(f){ const on=!f.classList.contains('flipped'); f.classList.toggle('flipped',on); f.setAttribute('aria-pressed',String(on)) } });
 document.addEventListener('keydown',e=>{ const f=e.target.closest&&e.target.closest('[data-flip]'); if(f&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); f.click() } });
 $('#cvPlayer').addEventListener('click',()=>{ hideAnim($('#rewardWrap'),[[null,'card']]); $('#card').classList.remove('sp-busy') });
-function setMo(open){ $('#moPanel').hidden=!open; $('#moBar').setAttribute('aria-expanded',String(open)); if(open) setReact(false) }
+function setMo(open){ $('#moPanel').hidden=!open; $('#moBar').setAttribute('aria-expanded',String(open)); if(open) setReact(false); if(typeof renderMainTick==='function') setTimeout(renderMainTick,0) }
 function setReact(open){ $('#reactPop').hidden=!open; $('#reactBtn').setAttribute('aria-expanded',String(open)); if(open) setMo(false) }
 $('#reactBtn').addEventListener('click',()=>setReact($('#reactPop').hidden));
 var sdTeam=null;
@@ -1876,7 +1885,7 @@ $$('.ans').forEach(b=>b.addEventListener('click',()=>pickAns(b.dataset.ans)));
 /* moment + boost */
 let hInt=null;
 function headsUp(){ const ad=$('#aDrop'); if(ad&&!ad.hidden){ ad.hidden=true; clearTimeout(dropT) } $('#card').classList.add('gold-moment'); unclose($('#heads')); $('#heads').hidden=false; S.boxRes=null; renderHsp(); let s=40; $('#headsCd').textContent=fmt(s); clearInterval(hInt); const bb=$('#boostOpen'),bc=$('#boostCd'); bb.classList.add('hot'); bc.hidden=false; bc.textContent=fmt(s); hInt=setInterval(()=>{s--;$('#headsCd').textContent=fmt(Math.max(0,s)); bc.textContent=fmt(Math.max(0,s)); if(s<=0){clearInterval(hInt);coolBoost();hideAnim($('#heads'),[[null,'up']]); if(affOk()){ S.affMo++; affDrop('moment') }}},1000); say("Baron's up and they're missing two summoners. This could be it.",'tense'); flash('BARON WINDOW'); setTimeout(()=>markWP(0),1600) }
-function coolBoost(){ $('#card').classList.remove('gold-moment','watch-open'); $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
+function coolBoost(){ setTimeout(()=>{ if(typeof renderMainTick==='function') renderMainTick() },0); $('#card').classList.remove('gold-moment','watch-open'); $('#boostOpen').classList.remove('hot'); $('#boostCd').hidden=true }
 const LINEUP=['Doran','Oner','Faker','Peyz','Keria'], FIGHT={players:['Oner','Faker','Keria'],top:'Faker'}, SUBS={Faker:'Faker flank',Oner:'Oner smite',Keria:'Keria engage'};
 const starOf=()=>S.fav&&FIGHT.players.includes(S.fav)?S.fav:FIGHT.top;
 function favPick(withAuto){ return LINEUP.map(n=>'<button type="button" class="bh-p" data-fav="'+n+'" aria-pressed="'+(S.fav===n)+'"><img src="'+PHOTO[n]+'" alt=""><span>'+n+'</span></button>').join('')+(withAuto?'<button type="button" class="bh-p" data-fav="" aria-pressed="'+(S.fav===null)+'"><i aria-hidden="true">A</i><span>Auto</span></button>':'') }
@@ -1962,19 +1971,33 @@ function renderMsgTier(){ const a=S.amt[S.cur], t=msgTier(a), inp=$('#cheerMsg')
 $('#cheerMsg').addEventListener('input',()=>{ const t=msgTier(S.amt[S.cur]); if(t) $('#cmCnt').textContent=$('#cheerMsg').value.length+'/'+MSGT[t-1].len });
 S.tick=[]; let tkT=null, tkSeq=0;
 function seedTick(){ const n=Date.now(); S.tick=[
-  {id:++tkSeq,who:'minji',t:5,tx:'Faker, 300 LCK games. Thank you for every single one. We are with you to the end!',at:n-60e3,until:n+240e3,dur:300},
-  {id:++tkSeq,who:'Kai',t:3,tx:'That bot lane 2-for-0 was so clean. Peyz and Keria, best duo.',at:n-15e3,until:n+45e3,dur:60},
-  {id:++tkSeq,who:'haru',t:2,tx:'Baron next. Let\'s go T1!',at:n-8e3,until:n+22e3,dur:30}]; S.tkOpen=null; renderTick(); tkRun() }
+  {id:++tkSeq,likes:214,who:'minji',t:5,tx:'Faker, 300 LCK games. Thank you for every single one. We are with you to the end!',at:n-60e3,until:n+240e3,dur:300},
+  {id:++tkSeq,likes:38,who:'Kai',t:3,tx:'That bot lane 2-for-0 was so clean. Peyz and Keria, best duo.',at:n-15e3,until:n+45e3,dur:60},
+  {id:++tkSeq,likes:12,who:'haru',t:2,tx:'Baron next. Let\'s go T1!',at:n-8e3,until:n+22e3,dur:30}]; S.tkOpen=null; renderTick(); tkRun() }
 function postCheer(tx,t){ const d=MSGT[t-1];
-  if(d.pin){ S.tick=S.tick.filter(x=>!x.me); const n=Date.now(); S.tick.push({id:++tkSeq,who:'You',me:true,t,tx,at:n,until:n+d.pin*1000,dur:d.pin}); renderTick(); tkRun() }
+  if(d.pin){ S.tick=S.tick.filter(x=>!x.me); const n=Date.now(); S.tick.push({id:++tkSeq,likes:0,who:'You',me:true,t,tx,at:n,until:n+d.pin*1000,dur:d.pin}); renderTick(); tkRun() }
   setTimeout(()=>toast(d.pin?'Cheer message pinned for '+pinTxt(d.pin)+' in Today\'s moments':'Cheer message posted'),400) }
 function tkLive(){ const n=Date.now(); return S.tick.filter(x=>x.until>n).sort((a,b)=>b.at-a.at) }
 function renderTick(){ const box=$('#cheerTick'); if(!box) return; const L=tkLive(), n=Date.now(); box.hidden=!L.length; if(!L.length){ $('#tkDet').hidden=true; return }
   if(S.tkOpen&&!L.find(x=>x.id===S.tkOpen)) S.tkOpen=null;
   $('#tkRow').innerHTML=L.map(x=>'<button type="button" role="listitem" class="tk t'+x.t+(x.me?' me':'')+'" data-tk="'+x.id+'" aria-expanded="'+(S.tkOpen===x.id)+'" aria-controls="tkDet"><span class="nm">'+esc(x.who)+'</span><span class="tx">'+esc(x.tx)+'</span><i class="bar" style="width:'+Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%"></i></button>').join('');
-  const o=L.find(x=>x.id===S.tkOpen), det=$('#tkDet'); det.hidden=!o; if(o){ det.style.setProperty('--c','var(--mt'+o.t+')'); det.innerHTML='<b>'+esc(o.who)+'</b><span>'+esc(o.tx)+'</span>' } }
-function tkRun(){ if(tkT) return; tkT=setInterval(()=>{ const n=Date.now(); $$('#tkRow .tk').forEach(b=>{ const x=S.tick.find(y=>y.id===+b.dataset.tk); if(x) b.querySelector('.bar').style.width=Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%' }); if(S.tick.some(x=>x.until<=n&&!x.gone)){ S.tick.forEach(x=>{ if(x.until<=n) x.gone=true }); renderTick() } if(!tkLive().length){ clearInterval(tkT); tkT=null } },1000) }
-document.addEventListener('click',e=>{ const b=e.target.closest('[data-tk]'); if(!b) return; const id=+b.dataset.tk; S.tkOpen=S.tkOpen===id?null:id; renderTick() });
+  const o=L.find(x=>x.id===S.tkOpen), det=$('#tkDet'); det.hidden=!o; if(o){ det.style.setProperty('--c','var(--mt'+o.t+')'); det.innerHTML='<b>'+esc(o.who)+'</b><span>'+esc(o.tx)+'</span>'+(o.me?'':'<div class="tk-act"><button type="button" data-tk-like="'+o.id+'" aria-pressed="'+!!o.liked+'">Cheer too · '+o.likes+'</button><button type="button" class="tk-more" data-tk-more aria-label="More" aria-expanded="false" aria-haspopup="true">⋯</button><div class="tk-menu" id="tkMenu" hidden><button type="button" data-tk-report="'+o.id+'">Report</button></div></div>') }
+  renderMainTick() }
+function tkBusy(){ return !S.live || S.tkShow===false || $('#card').classList.contains('gold-moment') || !$('#heads').hidden || !$('#sheetWrap').hidden || $('#v-live').classList.contains('has-quiz') || !$('#moPanel').hidden }
+function renderMainTick(){ const m=$('#tkMain'); if(!m) return; const L=tkLive(); if(!L.length||tkBusy()){ m.hidden=true; return } const x=L[0], n=Date.now();
+  m.className='tkm t'+x.t; m.dataset.tk=x.id; m.setAttribute('aria-label','Pinned cheer from '+x.who+(L.length>1?', '+(L.length-1)+' more':'')+'. Open in Today\'s moments');
+  const sig=x.id+':'+L.length; if(m.dataset.sig!==sig){ m.dataset.sig=sig; m.innerHTML='<span class="nm">'+esc(x.who)+'</span><span class="tx">'+esc(x.tx)+'</span>'+(L.length>1?'<span class="more">+'+(L.length-1)+'</span>':'')+'<i class="bar"></i>' }
+  m.querySelector('.bar').style.width=Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%'; m.hidden=false }
+function tkRun(){ if(tkT) return; tkT=setInterval(()=>{ const n=Date.now(); $$('#tkRow .tk').forEach(b=>{ const x=S.tick.find(y=>y.id===+b.dataset.tk); if(x) b.querySelector('.bar').style.width=Math.max(0,Math.round((x.until-n)/(x.dur*1000)*100))+'%' }); if(S.tick.some(x=>x.until<=n&&!x.gone)){ S.tick.forEach(x=>{ if(x.until<=n) x.gone=true }); renderTick() } renderMainTick(); if(!tkLive().length){ clearInterval(tkT); tkT=null } },1000) }
+document.addEventListener('click',e=>{
+  const lk=e.target.closest('[data-tk-like]'); if(lk){ const x=S.tick.find(y=>y.id===+lk.dataset.tkLike); if(x&&!x.liked){ x.liked=true; x.likes++; renderTick() } return }
+  const mo=e.target.closest('[data-tk-more]'); if(mo){ const mn=$('#tkMenu'); mn.hidden=!mn.hidden; mo.setAttribute('aria-expanded',String(!mn.hidden)); return }
+  const rp=e.target.closest('[data-tk-report]'); if(rp){ const x=S.tick.find(y=>y.id===+rp.dataset.tkReport); if(x){ if(x.dur>=60){ x.until=Date.now(); x.gone=true; S.tkOpen=null; toast('Reported · taken down while we review it') } else toast('Reported · we\'ll review it'); renderTick() } return }
+  const b=e.target.closest('[data-tk]'); if(!b) return; const id=+b.dataset.tk;
+  if(b.id==='tkMain'){ S.tkOpen=id; setMo(true); renderTick(); const c=$('#tkRow [data-tk="'+id+'"]'); if(c) c.scrollIntoView({block:'nearest',inline:'nearest'}); return }
+  S.tkOpen=S.tkOpen===id?null:id; renderTick() });
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-tkshow]'); if(!t) return; S.tkShow=t.dataset.tkshow==='1'; $$('[data-tkshow]').forEach(x=>x.setAttribute('aria-pressed',String(x===t))); renderMainTick() });
+S.tkShow=true;
 function toast(t){const w=$('#toastWrap');w.innerHTML='';const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;w.append(d);setTimeout(()=>{ const a=d.animate(RM.matches?[{opacity:1},{opacity:0}]:[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-8px)'}],{duration:150,easing:'ease-in-out',fill:'forwards'}); a.finished.then(()=>d.remove()).catch(()=>d.remove()) },2450)}
 $$('[data-react]').forEach(b=>b.addEventListener('click',()=>{setReact(false);const r=b.dataset.react; say(r==='Ugh…'?"I know. Breathe. It's not over.":r==='Cheer!'?"Louder! They can feel it.":"LET'S GO!",r==='Ugh…'?'calm':'hype')}));
 
@@ -2332,6 +2355,8 @@ Object.assign(KO,{"From 20, you can add a cheer message.":"20부터 응원 메�
 "That bot lane 2-for-0 was so clean. Peyz and Keria, best duo.":"방금 바텀 2대0 너무 깔끔했다. 페이즈 케리아 최고의 듀오.",
 "Baron next. Let's go T1!":"다음은 바론. 가자 T1!"});
 RX.push([/^Message tier (\d)$/,(m,a)=>"메시지 "+a+"등급"],[/^Pinned (\d+) (s|min) in Today's moments$/,(m,a,u)=>"오늘의 모먼트 상단에 "+a+(u==='s'?"초":"분")+" 고정"],[/^Cheer message pinned for (\d+) (s|min) in Today's moments$/,(m,a,u)=>"오늘의 모먼트 상단에 "+a+(u==='s'?"초":"분")+" 고정됐어요"]);
+Object.assign(KO,{"Pinned cheers on screen":"화면에 고정 응원 보기","On":"켜기","Report":"신고","More":"더 보기","Pinned cheer":"고정 응원","Reported · taken down while we review it":"신고했어요 · 검토하는 동안 내렸어요","Reported · we'll review it":"신고했어요 · 검토할게요"});
+RX.push([/^Cheer too · (\d+)$/,(m,a)=>"나도 응원 · "+a],[/^Pinned cheer from (.+?)(?:, (\d+) more)?\. Open in Today's moments$/,(m,a,b)=>a+"의 고정 응원"+(b?", 외 "+b+"건":"")+". 오늘의 모먼트에서 열기"]);
 function tr(s){ if(Object.prototype.hasOwnProperty.call(KO,s)) return KO[s]; for(const [r,f] of RX){ if(r.test(s)) return s.replace(r,f) } return null }
 let LANG='en';
 const ATTRS=['placeholder','aria-label','title','alt'];
